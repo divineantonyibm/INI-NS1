@@ -4,9 +4,9 @@
   "description": "INI-NS1 Documentation Hub",
   "type": "module",
   "scripts": {
-    "dev": "node generate-index.mjs && npx serve .",
+    "dev": "node dev-server.mjs",
     "build": "node generate-index.mjs",
-    "start": "npx serve ."
+    "start": "node dev-server.mjs"
   },
   "keywords": [],
   "author": "",
