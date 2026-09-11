@@ -1,0 +1,14 @@
+{
+  "name": "ini-ns1",
+  "version": "1.0.0",
+  "description": "INI-NS1 Documentation Hub",
+  "type": "module",
+  "scripts": {
+    "dev": "node generate-index.mjs && npx serve .",
+    "build": "node generate-index.mjs",
+    "start": "npx serve ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
