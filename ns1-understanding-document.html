@@ -138,6 +138,10 @@
     .toc-strip {
       background: var(--ibm-layer-01);
       border-bottom: 1px solid var(--ibm-border-subtle);
+      position: sticky;
+      top: 48px;
+      z-index: 90;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
     }
     .toc-strip__inner {
       max-width: 1056px; margin: 0 auto;
@@ -154,6 +158,15 @@
       transition: color 0.15s, border-color 0.15s;
     }
     .toc-strip a:hover { color: var(--ibm-interactive); border-bottom-color: var(--ibm-interactive); }
+    .toc-strip a.active {
+      color: var(--ibm-interactive);
+      font-weight: 600;
+      border-bottom-color: var(--ibm-interactive);
+    }
+
+    /* ── Scroll Margin for Sticky Header Offset ── */
+    html { scroll-behavior: smooth; }
+    .section { scroll-margin-top: 110px; }
 
     /* ── Page layout ── */
     .page { max-width: 1056px; margin: 0 auto; padding: var(--ibm-spacing-10) var(--ibm-spacing-06); }
@@ -196,23 +209,56 @@
     .card__title { font-size: 17.5px; font-weight: 600; color: var(--ibm-text-primary); margin-bottom: var(--ibm-spacing-03); }
     .card__body  { font-size: 16.25px; color: var(--ibm-text-secondary); line-height: 1.6; }
 
-    /* ── Pain point rows ── */
-    .pain-row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--ibm-spacing-05); margin-bottom: var(--ibm-spacing-05); }
-    @media(max-width: 640px) { .pain-row { grid-template-columns: 1fr; } }
-    .pain-item {
+    /* ── Comparison Table (Before vs With NS1 Connect) ── */
+    .comparison-table-wrapper {
+      margin-bottom: var(--ibm-spacing-08);
+      overflow-x: auto;
+    }
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
       background: var(--ibm-layer-01);
       border: 1px solid var(--ibm-border-subtle);
+    }
+    .comparison-table th {
+      width: 50%;
       padding: var(--ibm-spacing-05) var(--ibm-spacing-06);
+      font-size: 14px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      text-align: left;
     }
-    .pain-item--before { border-top: 3px solid #da1e28; }
-    .pain-item--after  { border-top: 3px solid #198038; }
-    .pain-item__label {
-      font-size: 13.75px; letter-spacing: 0.32px; text-transform: uppercase; font-weight: 600;
-      margin-bottom: var(--ibm-spacing-03);
+    .comparison-table th.th--before {
+      background: #fff1f1;
+      color: #da1e28;
+      border-bottom: 2px solid #da1e28;
+      border-right: 1px solid var(--ibm-border-subtle);
     }
-    .pain-item--before .pain-item__label { color: #da1e28; }
-    .pain-item--after  .pain-item__label { color: #198038; }
-    .pain-item__text { font-size: 16.25px; color: var(--ibm-text-secondary); line-height: 1.6; }
+    .comparison-table th.th--after {
+      background: #edf9f0;
+      color: #198038;
+      border-bottom: 2px solid #198038;
+    }
+    .comparison-table td {
+      padding: var(--ibm-spacing-05) var(--ibm-spacing-06);
+      font-size: 16px;
+      line-height: 1.6;
+      color: var(--ibm-text-secondary);
+      vertical-align: top;
+      border-bottom: 1px solid var(--ibm-border-subtle);
+    }
+    .comparison-table td.td--before {
+      border-right: 1px solid var(--ibm-border-subtle);
+      background: var(--ibm-layer-01);
+    }
+    .comparison-table td.td--after {
+      background: #ffffff;
+      color: var(--ibm-text-primary);
+    }
+    .comparison-table tr:last-child td {
+      border-bottom: none;
+    }
 
     /* ── Capability grid ── */
     .cap-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: var(--ibm-spacing-05); margin-bottom: var(--ibm-spacing-07); }
@@ -222,7 +268,7 @@
       padding: var(--ibm-spacing-06);
     }
     .cap-card__number {
-      font-size: 40px; font-weight: 300; color: var(--ibm-layer-02);
+      font-size: 40px; font-weight: 400; color: #8d8d8d;
       line-height: 1; margin-bottom: var(--ibm-spacing-03);
     }
     .cap-card__title { font-size: 20px; font-weight: 600; margin-bottom: var(--ibm-spacing-03); }
@@ -248,7 +294,7 @@
       margin-bottom: var(--ibm-spacing-05);
     }
     .workflow-number {
-      font-size: 60px; font-weight: 300; color: var(--ibm-layer-02); line-height: 1;
+      font-size: 60px; font-weight: 400; color: #8d8d8d; line-height: 1;
     }
     .workflow-title { font-size: 25px; font-weight: 400; color: var(--ibm-text-primary); }
     .workflow-desc { font-size: 16.25px; color: var(--ibm-text-secondary); margin-bottom: var(--ibm-spacing-06); max-width: 680px; line-height: 1.6; }
@@ -403,7 +449,6 @@
 <!-- HERO -->
 <section class="hero">
   <div class="hero__inner">
-    <p class="hero__eyebrow">IBM NS1 Connect — Product Overview</p>
     <h1 class="hero__title">Turn DNS into a <strong>real-time traffic control plane</strong></h1>
     <p class="hero__subtitle">A comprehensive understanding of what NS1 Connect is, who it serves, how it works, and the real-world problems it solves.</p>
     <div class="hero__tags">
@@ -518,45 +563,33 @@
     <h3 class="section-title" style="font-size:27.5px;">The problems NS1 Connect <strong>was built to solve</strong></h3>
     <p class="section-body">Traditional DNS is static — records point to IP addresses that don't change unless someone manually updates them. As applications became globally distributed, multi-cloud, and latency-sensitive, that model broke down.</p>
 
-    <div class="pain-row">
-      <div class="pain-item pain-item--before">
-        <p class="pain-item__label">❌ Before NS1 Connect</p>
-        <p class="pain-item__text">Static DNS records mean when a server goes down, users get errors until an engineer manually updates the record — potentially hours of downtime.</p>
-      </div>
-      <div class="pain-item pain-item--after">
-        <p class="pain-item__label">✅ With NS1 Connect</p>
-        <p class="pain-item__text">Health-check monitors detect the outage in seconds. Filter Chains automatically remove the failing endpoint and route traffic to healthy alternatives — zero manual intervention.</p>
-      </div>
-    </div>
-    <div class="pain-row">
-      <div class="pain-item pain-item--before">
-        <p class="pain-item__label">❌ Before NS1 Connect</p>
-        <p class="pain-item__text">A user in Tokyo gets routed to a US-East server because the CDN contract was set up that way — leading to 400ms+ latency and poor experience.</p>
-      </div>
-      <div class="pain-item pain-item--after">
-        <p class="pain-item__label">✅ With NS1 Connect</p>
-        <p class="pain-item__text">Pulsar RUM data measures real latency from that Tokyo user's browser in real time and routes them to the Asia-Pacific CDN with the lowest current latency.</p>
-      </div>
-    </div>
-    <div class="pain-row">
-      <div class="pain-item pain-item--before">
-        <p class="pain-item__label">❌ Before NS1 Connect</p>
-        <p class="pain-item__text">DNS changes require opening tickets, logging into a portal, and waiting for propagation. Every deployment is a manual, error-prone process.</p>
-      </div>
-      <div class="pain-item pain-item--after">
-        <p class="pain-item__label">✅ With NS1 Connect</p>
-        <p class="pain-item__text">API-first design means DNS updates happen in CI/CD pipelines via Terraform or Ansible. Deployments are automated, repeatable, and auditable.</p>
-      </div>
-    </div>
-    <div class="pain-row">
-      <div class="pain-item pain-item--before">
-        <p class="pain-item__label">❌ Before NS1 Connect</p>
-        <p class="pain-item__text">A volumetric DDoS attack floods DNS servers, causing all users to lose connectivity — even those trying to reach unaffected services.</p>
-      </div>
-      <div class="pain-item pain-item--after">
-        <p class="pain-item__label">✅ With NS1 Connect</p>
-        <p class="pain-item__text">The global anycast network absorbs attack traffic across 26 PoPs. Attack volume is spread geographically; legitimate traffic continues uninterrupted.</p>
-      </div>
+    <div class="comparison-table-wrapper">
+      <table class="comparison-table">
+        <thead>
+          <tr>
+            <th class="th--before">Before NS1 Connect</th>
+            <th class="th--after">With NS1 Connect</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="td--before">Static DNS records mean when a server goes down, users get errors until an engineer manually updates the record — potentially hours of downtime.</td>
+            <td class="td--after">Health-check monitors detect the outage in seconds. Filter Chains automatically remove the failing endpoint and route traffic to healthy alternatives — zero manual intervention.</td>
+          </tr>
+          <tr>
+            <td class="td--before">A user in Tokyo gets routed to a US-East server because the CDN contract was set up that way — leading to 400ms+ latency and poor experience.</td>
+            <td class="td--after">Pulsar RUM data measures real latency from that Tokyo user's browser in real time and routes them to the Asia-Pacific CDN with the lowest current latency.</td>
+          </tr>
+          <tr>
+            <td class="td--before">DNS changes require opening tickets, logging into a portal, and waiting for propagation. Every deployment is a manual, error-prone process.</td>
+            <td class="td--after">API-first design means DNS updates happen in CI/CD pipelines via Terraform or Ansible. Deployments are automated, repeatable, and auditable.</td>
+          </tr>
+          <tr>
+            <td class="td--before">A volumetric DDoS attack floods DNS servers, causing all users to lose connectivity — even those trying to reach unaffected services.</td>
+            <td class="td--after">The global anycast network absorbs attack traffic across 26 PoPs. Attack volume is spread geographically; legitimate traffic continues uninterrupted.</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </section>
 
@@ -1028,56 +1061,56 @@
     <div class="usecase-grid">
 
       <div class="usecase-card">
-        <p class="usecase-card__industry">🎬 Streaming &amp; Media</p>
+        <p class="usecase-card__industry">Streaming &amp; Media</p>
         <h4 class="usecase-card__title">Live Event: Zero Buffering for Millions</h4>
         <p class="usecase-card__scenario">A major streaming platform broadcasts a championship final to 30 million concurrent viewers globally. Traffic spikes 10× in seconds. One CDN in Europe degrades due to network congestion. NS1 Pulsar detects the degradation from real browser measurements and automatically shifts European traffic to a healthy alternate CDN — all within one DNS TTL cycle.</p>
         <div class="usecase-card__result"><strong>Outcome:</strong> Viewers experience seamless playback. The platform avoids a PR disaster and protects subscription revenue. Used by customers like Disney Streaming and BBC.</div>
       </div>
 
       <div class="usecase-card">
-        <p class="usecase-card__industry">🛍️ E-Commerce &amp; Retail</p>
+        <p class="usecase-card__industry">E-Commerce &amp; Retail</p>
         <h4 class="usecase-card__title">Black Friday: Site Stays Up During Peak</h4>
         <p class="usecase-card__scenario">An online retailer runs three data centres across US East, EU, and APAC. On Black Friday, US East becomes overloaded. NS1's GSLB with weighted Filter Chains detects elevated latency, shifts 40% of US traffic to EU West, and routes APAC users to their nearest healthy endpoint — all automatically while the engineering team focuses on scaling.</p>
         <div class="usecase-card__result"><strong>Outcome:</strong> Zero downtime during peak. Estimated 30–35% reduction in manual ops time. Customers like Wayfair and eBay rely on NS1 for peak traffic resilience.</div>
       </div>
 
       <div class="usecase-card">
-        <p class="usecase-card__industry">💰 Financial Services</p>
+        <p class="usecase-card__industry">Financial Services</p>
         <h4 class="usecase-card__title">Geo-Compliant Routing for Regulatory Requirements</h4>
         <p class="usecase-card__scenario">A global bank must ensure European customers' data never leaves the EU and Asian customers are served from APAC data centres to comply with local data residency laws. NS1's geographic filter chains route users based on their IP's country of origin, ensuring compliance automatically while still providing low-latency access.</p>
         <div class="usecase-card__result"><strong>Outcome:</strong> Automated regulatory compliance for data residency. No manual routing rules to maintain per-country. Used by Deloitte and financial institutions globally.</div>
       </div>
 
       <div class="usecase-card">
-        <p class="usecase-card__industry">🏥 Healthcare</p>
+        <p class="usecase-card__industry">Healthcare</p>
         <h4 class="usecase-card__title">Always-Available Patient Portal During Outages</h4>
         <p class="usecase-card__scenario">A hospital network's primary data centre goes offline during a maintenance window that overruns. The patient portal, appointment system, and telemedicine platform must remain accessible. NS1's automatic failover, configured in advance, detects the primary DC failure within seconds and routes all traffic to the disaster-recovery site — without a single phone call to IT.</p>
         <div class="usecase-card__result"><strong>Outcome:</strong> Patient-critical services remain online. SLA met. Application uptime improved by 40–45% after NS1 deployment.</div>
       </div>
 
       <div class="usecase-card">
-        <p class="usecase-card__industry">🎮 Gaming</p>
+        <p class="usecase-card__industry">Gaming</p>
         <h4 class="usecase-card__title">Low-Latency Matchmaking for Global Players</h4>
         <p class="usecase-card__scenario">A multiplayer game launches simultaneously in 50 countries. Players need sub-50ms connections to game servers or gameplay feels laggy. NS1 Pulsar routes each player to the game server region with the lowest real-time latency for their specific location and ISP — not just the geographically nearest server, which may be congested.</p>
         <div class="usecase-card__result"><strong>Outcome:</strong> Reduced player lag, lower drop rates, and improved engagement during launch day peaks. Gaming companies see meaningful improvement in player retention.</div>
       </div>
 
       <div class="usecase-card">
-        <p class="usecase-card__industry">☁️ SaaS &amp; Cloud Platforms</p>
+        <p class="usecase-card__industry">SaaS &amp; Cloud Platforms</p>
         <h4 class="usecase-card__title">Multi-Cloud DNS Without Lock-In</h4>
         <p class="usecase-card__scenario">A SaaS company runs workloads across AWS, Azure, and GCP. They use AWS Route 53 as primary DNS but want NS1's intelligent traffic steering and a backup DNS provider. NS1 Cloud Sync keeps both in sync automatically. If Route 53 has an outage, NS1 Dedicated DNS takes over immediately with zero manual intervention.</p>
         <div class="usecase-card__result"><strong>Outcome:</strong> True multi-provider DNS resilience. No vendor lock-in. Teams like Salesforce and Workday use NS1 for enterprise-grade DNS reliability.</div>
       </div>
 
       <div class="usecase-card">
-        <p class="usecase-card__industry">📰 News &amp; Publishing</p>
+        <p class="usecase-card__industry">News &amp; Publishing</p>
         <h4 class="usecase-card__title">Breaking News Traffic Surge Management</h4>
         <p class="usecase-card__scenario">A major news site experiences unpredictable 50× traffic spikes when a major story breaks. Their origin servers can't handle the load alone. NS1 routes the majority of traffic to CDN edge caches based on current CDN performance data, falls back to origin only for dynamic content, and shifts CDN providers if one degrades — all without human action.</p>
         <div class="usecase-card__result"><strong>Outcome:</strong> Articles load fast during viral moments. No "site under load" pages. Bloomberg, BBC, CNBC, and Gannett use NS1 for just this scenario.</div>
       </div>
 
       <div class="usecase-card">
-        <p class="usecase-card__industry">🔐 Cybersecurity &amp; Network Ops</p>
+        <p class="usecase-card__industry">Cybersecurity &amp; Network Ops</p>
         <h4 class="usecase-card__title">Surviving a DDoS Attack on DNS Infrastructure</h4>
         <p class="usecase-card__scenario">An enterprise's DNS infrastructure is targeted by a 500 Gbps volumetric DDoS attack. Traditional single-provider DNS would be overwhelmed. NS1's global anycast network distributes the attack traffic across 26 PoPs, absorbing it geographically. The 100% uptime SLA holds; legitimate user queries continue without interruption throughout the attack.</p>
         <div class="usecase-card__result"><strong>Outcome:</strong> Zero DNS downtime during an active DDoS attack. Business continues normally. Avast (cybersecurity firm) relies on NS1 for this exact scenario.</div>
@@ -1092,6 +1125,39 @@
   <p>IBM NS1 Connect — Understanding Document &nbsp;|&nbsp; Based on <a href="https://www.ibm.com/docs/en/ns1-connect" target="_blank">IBM Documentation</a> &amp; <a href="https://www.ibm.com/products/ns1-connect" target="_blank">Product Page</a></p>
   <p style="margin-top:8px;color:#a8a8a8;">© IBM Corporation &nbsp;·&nbsp; For internal reference use</p>
 </footer>
+
+<script>
+  (function () {
+    const navLinks = document.querySelectorAll('.toc-strip a');
+    const sections = Array.from(document.querySelectorAll('.section[id]'));
+
+    if (!navLinks.length || !sections.length) return;
+
+    function updateActiveNav() {
+      const scrollPos = window.scrollY + 130;
+      let currentSectionId = sections[0].id;
+
+      for (const section of sections) {
+        if (section.offsetTop <= scrollPos) {
+          currentSectionId = section.id;
+        }
+      }
+
+      navLinks.forEach(link => {
+        const href = link.getAttribute('href');
+        if (href === '#' + currentSectionId) {
+          link.classList.add('active');
+        } else {
+          link.classList.remove('active');
+        }
+      });
+    }
+
+    window.addEventListener('scroll', updateActiveNav, { passive: true });
+    window.addEventListener('resize', updateActiveNav, { passive: true });
+    updateActiveNav();
+  })();
+</script>
 
 </body>
 </html>
