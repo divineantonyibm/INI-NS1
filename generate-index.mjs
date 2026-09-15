@@ -44,17 +44,13 @@ export function generateIndexHtml(rootDir = process.cwd()) {
   // Sort files alphabetically by title
   files.sort((a, b) => a.title.localeCompare(b.title));
 
-  const cardsHtml = files.map(file => `
+  const cardsHtml = files.map((file, i) => `
         <li class="doc-card">
           <a href="./${file.path}" class="doc-card-link">
-            <div class="doc-card-header">
-              <span class="doc-tag">Document</span>
-              <span class="doc-arrow" aria-hidden="true">→</span>
-            </div>
-            <h2 class="doc-card-title">${escapeHtml(file.title)}</h2>
-            <p class="doc-card-desc">${escapeHtml(file.description)}</p>
-            <div class="doc-card-footer">
-              <span class="doc-path"><code>${escapeHtml(file.path)}</code></span>
+            <span class="doc-card-number">${String(i + 1).padStart(2, '0')}</span>
+            <div class="doc-card-body">
+              <h2 class="doc-card-title">${escapeHtml(file.title)}</h2>
+              <p class="doc-card-desc">${escapeHtml(file.description)}</p>
             </div>
           </a>
         </li>`).join('\n');
@@ -145,47 +141,6 @@ export function generateIndexHtml(rootDir = process.cwd()) {
       text-transform: uppercase;
     }
 
-    /* Hero section */
-    .hero {
-      background: #161616;
-      color: #ffffff;
-      padding: var(--ibm-spacing-09) var(--ibm-spacing-06) var(--ibm-spacing-08);
-      border-bottom: 1px solid #393939;
-    }
-
-    .hero-container {
-      max-width: 1080px;
-      margin: 0 auto;
-    }
-
-    .hero-eyebrow {
-      font-size: 13px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      color: #78a9ff;
-      margin-bottom: var(--ibm-spacing-03);
-      font-weight: 600;
-    }
-
-    .hero-title {
-      font-size: clamp(28px, 4vw, 42px);
-      font-weight: 300;
-      line-height: 1.2;
-      color: #ffffff;
-      margin-bottom: var(--ibm-spacing-04);
-    }
-
-    .hero-title strong {
-      font-weight: 600;
-    }
-
-    .hero-lead {
-      font-size: 16px;
-      color: #c6c6c6;
-      max-width: 680px;
-      line-height: 1.5;
-    }
-
     /* Main container */
     .main-content {
       flex: 1;
@@ -195,114 +150,83 @@ export function generateIndexHtml(rootDir = process.cwd()) {
       padding: var(--ibm-spacing-08) var(--ibm-spacing-06);
     }
 
-    .section-header {
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      margin-bottom: var(--ibm-spacing-06);
-      border-bottom: 2px solid var(--ibm-interactive);
-      padding-bottom: var(--ibm-spacing-03);
-    }
-
-    .section-title {
-      font-size: 20px;
+    .index-title {
+      font-size: 13px;
       font-weight: 600;
-      color: var(--ibm-text-primary);
-    }
-
-    .doc-count {
-      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
       color: var(--ibm-text-secondary);
+      margin-bottom: var(--ibm-spacing-07);
     }
 
-    /* Document cards grid */
+    /* Document numbered list */
     .doc-grid {
       list-style: none;
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-      gap: var(--ibm-spacing-06);
+      display: flex;
+      flex-direction: column;
     }
 
     .doc-card {
-      background: var(--ibm-layer-01);
-      border: 1px solid var(--ibm-border-subtle);
-      border-top: 3px solid var(--ibm-interactive);
-      transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+      border-left: 3px solid #3ddbd9;
+      transition: border-color 0.15s ease, background 0.15s ease;
     }
 
     .doc-card:hover {
-      border-color: var(--ibm-interactive);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      border-left-color: #08bdba;
+      background: var(--ibm-layer-01);
     }
 
     .doc-card-link {
       display: flex;
-      flex-direction: column;
-      height: 100%;
-      padding: var(--ibm-spacing-06);
+      align-items: flex-start;
+      gap: var(--ibm-spacing-06);
+      padding: var(--ibm-spacing-07) var(--ibm-spacing-06);
       text-decoration: none;
       color: inherit;
+      border-bottom: 1px solid var(--ibm-border-subtle);
     }
 
-    .doc-card-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: var(--ibm-spacing-04);
+    .doc-card-number {
+      font-size: clamp(48px, 6vw, 72px);
+      font-weight: 700;
+      color: var(--ibm-text-primary);
+      line-height: 1;
+      min-width: 100px;
+      flex-shrink: 0;
     }
 
-    .doc-tag {
-      background: var(--ibm-tag-blue-bg);
-      color: var(--ibm-tag-blue-text);
-      font-size: 12px;
-      font-weight: 600;
-      padding: 2px 8px;
-      border-radius: 2px;
-    }
-
-    .doc-arrow {
-      font-size: 18px;
-      color: var(--ibm-interactive);
-      transition: transform 0.15s ease;
-    }
-
-    .doc-card-link:hover .doc-arrow {
-      transform: translateX(4px);
+    .doc-card-body {
+      padding-top: 4px;
+      flex: 1;
     }
 
     .doc-card-title {
       font-size: 18px;
-      font-weight: 600;
+      font-weight: 700;
       color: var(--ibm-text-primary);
       margin-bottom: var(--ibm-spacing-03);
       line-height: 1.35;
+      transition: color 0.15s;
+    }
+
+    .doc-card-link:hover .doc-card-title {
+      color: var(--ibm-interactive);
     }
 
     .doc-card-desc {
-      font-size: 14px;
+      font-size: 15px;
       color: var(--ibm-text-secondary);
-      line-height: 1.5;
-      flex: 1;
-      margin-bottom: var(--ibm-spacing-05);
-    }
-
-    .doc-card-footer {
-      border-top: 1px solid var(--ibm-border-subtle);
-      padding-top: var(--ibm-spacing-03);
+      line-height: 1.6;
+      margin-bottom: var(--ibm-spacing-03);
     }
 
     .doc-path code {
       font-family: 'IBM Plex Mono', monospace;
       font-size: 12px;
-      color: var(--ibm-text-secondary);
-      background: #ffffff;
-      padding: 2px 6px;
-      border: 1px solid var(--ibm-border-subtle);
+      color: var(--ibm-text-placeholder);
     }
 
     .doc-empty {
-      grid-column: 1 / -1;
       padding: var(--ibm-spacing-08);
       background: var(--ibm-layer-01);
       text-align: center;
@@ -331,21 +255,9 @@ export function generateIndexHtml(rootDir = process.cwd()) {
     <span class="top-bar-badge">Knowledge Hub</span>
   </header>
 
-  <!-- Hero Header -->
-  <section class="hero">
-    <div class="hero-container">
-      <div class="hero-eyebrow">Project Documentation</div>
-      <h1 class="hero-title"><strong>INI-NS1</strong> Documentation Portal</h1>
-      <p class="hero-lead">Central index and knowledge hub for all documents, architectural overviews, and guides in this repository.</p>
-    </div>
-  </section>
-
   <!-- Main Content -->
   <main class="main-content">
-    <div class="section-header">
-      <h2 class="section-title">Available Documents</h2>
-      <span class="doc-count">${files.length} document${files.length === 1 ? '' : 's'}</span>
-    </div>
+    <p class="index-title">Index</p>
 
     <ul class="doc-grid">
       ${files.length > 0 ? cardsHtml : emptyStateHtml}

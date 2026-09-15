@@ -1,0 +1,1087 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IBM Network Intelligence — Understanding Document</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* ── IBM Design Tokens (Light Theme) ── */
+    :root {
+      --ibm-background:        #ffffff;
+      --ibm-layer-01:          #f4f4f4;
+      --ibm-layer-02:          #e0e0e0;
+      --ibm-border-subtle:     #e0e0e0;
+      --ibm-border-strong:     #8d8d8d;
+      --ibm-text-primary:      #161616;
+      --ibm-text-secondary:    #525252;
+      --ibm-text-placeholder:  #a8a8a8;
+      --ibm-interactive:       #0f62fe;
+      --ibm-interactive-hover: #0043ce;
+      --ibm-support-success:   #198038;
+      --ibm-support-warning:   #f1c21b;
+      --ibm-support-error:     #da1e28;
+      --ibm-support-info:      #0043ce;
+      --ibm-tag-blue-bg:       #d0e2ff;
+      --ibm-tag-blue-text:     #0043ce;
+      --ibm-tag-teal-bg:       #d9fbfb;
+      --ibm-tag-teal-text:     #005d5d;
+      --ibm-tag-green-bg:      #defbe6;
+      --ibm-tag-green-text:    #044317;
+      --ibm-tag-purple-bg:     #e8daff;
+      --ibm-tag-purple-text:   #491d8b;
+      --ibm-tag-cyan-bg:       #e5f6ff;
+      --ibm-tag-cyan-text:     #003a6d;
+      --ibm-spacing-01: 2px;
+      --ibm-spacing-02: 4px;
+      --ibm-spacing-03: 8px;
+      --ibm-spacing-04: 12px;
+      --ibm-spacing-05: 16px;
+      --ibm-spacing-06: 24px;
+      --ibm-spacing-07: 32px;
+      --ibm-spacing-08: 40px;
+      --ibm-spacing-09: 48px;
+      --ibm-spacing-10: 64px;
+      --ibm-spacing-11: 80px;
+      --ibm-spacing-12: 96px;
+    }
+
+    body {
+      font-family: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
+      font-size: 17.5px;
+      line-height: 1.6;
+      color: var(--ibm-text-primary);
+      background: var(--ibm-background);
+    }
+
+    /* ── Top Navigation / Header ── */
+    .top-bar {
+      background: #161616;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      padding: 0 var(--ibm-spacing-06);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid #393939;
+    }
+    .top-bar__logo {
+      display: flex;
+      align-items: center;
+      gap: var(--ibm-spacing-04);
+      text-decoration: none;
+    }
+    .ibm-logo-svg { width: 40px; height: 16px; fill: #ffffff; }
+    .top-bar__product-name {
+      color: #ffffff;
+      font-size: 17.5px;
+      font-weight: 400;
+      letter-spacing: 0.16px;
+    }
+    .top-bar__divider {
+      width: 1px; height: 18px; background: #393939; margin: 0 var(--ibm-spacing-05);
+    }
+    .top-bar__doc-label {
+      color: #8d8d8d;
+      font-size: 15px;
+      letter-spacing: 0.32px;
+      text-transform: uppercase;
+    }
+    .top-bar__spacer { flex: 1; }
+    .top-bar__back {
+      color: #8d8d8d;
+      font-size: 15px;
+      text-decoration: none;
+      letter-spacing: 0.16px;
+      transition: color 0.15s;
+    }
+    .top-bar__back:hover { color: #ffffff; }
+
+    /* ── Hero ── */
+    .hero {
+      background: #161617;
+      padding: var(--ibm-spacing-11) var(--ibm-spacing-06);
+    }
+    .hero__inner { max-width: 1056px; margin: 0 auto; }
+    .hero__eyebrow {
+      font-size: 15px;
+      letter-spacing: 0.32px;
+      text-transform: uppercase;
+      color: #78a9ff;
+      margin-bottom: var(--ibm-spacing-04);
+    }
+    .hero__title {
+      font-size: clamp(35px, 4vw, 67.5px);
+      font-weight: 300;
+      line-height: 1.1;
+      color: #ffffff;
+      margin-bottom: var(--ibm-spacing-05);
+      max-width: 700px;
+    }
+    .hero__title strong { font-weight: 600; color: #78a9ff; }
+    .hero__subtitle {
+      font-size: 20px;
+      color: #c6c6c6;
+      max-width: 560px;
+      line-height: 1.5;
+      margin-bottom: var(--ibm-spacing-07);
+    }
+    .hero__tags { display: flex; flex-wrap: wrap; gap: var(--ibm-spacing-03); }
+    .tag {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 24px;
+      font-size: 15px;
+      font-weight: 500;
+      letter-spacing: 0.16px;
+    }
+    .tag--blue   { background: var(--ibm-tag-blue-bg);   color: var(--ibm-tag-blue-text); }
+    .tag--teal   { background: var(--ibm-tag-teal-bg);   color: var(--ibm-tag-teal-text); }
+    .tag--green  { background: var(--ibm-tag-green-bg);  color: var(--ibm-tag-green-text); }
+    .tag--purple { background: var(--ibm-tag-purple-bg); color: var(--ibm-tag-purple-text); }
+    .tag--cyan   { background: var(--ibm-tag-cyan-bg);   color: var(--ibm-tag-cyan-text); }
+
+    /* ── TOC Strip ── */
+    .toc-strip {
+      background: var(--ibm-layer-01);
+      border-bottom: 1px solid var(--ibm-border-subtle);
+      position: sticky;
+      top: 48px;
+      z-index: 90;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    }
+    .toc-strip__inner {
+      max-width: 1056px; margin: 0 auto;
+      display: flex; flex-wrap: wrap;
+      padding: 0 var(--ibm-spacing-06);
+    }
+    .toc-strip a {
+      display: block;
+      padding: var(--ibm-spacing-04) var(--ibm-spacing-05);
+      font-size: 17.5px;
+      color: var(--ibm-text-secondary);
+      text-decoration: none;
+      border-bottom: 2px solid transparent;
+      transition: color 0.15s, border-color 0.15s;
+    }
+    .toc-strip a:hover { color: var(--ibm-interactive); border-bottom-color: var(--ibm-interactive); }
+    .toc-strip a.active {
+      color: var(--ibm-interactive);
+      font-weight: 600;
+      border-bottom-color: var(--ibm-interactive);
+    }
+
+    /* ── Scroll Margin for Sticky Header Offset ── */
+    html { scroll-behavior: smooth; }
+    .section { scroll-margin-top: 110px; }
+
+    /* ── Page layout ── */
+    .page { max-width: 1056px; margin: 0 auto; padding: var(--ibm-spacing-10) var(--ibm-spacing-06); }
+
+    /* ── Section headers ── */
+    .section { margin-bottom: var(--ibm-spacing-12); }
+    .section-eyebrow {
+      font-size: 15px; letter-spacing: 0.32px;
+      text-transform: uppercase; color: var(--ibm-interactive);
+      margin-bottom: var(--ibm-spacing-03);
+    }
+    .section-title {
+      font-size: clamp(25px, 3vw, 40px);
+      font-weight: 300;
+      color: var(--ibm-text-primary);
+      margin-bottom: var(--ibm-spacing-05);
+      line-height: 1.2;
+    }
+    .section-title strong { font-weight: 600; }
+    .section-body {
+      font-size: 17.5px;
+      color: var(--ibm-text-secondary);
+      max-width: 720px;
+      line-height: 1.7;
+      margin-bottom: var(--ibm-spacing-07);
+    }
+    .divider { border: none; border-top: 1px solid var(--ibm-border-subtle); margin-bottom: var(--ibm-spacing-07); }
+
+    /* ── Cards ── */
+    .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: var(--ibm-spacing-05); margin-bottom: var(--ibm-spacing-07); }
+    .card {
+      background: var(--ibm-layer-01);
+      border: 1px solid var(--ibm-border-subtle);
+      padding: var(--ibm-spacing-06);
+      border-left: 3px solid var(--ibm-interactive);
+      transition: border-color 0.2s;
+    }
+    .card:hover { border-left-color: var(--ibm-interactive-hover); }
+    .card__icon { font-size: 30px; margin-bottom: var(--ibm-spacing-04); }
+    .card__title { font-size: 17.5px; font-weight: 600; color: var(--ibm-text-primary); margin-bottom: var(--ibm-spacing-03); }
+    .card__body  { font-size: 16.25px; color: var(--ibm-text-secondary); line-height: 1.6; }
+
+    /* ── Comparison Table (Before vs With INM) ── */
+    .comparison-table-wrapper {
+      margin-bottom: var(--ibm-spacing-08);
+      overflow-x: auto;
+    }
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--ibm-layer-01);
+      border: 1px solid var(--ibm-border-subtle);
+    }
+    .comparison-table th {
+      width: 50%;
+      padding: var(--ibm-spacing-05) var(--ibm-spacing-06);
+      font-size: 14px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      text-align: left;
+    }
+    .comparison-table th.th--before {
+      background: #fff1f1;
+      color: #da1e28;
+      border-bottom: 2px solid #da1e28;
+      border-right: 1px solid var(--ibm-border-subtle);
+    }
+    .comparison-table th.th--after {
+      background: #edf9f0;
+      color: #198038;
+      border-bottom: 2px solid #198038;
+    }
+    .comparison-table td {
+      padding: var(--ibm-spacing-05) var(--ibm-spacing-06);
+      font-size: 16px;
+      line-height: 1.6;
+      color: var(--ibm-text-secondary);
+      vertical-align: top;
+      border-bottom: 1px solid var(--ibm-border-subtle);
+    }
+    .comparison-table td.td--before {
+      border-right: 1px solid var(--ibm-border-subtle);
+      background: var(--ibm-layer-01);
+    }
+    .comparison-table td.td--after {
+      background: #ffffff;
+      color: var(--ibm-text-primary);
+    }
+    .comparison-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    /* ── Capability grid ── */
+    .cap-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: var(--ibm-spacing-05); margin-bottom: var(--ibm-spacing-07); }
+    .cap-card {
+      background: var(--ibm-layer-01);
+      border: 1px solid var(--ibm-border-subtle);
+      padding: var(--ibm-spacing-06);
+    }
+    .cap-card__number {
+      font-size: 40px; font-weight: 400; color: #8d8d8d;
+      line-height: 1; margin-bottom: var(--ibm-spacing-03);
+    }
+    .cap-card__title { font-size: 20px; font-weight: 600; margin-bottom: var(--ibm-spacing-03); }
+    .cap-card__tech {
+      font-size: 15px; font-family: 'IBM Plex Mono', monospace;
+      background: #e0e0e0; color: #393939;
+      display: inline-block; padding: 2px 8px; margin-bottom: var(--ibm-spacing-04); border-radius: 2px;
+    }
+    .cap-card__body { font-size: 16.25px; color: var(--ibm-text-secondary); line-height: 1.6; }
+    .cap-card__example {
+      margin-top: var(--ibm-spacing-04);
+      background: #ffffff;
+      border-left: 3px solid var(--ibm-interactive);
+      padding: var(--ibm-spacing-03) var(--ibm-spacing-04);
+      font-size: 15px; color: var(--ibm-text-secondary); font-style: italic;
+    }
+    .cap-card__example strong { font-style: normal; font-weight: 600; color: var(--ibm-text-primary); }
+
+    /* ── Workflow diagrams (SVG-based) ── */
+    .workflow-section { margin-bottom: var(--ibm-spacing-10); }
+    .workflow-header {
+      display: flex; align-items: baseline; gap: var(--ibm-spacing-04);
+      margin-bottom: var(--ibm-spacing-05);
+    }
+    .workflow-number {
+      font-size: 60px; font-weight: 400; color: #8d8d8d; line-height: 1;
+    }
+    .workflow-title { font-size: 25px; font-weight: 400; color: var(--ibm-text-primary); }
+    .workflow-desc { font-size: 16.25px; color: var(--ibm-text-secondary); margin-bottom: var(--ibm-spacing-06); max-width: 680px; line-height: 1.6; }
+
+    /* Flow diagram */
+    .flow {
+      display: flex; flex-wrap: wrap;
+      align-items: center; gap: 0;
+      background: var(--ibm-layer-01); border: 1px solid var(--ibm-border-subtle);
+      padding: var(--ibm-spacing-07) var(--ibm-spacing-06);
+      overflow-x: auto;
+      margin-bottom: var(--ibm-spacing-07);
+    }
+    .flow-step {
+      display: flex; flex-direction: column; align-items: center;
+      min-width: 110px; max-width: 140px;
+    }
+    .flow-box {
+      width: 100px; min-height: 64px;
+      background: #ffffff; border: 1px solid var(--ibm-border-subtle);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center;
+      padding: var(--ibm-spacing-03) var(--ibm-spacing-04);
+      font-size: 13.75px; font-weight: 600;
+      color: var(--ibm-text-primary);
+      line-height: 1.35;
+    }
+    .flow-box--blue   { background: var(--ibm-interactive); color: #ffffff; border-color: var(--ibm-interactive); }
+    .flow-box--dark   { background: #161616; color: #ffffff; border-color: #161616; }
+    .flow-box--green  { background: #defbe6; color: #044317; border-color: #24a148; }
+    .flow-box--red    { background: #fff1f1; color: #da1e28; border-color: #da1e28; }
+    .flow-box--purple { background: var(--ibm-tag-purple-bg); color: var(--ibm-tag-purple-text); border-color: #7c3dd1; }
+    .flow-box__icon   { font-size: 25px; margin-bottom: 4px; }
+    .flow-box__icon svg { width: 24px; height: 24px; fill: currentColor; display: block; }
+    .flow-box__label  { font-size: 12.5px; font-weight: 400; color: inherit; opacity: 0.8; margin-top: 2px; }
+    .flow-arrow {
+      font-size: 25px; color: var(--ibm-border-strong);
+      padding: 0 var(--ibm-spacing-03);
+      flex-shrink: 0;
+    }
+    .flow-label {
+      font-size: 12.5px; color: var(--ibm-text-secondary);
+      margin-top: var(--ibm-spacing-02); text-align: center; max-width: 100px;
+    }
+
+    /* ── Use cases ── */
+    .usecase-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: var(--ibm-spacing-06); }
+    .usecase-card {
+      background: var(--ibm-background);
+      border: 1px solid var(--ibm-border-subtle);
+      padding: var(--ibm-spacing-06);
+    }
+    .usecase-card__industry {
+      font-size: 13.75px; letter-spacing: 0.32px; text-transform: uppercase;
+      font-weight: 600; color: var(--ibm-interactive); margin-bottom: var(--ibm-spacing-03);
+    }
+    .usecase-card__title { font-size: 20px; font-weight: 600; margin-bottom: var(--ibm-spacing-03); }
+    .usecase-card__scenario {
+      font-size: 16.25px; color: var(--ibm-text-secondary); line-height: 1.6;
+      margin-bottom: var(--ibm-spacing-04);
+    }
+    .usecase-card__result {
+      background: var(--ibm-tag-green-bg); border-left: 3px solid var(--ibm-support-success);
+      padding: var(--ibm-spacing-03) var(--ibm-spacing-04);
+      font-size: 15px; color: var(--ibm-tag-green-text);
+    }
+    .usecase-card__result strong { font-weight: 700; }
+
+    /* ── Audience table ── */
+    table { width: 100%; border-collapse: collapse; margin-bottom: var(--ibm-spacing-07); font-size: 16.25px; }
+    thead { background: #161616; }
+    thead th { padding: var(--ibm-spacing-04) var(--ibm-spacing-05); text-align: left; color: #ffffff; font-weight: 600; font-size: 15px; letter-spacing: 0.16px; }
+    tbody tr { border-bottom: 1px solid var(--ibm-border-subtle); }
+    tbody tr:nth-child(even) { background: var(--ibm-layer-01); }
+    tbody td { padding: var(--ibm-spacing-04) var(--ibm-spacing-05); color: var(--ibm-text-secondary); vertical-align: top; }
+    tbody td:first-child { font-weight: 600; color: var(--ibm-text-primary); }
+
+    /* ── Info callout ── */
+    .callout {
+      display: flex; gap: var(--ibm-spacing-04);
+      background: #edf5ff; border-left: 3px solid var(--ibm-interactive);
+      padding: var(--ibm-spacing-05); margin-bottom: var(--ibm-spacing-07);
+    }
+    .callout__icon { font-size: 22.5px; flex-shrink: 0; margin-top: 1px; }
+    .callout__body { font-size: 16.25px; color: #0043ce; line-height: 1.6; }
+
+    /* ── Architecture pillars ── */
+    .arch-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: var(--ibm-spacing-05); margin-bottom: var(--ibm-spacing-07); }
+    .arch-pillar {
+      background: #161616;
+      padding: var(--ibm-spacing-06);
+      color: #ffffff;
+    }
+    .arch-pillar__number { font-size: 35px; font-weight: 300; color: #78a9ff; line-height: 1; margin-bottom: var(--ibm-spacing-03); }
+    .arch-pillar__title { font-size: 17.5px; font-weight: 600; margin-bottom: var(--ibm-spacing-03); }
+    .arch-pillar__body { font-size: 15px; color: #c6c6c6; line-height: 1.6; }
+
+    /* ── Footer ── */
+    .footer {
+      border-top: 1px solid var(--ibm-border-subtle);
+      padding: var(--ibm-spacing-07) var(--ibm-spacing-06);
+      text-align: center;
+      font-size: 15px;
+      color: var(--ibm-text-secondary);
+      background: var(--ibm-layer-01);
+    }
+    .footer a { color: var(--ibm-interactive); text-decoration: none; }
+
+    /* ── Utility ── */
+    ul.bullet-list { padding-left: var(--ibm-spacing-06); }
+    ul.bullet-list li { color: var(--ibm-text-secondary); font-size: 16.25px; margin-bottom: var(--ibm-spacing-03); line-height: 1.6; }
+    ul.bullet-list li strong { color: var(--ibm-text-primary); }
+  </style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<nav class="top-bar">
+  <span class="top-bar__product-name">Network Intelligence</span>
+  <div class="top-bar__divider"></div>
+  <span class="top-bar__doc-label">Understanding Document</span>
+  <div class="top-bar__spacer"></div>
+  <a class="top-bar__back" href="./index.html">← Index</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero__inner">
+    <p class="hero__eyebrow">IBM Network Intelligence · INM</p>
+    <h1 class="hero__title">Turn network chaos into <strong>agentic AI-driven clarity</strong></h1>
+    <p class="hero__subtitle">A comprehensive understanding of what IBM Network Intelligence is, who it serves, how it works, and the real-world problems it solves.</p>
+  </div>
+</section>
+
+<!-- TOC STRIP -->
+<div class="toc-strip">
+  <div class="toc-strip__inner">
+    <a href="#section-what">1. What is IBM Network Intelligence</a>
+    <a href="#section-capabilities">2. Capabilities</a>
+    <a href="#section-workflows">3. Main Workflows</a>
+    <a href="#section-usecases">4. Real-World Use Cases</a>
+  </div>
+</div>
+
+<main class="page">
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- SECTION 1: WHAT IS IBM NETWORK INTELLIGENCE -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <section class="section" id="section-what">
+    <p class="section-eyebrow">Section 01</p>
+    <h2 class="section-title">What is <strong>IBM Network Intelligence</strong>?</h2>
+    <p class="section-body">
+      IBM® Network Intelligence (INM) is an AI-native, software-as-a-service (SaaS) platform deployed and managed on IBM Cloud. It transforms complex, multi-vendor and multi-domain network data into actionable intelligence — automatically detecting anomalies, generating root-cause hypotheses, and orchestrating remediation through agentic AI agents.<br><br>
+      Built on IBM's advanced <strong>watsonx AI platform</strong>, Network Intelligence uses domain-trained time-series foundation models (Quantile, Prophet) and Network Operations Center (NOC) AI agents to process streaming and historical telemetry data from IP and Radio Access Network (RAN) domains. A single distributed node can process <strong>over one million indicators every five minutes</strong>, with capacity horizontally scalable by adding nodes.
+    </p>
+
+    <div class="callout">
+      <span class="callout__icon">ℹ</span>
+      <p class="callout__body"><strong>Plain language definition:</strong> Think of your network as a city with thousands of roads, intersections, and vehicles. Traditional monitoring tools are like traffic cameras — they capture what's happening but can't tell you <em>why</em> there's a jam or what to do about it. IBM Network Intelligence is a smart traffic control AI that not only sees every issue across every road but automatically figures out the root cause, writes a repair plan, and can dispatch a fix — with or without a human in the loop.</p>
+    </div>
+
+    <hr class="divider" />
+
+    <p class="section-eyebrow">Architecture Overview</p>
+    <h3 class="section-title" style="font-size:27.5px;">How <strong>Network Intelligence</strong> is structured</h3>
+    <p class="section-body">Network Intelligence is built on two core architectural pillars — Analytics and Automation — supported by four foundational components that work together to deliver end-to-end intelligence.</p>
+
+    <div class="arch-grid">
+      <div class="arch-pillar">
+        <div class="arch-pillar__number">01</div>
+        <p class="arch-pillar__title">Data Pipeline</p>
+        <p class="arch-pillar__body">Scalable streaming ingestion of real-time and historical time-series data. Supports metrics, events, and logs regardless of data cleanliness.</p>
+      </div>
+      <div class="arch-pillar">
+        <div class="arch-pillar__number">02</div>
+        <p class="arch-pillar__title">AI Pipeline</p>
+        <p class="arch-pillar__body">Domain-trained time-series foundation models for ultra-low latency inferencing, early warning detection, and outlier identification from telemetry data.</p>
+      </div>
+      <div class="arch-pillar">
+        <div class="arch-pillar__number">03</div>
+        <p class="arch-pillar__title">Semantic Network Context</p>
+        <p class="arch-pillar__body">Interprets data across domains and vendors with semantic understanding of network topology, grounding AI models in network-specific knowledge.</p>
+      </div>
+      <div class="arch-pillar">
+        <div class="arch-pillar__number">04</div>
+        <p class="arch-pillar__title">Agentic Framework</p>
+        <p class="arch-pillar__body">NOC AI agents with reasoning, RAG, and function-calling capabilities. Generates remediation plans executable autonomously or with human oversight.</p>
+      </div>
+    </div>
+
+    <hr class="divider" />
+
+    <p class="section-eyebrow">Users &amp; Customers</p>
+    <h3 class="section-title" style="font-size:27.5px;">Who uses <strong>IBM Network Intelligence</strong>?</h3>
+    <p class="section-body">Network Intelligence serves the teams responsible for keeping critical network infrastructure operational — from day-to-day NOC operators to strategic IT leadership in telecom, enterprise, and cloud service provider environments.</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Role / Persona</th>
+          <th>What they care about</th>
+          <th>How Network Intelligence helps</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>NOC Operators</td>
+          <td>Reducing alert noise, faster triage, clear remediation steps</td>
+          <td>AI filters false positives, surfaces only high-confidence anomalies with pre-written root-cause hypotheses and action plans</td>
+        </tr>
+        <tr>
+          <td>Network Engineers</td>
+          <td>Understanding complex multi-vendor root causes, reducing MTTR</td>
+          <td>Semantic context-driven analysis traces issues across devices, objects, and indicators — even across vendor boundaries</td>
+        </tr>
+        <tr>
+          <td>Site Reliability Engineers (SREs)</td>
+          <td>Automated remediation, reducing on-call toil, fewer repeat incidents</td>
+          <td>Agentic AI agents execute remediation plans autonomously or with human-in-the-loop approval via ITSM integration</td>
+        </tr>
+        <tr>
+          <td>IT / Network Architects</td>
+          <td>Multi-domain visibility, hybrid infrastructure observability</td>
+          <td>Unified ingestion across IP and RAN domains; OpenAPI, MCP server, and connector integrations extend to any data source</td>
+        </tr>
+        <tr>
+          <td>Telecom Operations Leaders</td>
+          <td>Network KPIs, Mean Time Between Incidents (MTBI), Mean Time to Repair (MTTR)</td>
+          <td>Automated hypothesis generation and ticket creation reduce manual investigation time; dashboards show aggregated network health across all devices</td>
+        </tr>
+        <tr>
+          <td>VP / Director of IT Operations</td>
+          <td>Operational cost, vendor risk, strategic AI adoption</td>
+          <td>Built on IBM Cloud with watsonx AI guardrails; explainable AI with built-in prompt guardrails maintains trust and auditability</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p class="section-eyebrow">Pain Points Addressed</p>
+    <h3 class="section-title" style="font-size:27.5px;">The problems Network Intelligence <strong>was built to solve</strong></h3>
+    <p class="section-body">Critical networks face persistent challenges: increasing complexity across multiple domains and vendors, high volumes of noisy alerts, manual lifecycle operations, and overlapping generations of technologies — all of which lead to slow incident response and costly downtime.</p>
+
+    <div class="comparison-table-wrapper">
+      <table class="comparison-table">
+        <thead>
+          <tr>
+            <th class="th--before">Before IBM Network Intelligence</th>
+            <th class="th--after">With IBM Network Intelligence</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="td--before">NOC operators are overwhelmed by thousands of alerts per day, most of them false positives or low-priority noise. Engineers spend hours triaging before even beginning to investigate.</td>
+            <td class="td--after">AI semantic understanding filters noise, surfacing only actionable high-confidence anomalies. Operators see a prioritized list of genuine issues — not a flood of alerts.</td>
+          </tr>
+          <tr>
+            <td class="td--before">When a degradation occurs, engineers must manually correlate data across multiple monitoring tools, vendor dashboards, and logs — a process that can take hours and requires deep domain expertise.</td>
+            <td class="td--after">NOC AI agents automatically cross-correlate anomalies across devices, objects, and indicators to generate root-cause hypotheses with semantic context — in minutes, not hours.</td>
+          </tr>
+          <tr>
+            <td class="td--before">Remediation steps live in siloed runbooks, Methods of Procedure (MOP) documents, and tribal knowledge. New engineers struggle to act quickly, and repeat incidents are common.</td>
+            <td class="td--after">Grounding documents (MOPs, config guides, knowledge base) are uploaded once and used by RAG agents to generate specific, contextual remediation plans for every anomaly.</td>
+          </tr>
+          <tr>
+            <td class="td--before">Multi-vendor, multi-domain environments require integrating data from dozens of different sources, each with incompatible formats and APIs. Building a unified view is a bespoke, expensive project.</td>
+            <td class="td--after">Network Intelligence's data pipeline ingests data from any source — streaming or historical — regardless of format or data cleanliness, normalising it into a unified metric triplet model.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- SECTION 2: CAPABILITIES -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <section class="section" id="section-capabilities">
+    <p class="section-eyebrow">Section 02</p>
+    <h2 class="section-title">Capabilities of <strong>IBM Network Intelligence</strong></h2>
+    <p class="section-body">Network Intelligence bundles an AI-native network operations platform with distinct features for observation, investigation, knowledge management, and integration. Each capability is described both technically and in plain language, with a real-world example.</p>
+
+    <div class="cap-grid">
+
+      <div class="cap-card">
+        <div class="cap-card__number">01</div>
+        <p class="cap-card__title">Dashboard &amp; Observation Monitoring</p>
+        <span class="cap-card__tech">Centralized visibility · Timeframe filters · Metric &amp; Alarm views</span>
+        <p class="cap-card__body">A centralized hub providing real-time information on network observations across all devices and objects. Observations are split into Metrics, Alarms, and Total columns. Supports time-period filtering to focus on recent activity or investigate historical patterns. Flags critical anomalies for immediate attention.</p>
+        <div class="cap-card__example"><strong>Plain language:</strong> A single control room screen showing every anomaly happening across your entire network right now — colour-coded by severity, filterable by time, and free of the noise that buries critical issues in traditional monitoring tools.</div>
+      </div>
+
+      <div class="cap-card">
+        <div class="cap-card__number">02</div>
+        <p class="cap-card__title">Anomaly Detection with Time-Series AI</p>
+        <span class="cap-card__tech">Quantile · Prophet · Time-series foundation models · &gt;1M indicators/5min</span>
+        <p class="cap-card__body">Continuously monitors metric data streams using Quantile, Prophet, and domain-trained time-series foundation models. Performs analysis in both time and frequency domains, identifying long- and short-term patterns to detect anomalies before they cause user impact. A single distributed node processes over one million indicators every five minutes.</p>
+        <div class="cap-card__example"><strong>Plain language:</strong> Instead of waiting for a threshold alarm (e.g., "CPU &gt; 90%"), Network Intelligence detects subtle, emerging patterns — like a gradual degradation that traditional tools miss entirely — hours before an outage occurs.</div>
+      </div>
+
+      <div class="cap-card">
+        <div class="cap-card__number">03</div>
+        <p class="cap-card__title">Investigations &amp; Root-Cause Hypothesis</p>
+        <span class="cap-card__tech">NOC AI agents · Semantic analysis · ITSM ticket creation</span>
+        <p class="cap-card__body">Network Intelligence flags critical observations, auto-generates ITSM tickets with a root-cause hypothesis and remediation plan, and investigates each anomaly to identify what caused it. Each NOC agent is a multi-agent system comprising a reasoning agent, a RAG agent, and a function-calling agent working in concert.</p>
+        <div class="cap-card__example"><strong>Plain language:</strong> When an issue is detected, Network Intelligence doesn't just alert you — it opens a ticket with a draft explanation of why the issue occurred and what steps to take to fix it. The on-call engineer arrives to a pre-investigated incident.</div>
+      </div>
+
+      <div class="cap-card">
+        <div class="cap-card__number">04</div>
+        <p class="cap-card__title">Devices Management &amp; Insights</p>
+        <span class="cap-card__tech">IP routers · RAN sites · Device types · Object-level analysis</span>
+        <p class="cap-card__body">Provides a per-device view of all observations — including metrics, alarms, and correlated anomalies — at the object level. Supports different device types (routers, nodes) and allows drilling into specific devices to see the full anomaly history and current health state.</p>
+        <div class="cap-card__example"><strong>Plain language:</strong> Think of this as opening the hood of a specific router or RAN base station and seeing a complete medical history — what went wrong before, what's happening now, and which components are currently showing warning signs.</div>
+      </div>
+
+      <div class="cap-card">
+        <div class="cap-card__number">05</div>
+        <p class="cap-card__title">Skills — Repeatable Workflow Automation</p>
+        <span class="cap-card__tech">Predefined workflow templates · Chat integration · NOC playbooks</span>
+        <p class="cap-card__body">Skills are predefined, reusable workflows for common NOC tasks — created once and applied repeatedly through the built-in chat assistant. Engineers encode their expert runbooks as Skills, making institutional knowledge available to the AI agents and the entire team, reducing dependency on individual expertise.</p>
+        <div class="cap-card__example"><strong>Plain language:</strong> Instead of every engineer re-inventing the same 10-step investigation process each time a specific type of alarm fires, a Skill encodes that process once. The AI applies it automatically every time.</div>
+      </div>
+
+      <div class="cap-card">
+        <div class="cap-card__number">06</div>
+        <p class="cap-card__title">Grounding Documents (RAG Knowledge Base)</p>
+        <span class="cap-card__tech">RAG · Vector embeddings · MOPs · Config guides · Knowledge base</span>
+        <p class="cap-card__body">Upload Methods of Procedure (MOPs), configuration guides, vendor documentation, and internal knowledge base articles. Network Intelligence chunks, embeds, and stores these documents in a vector database. The RAG agent retrieves the most relevant sections when generating root-cause hypotheses and remediation plans, ensuring responses are grounded in your network's specific context.</p>
+        <div class="cap-card__example"><strong>Plain language:</strong> Every MOP and runbook your team has ever written becomes instantly searchable and automatically cited by the AI when it generates a fix recommendation — no more digging through SharePoint to find the right document under pressure.</div>
+      </div>
+
+      <div class="cap-card">
+        <div class="cap-card__number">07</div>
+        <p class="cap-card__title">Chat Assistant with AI Reasoning</p>
+        <span class="cap-card__tech">Chain-of-thought · Quick / Standard / Extended reasoning · Natural language</span>
+        <p class="cap-card__body">An embedded AI-powered chat assistant for natural language queries about network state, anomalies, and investigations. Features a "View reasoning" mode to inspect the chain-of-thought behind every AI response. Configurable reasoning depth (Quick, Standard, Extended) allows operators to balance response speed against analytical depth.</p>
+        <div class="cap-card__example"><strong>Plain language:</strong> Ask "Why is Site 42 degraded?" in plain English and get a structured AI answer — not a raw metric dump. Click "View reasoning" to see exactly how the AI reached its conclusion, ensuring operator trust and accountability.</div>
+      </div>
+
+      <div class="cap-card">
+        <div class="cap-card__number">08</div>
+        <p class="cap-card__title">Tool Management &amp; API Integration</p>
+        <span class="cap-card__tech">OpenAPI spec · ITSM · Inventory systems · ServiceNow · Data lakes</span>
+        <p class="cap-card__body">Integrates with external systems using OpenAPI specification, enabling Network Intelligence to pull and push data to ITSM tools (ServiceNow), inventory systems, enterprise information systems (EIS), and data lakes. Automated ticket creation sends the root-cause hypothesis and remediation plan directly into the team's existing workflow.</p>
+        <div class="cap-card__example"><strong>Plain language:</strong> Network Intelligence connects to ServiceNow, your existing ticketing system, and your network inventory database — so when an issue is found, the ticket is already filed with the diagnosis included, without anyone having to switch tools.</div>
+      </div>
+
+      <div class="cap-card">
+        <div class="cap-card__number">09</div>
+        <p class="cap-card__title">MCP Server Integration</p>
+        <span class="cap-card__tech">Model Context Protocol · External monitoring platforms · Bi-directional data</span>
+        <p class="cap-card__body">Supports Model Context Protocol (MCP) server integration to connect with external monitoring or management platforms. Network Intelligence receives and analyzes network data flowing from MCP servers, extending its anomaly detection and agentic AI capabilities to any MCP-compatible data source.</p>
+        <div class="cap-card__example"><strong>Plain language:</strong> Already using a network monitoring platform that supports MCP? Plug it directly into Network Intelligence and the AI gains visibility into that platform's data — without replacing your existing tools.</div>
+      </div>
+
+      <div class="cap-card">
+        <div class="cap-card__number">10</div>
+        <p class="cap-card__title">Connectors &amp; External Agent Integration</p>
+        <span class="cap-card__tech">Agent-to-Agent (A2A) protocol · External agents · Connector framework</span>
+        <p class="cap-card__body">Integrates external applications via a Connector framework and supports external AI agents using the Agent-to-Agent (A2A) protocol. This allows Network Intelligence to participate in broader multi-agent AI ecosystems — receiving signals from and delegating actions to external agents as part of automated network operations workflows.</p>
+        <div class="cap-card__example"><strong>Plain language:</strong> Other AI agents in your automation stack can talk directly to Network Intelligence — for example, a capacity planning agent can ask Network Intelligence "is this device about to degrade?" before making a routing decision.</div>
+      </div>
+
+      <div class="cap-card">
+        <div class="cap-card__number">11</div>
+        <p class="cap-card__title">Observation Metrics &amp; Automatic Metric Groups</p>
+        <span class="cap-card__tech">Device · Component · Indicator triplets · Auto-grouping · Metric baselines</span>
+        <p class="cap-card__body">Organises all network data into device-component-indicator triplets, capturing health and status at a fine-grained level. Automatically assigns metrics to metric groups based on object type on first ingestion — no manual configuration required. Supports both metric-based and alarm-based observations with separate views for each.</p>
+        <div class="cap-card__example"><strong>Plain language:</strong> Every data point has three labels: the device it came from, the component (e.g., an interface), and what it measures (e.g., packet loss). This structure lets the AI understand relationships between measurements — not just the measurements themselves.</div>
+      </div>
+
+      <div class="cap-card">
+        <div class="cap-card__number">12</div>
+        <p class="cap-card__title">Two Operating Modes: Autonomous &amp; Assistant</p>
+        <span class="cap-card__tech">Autonomous mode · Assistant mode · Human-in-the-loop · Configurable autonomy</span>
+        <p class="cap-card__body">Network Intelligence supports two operating modes. In <strong>Autonomous mode</strong>, AI agents detect anomalies, generate hypotheses, and execute remediation plans without human intervention — ideal for repetitive, well-understood incident types. In <strong>Assistant mode</strong>, the AI surfaces insights and recommendations but waits for human approval before executing actions, maintaining human oversight over critical changes.</p>
+        <div class="cap-card__example"><strong>Plain language:</strong> For routine issues (e.g., restarting a stuck process), let the AI fix it automatically at 3am without waking anyone. For complex changes to production routing, require a human to approve the plan first.</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- SECTION 3: WORKFLOWS -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <section class="section" id="section-workflows">
+    <p class="section-eyebrow">Section 03</p>
+    <h2 class="section-title">Main <strong>Workflows</strong> in IBM Network Intelligence</h2>
+    <p class="section-body">The following user flows illustrate how Network Intelligence is set up and how it operates at runtime — from onboarding network data through to automated incident resolution. Each workflow shows both the configuration path and the live operational behaviour.</p>
+
+    <!-- WORKFLOW 1 -->
+    <div class="workflow-section">
+      <div class="workflow-header">
+        <span class="workflow-number">01</span>
+        <h3 class="workflow-title">Onboarding: Ingesting Network Data</h3>
+      </div>
+      <p class="workflow-desc">The foundational workflow — connecting your network data sources to Network Intelligence so the AI models can begin monitoring. Supports both real-time streaming and bulk historical ingestion.</p>
+
+      <div class="flow">
+        <div class="flow-step">
+          <div class="flow-box flow-box--dark">
+            <div class="flow-box__icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M16,4a5,5,0,1,1-5,5,5,5,0,0,1,5-5m0-2a7,7,0,1,0,7,7A7,7,0,0,0,16,2Z"/><path d="M26,30H24V25a5,5,0,0,0-5-5H13a5,5,0,0,0-5,5v5H6V25a7,7,0,0,1,7-7h6a7,7,0,0,1,7,7Z"/><rect fill="none" width="32" height="32"/></svg></div>
+            Admin sets up INM
+            <div class="flow-box__label">IBM Cloud provisioning</div>
+          </div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="flow-box">
+            <div class="flow-box__icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M26,22a3.86,3.86,0,0,0-2,.57l-3.09-3.1a6,6,0,0,0,0-6.94L24,9.43A3.86,3.86,0,0,0,26,10a4,4,0,1,0-4-4,3.86,3.86,0,0,0,.57,2l-3.1,3.09a6,6,0,0,0-6.94,0L9.43,8A3.86,3.86,0,0,0,10,6a4,4,0,1,0-4,4,3.86,3.86,0,0,0,2-.57l3.09,3.1a6,6,0,0,0,0,6.94L8,22.57A3.86,3.86,0,0,0,6,22a4,4,0,1,0,4,4,3.86,3.86,0,0,0-.57-2l3.1-3.09a6,6,0,0,0,6.94,0L22.57,24A3.86,3.86,0,0,0,22,26a4,4,0,1,0,4-4ZM26,4a2,2,0,1,1-2,2A2,2,0,0,1,26,4ZM4,6A2,2,0,1,1,6,8,2,2,0,0,1,4,6ZM6,28a2,2,0,1,1,2-2A2,2,0,0,1,6,28Zm10-8a4,4,0,1,1,4-4A4,4,0,0,1,16,20Zm10,8a2,2,0,1,1,2-2A2,2,0,0,1,26,28Z"/><rect fill="none" width="32" height="32"/></svg></div>
+            Configure data sources
+            <div class="flow-box__label">Streaming or historical</div>
+          </div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="flow-box">
+            <div class="flow-box__icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M16,2A14,14,0,1,0,30,16,14.0158,14.0158,0,0,0,16,2Zm5,3.1055a12.0136,12.0136,0,0,1,2.9158,1.8994L23.5034,8H21ZM13.3784,27.7026A11.9761,11.9761,0,0,1,8.1157,6.9761L9.4648,9h3.3423l-1.5,4H7.2793L5.8967,17.1475,8.4648,21h5l1.4319,2.1475ZM16,28c-.2034,0-.4016-.02-.6025-.03l1.3967-4.19a1.9876,1.9876,0,0,0-.2334-1.7412l-1.4319-2.1475A1.9962,1.9962,0,0,0,13.4648,19h-3.93L8.1033,16.8525,8.7207,15H11v2h2V14.1812l2.9363-7.83-1.8726-.7022L13.5571,7H10.5352L9.728,5.7891A11.7941,11.7941,0,0,1,19,4.395V8a2.0025,2.0025,0,0,0,2,2h2.5857A1.9865,1.9865,0,0,0,25,9.4141l.1406-.1407.2818-.68A11.9813,11.9813,0,0,1,27.3,12H22.5986a1.9927,1.9927,0,0,0-1.9719,1.665L20.03,17.1064a1.99,1.99,0,0,0,.991,2.086l2.1647,1.4638,1.4585,3.646A11.9577,11.9577,0,0,1,16,28Zm8.8145-8.6563L22.1,17.5088l-.1-.06L22.5986,14h5.2207a11.743,11.743,0,0,1-1.7441,8.4951Z"/><rect fill="none" width="32" height="32"/></svg></div>
+            Register devices
+            <div class="flow-box__label">IP routers · RAN nodes</div>
+          </div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="flow-box flow-box--blue">
+            <div class="flow-box__icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M27,16.76c0-.25,0-.5,0-.76s0-.51,0-.77l1.92-1.68A2,2,0,0,0,29.3,11L26.94,7a2,2,0,0,0-1.73-1,2,2,0,0,0-.64.1l-2.43.82a11.35,11.35,0,0,0-1.31-.75l-.51-2.52a2,2,0,0,0-2-1.61H13.64a2,2,0,0,0-2,1.61l-.51,2.52a11.48,11.48,0,0,0-1.32.75L7.43,6.06A2,2,0,0,0,6.79,6,2,2,0,0,0,5.06,7L2.7,11a2,2,0,0,0,.41,2.51L5,15.24c0,.25,0,.5,0,.76s0,.51,0,.77L3.11,18.45A2,2,0,0,0,2.7,21L5.06,25a2,2,0,0,0,1.73,1,2,2,0,0,0,.64-.1l2.43-.82a11.35,11.35,0,0,0,1.31.75l.51,2.52a2,2,0,0,0,2,1.61h4.72a2,2,0,0,0,2-1.61l.51-2.52a11.48,11.48,0,0,0,1.32-.75l2.42.82a2,2,0,0,0,.64.1,2,2,0,0,0,1.73-1L29.3,21a2,2,0,0,0-.41-2.51ZM25.21,24l-3.43-1.16a8.86,8.86,0,0,1-2.71,1.57L18.36,28H13.64l-.71-3.55a9.36,9.36,0,0,1-2.7-1.57L6.79,24,4.43,20l2.72-2.4a8.9,8.9,0,0,1,0-3.13L4.43,12,6.79,8l3.43,1.16a8.86,8.86,0,0,1,2.71-1.57L13.64,4h4.72l.71,3.55a9.36,9.36,0,0,1,2.7,1.57L25.21,8,27.57,12l-2.72,2.4a8.9,8.9,0,0,1,0,3.13L27.57,20Z"/><path d="M16,22a6,6,0,1,1,6-6A5.94,5.94,0,0,1,16,22Zm0-10a3.91,3.91,0,0,0-4,4,3.91,3.91,0,0,0,4,4,3.91,3.91,0,0,0,4-4A3.91,3.91,0,0,0,16,12Z"/><rect fill="none" width="32" height="32"/></svg></div>
+            Metrics auto-grouped
+            <div class="flow-box__label">Triplet model applied</div>
+          </div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="flow-box flow-box--green">
+            <div class="flow-box__icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M4,2H2V28a2,2,0,0,0,2,2H30V28H4Z"/><path d="M30,9H23v2h3.59L19,18.59l-4.29-4.3a1,1,0,0,0-1.42,0L6,21.59,7.41,23,14,16.41l4.29,4.3a1,1,0,0,0,1.42,0L28,12.41V16h2Z"/><rect fill="none" width="32" height="32"/></svg></div>
+            Dashboard live
+            <div class="flow-box__label">AI monitoring begins</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Upload grounding docs sub-flow -->
+      <p style="font-size:15px;color:var(--ibm-text-secondary);margin-bottom:var(--ibm-spacing-04);font-weight:600;text-transform:uppercase;letter-spacing:0.32px;">Knowledge Onboarding: Uploading Grounding Documents</p>
+      <div class="flow">
+        <div class="flow-step">
+          <div class="flow-box">
+            <div class="flow-box__icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M25.7,9.3l-7-7C18.5,2.1,18.3,2,18,2H8C6.9,2,6,2.9,6,4v24c0,1.1,0.9,2,2,2h16c1.1,0,2-0.9,2-2V10C26,9.7,25.9,9.5,25.7,9.3z M18,4.4l5.6,5.6H18V4.4z M24,28H8V4h8v6c0,1.1,0.9,2,2,2h6V28z"/><rect x="10" y="22" width="12" height="2"/><rect x="10" y="16" width="12" height="2"/><rect fill="none" width="32" height="32"/></svg></div>
+            Upload MOPs &amp; guides
+            <div class="flow-box__label">PDF / text documents</div>
+          </div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="flow-box flow-box--blue">
+            <div class="flow-box__icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect x="18" y="10" width="2" height="2"/><rect x="12" y="10" width="2" height="2"/><path d="M26,20H21V18h1a2.0023,2.0023,0,0,0,2-2V12h2V10H24V8a2.0023,2.0023,0,0,0-2-2H20V2H18V6H14V2H12V6H10A2.0023,2.0023,0,0,0,8,8v2H6v2H8v4a2.0023,2.0023,0,0,0,2,2h1v2H6a2.0023,2.0023,0,0,0-2,2v8H6V22H26v8h2V22A2.0023,2.0023,0,0,0,26,20ZM10,8H22v8H10Zm3,10h6v2H13Z"/><rect fill="none" width="32" height="32"/></svg></div>
+            Embedding model chunks
+            <div class="flow-box__label">Vector DB stored</div>
+          </div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="flow-box flow-box--blue">
+            <div class="flow-box__icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M29,27.5859l-7.5521-7.5521a11.0177,11.0177,0,1,0-1.4141,1.4141L27.5859,29ZM4,13a9,9,0,1,1,9,9A9.01,9.01,0,0,1,4,13Z"/><rect fill="none" width="32" height="32"/></svg></div>
+            Synthetic queries generated
+            <div class="flow-box__label">Keyword + chunk search</div>
+          </div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="flow-box flow-box--green">
+            <div class="flow-box__icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M16,2A14,14,0,1,0,30,16,14,14,0,0,0,16,2ZM14,21.5908l-5-5L10.5906,15,14,18.4092,21.41,11l1.5957,1.5859Z"/><rect fill="none" width="32" height="32"/></svg></div>
+            RAG agent grounded
+            <div class="flow-box__label">Context-aware AI</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- WORKFLOW 2 -->
+    <div class="workflow-section">
+      <div class="workflow-header">
+        <span class="workflow-number">02</span>
+        <h3 class="workflow-title">Continuous Monitoring → Anomaly Detection</h3>
+      </div>
+      <p class="workflow-desc">The core runtime loop — how Network Intelligence continuously watches metric streams, detects deviations, and generates initial observations for investigation.</p>
+
+      <div class="flow">
+        <div class="flow-step">
+          <div class="flow-box flow-box--dark">
+            <div class="flow-box__icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M12,29a1,1,0,0,1-.92-.62L6.33,17H2V15H7a1,1,0,0,1,.92.62L12,25.28,20.06,3.65A1,1,0,0,1,21,3a1,1,0,0,1,.93.68L25.72,15H30v2H25a1,1,0,0,1-.95-.68L21,7,12.94,28.35A1,1,0,0,1,12,29Z"/><rect fill="none" width="32" height="32"/></svg></div>
+            Metric data streams in
+            <div class="flow-box__label">Real-time telemetry</div>
+          </div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="flow-box flow-box--blue">
+            <div class="flow-box__icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect x="18" y="10" width="2" height="2"/><rect x="12" y="10" width="2" height="2"/><path d="M26,20H21V18h1a2.0023,2.0023,0,0,0,2-2V12h2V10H24V8a2.0023,2.0023,0,0,0-2-2H20V2H18V6H14V2H12V6H10A2.0023,2.0023,0,0,0,8,8v2H6v2H8v4a2.0023,2.0023,0,0,0,2,2h1v2H6a2.0023,2.0023,0,0,0-2,2v8H6V22H26v8h2V22A2.0023,2.0023,0,0,0,26,20ZM10,8H22v8H10Zm3,10h6v2H13Z"/><rect fill="none" width="32" height="32"/></svg></div>
+            Time-series AI models
+            <div class="flow-box__label">Quantile · Prophet</div>
+          </div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="flow-box">
+            <div class="flow-box__icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M28.7071,19.293,26,16.5859V13a10.0136,10.0136,0,0,0-9-9.9492V1H15V3.0508A10.0136,10.0136,0,0,0,6,13v3.5859L3.2929,19.293A1,1,0,0,0,3,20v3a1,1,0,0,0,1,1h7v.7768a5.152,5.152,0,0,0,4.5,5.1987A5.0057,5.0057,0,0,0,21,25V24h7a1,1,0,0,0,1-1V20A1,1,0,0,0,28.7071,19.293ZM19,25a3,3,0,0,1-6,0V24h6Zm8-3H5V20.4141L7.707,17.707A1,1,0,0,0,8,17V13a8,8,0,0,1,16,0v4a1,1,0,0,0,.293.707L27,20.4141Z"/><rect fill="none" width="32" height="32"/></svg></div>
+            Anomaly detected
+            <div class="flow-box__label">Observation generated</div>
+          </div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="flow-box">
+            <div class="flow-box__icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M18,28H14a2,2,0,0,1-2-2V18.41L4.59,11A2,2,0,0,1,4,9.59V6A2,2,0,0,1,6,4H26a2,2,0,0,1,2,2V9.59A2,2,0,0,1,27.41,11L20,18.41V26A2,2,0,0,1,18,28ZM6,6V9.59l8,8V26h4V17.59l8-8V6Z"/><rect fill="none" width="32" height="32"/></svg></div>
+            Prioritized by impact
+            <div class="flow-box__label">Critical flags raised</div>
+          </div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="flow-box flow-box--green">
+            <div class="flow-box__icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect x="24" y="21" width="2" height="5"/><rect x="20" y="16" width="2" height="10"/><path d="M11,26a5.0059,5.0059,0,0,1-5-5H8a3,3,0,1,0,3-3V16a5,5,0,0,1,0,10Z"/><path d="M28,2H4A2.002,2.002,0,0,0,2,4V28a2.0023,2.0023,0,0,0,2,2H28a2.0027,2.0027,0,0,0,2-2V4A2.0023,2.0023,0,0,0,28,2Zm0,9H14V4H28ZM12,4v7H4V4ZM4,28V13H28.0007l.0013,15Z"/><rect fill="none" width="32" height="32"/></svg></div>
+            Dashboard updated
+            <div class="flow-box__label">NOC sees alert</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- WORKFLOW 3 -->
+    <div class="workflow-section">
+      <div class="workflow-header">
+        <span class="workflow-number">03</span>
+        <h3 class="workflow-title">Agentic Investigation &amp; Root-Cause Hypothesis</h3>
+      </div>
+      <p class="workflow-desc">The most sophisticated workflow — how NOC AI agents investigate a critical anomaly, generate a root-cause hypothesis using semantic context and grounding documents, and produce an actionable remediation plan.</p>
+
+      <p style="font-size:15px;color:var(--ibm-text-secondary);margin-bottom:var(--ibm-spacing-04);font-weight:600;text-transform:uppercase;letter-spacing:0.32px;">Runtime: AI Investigation Flow</p>
+      <div class="flow">
+        <div class="flow-step">
+          <div class="flow-box flow-box--red">
+            <div class="flow-box__icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect x="14.9004" y="7.2004" width="2.1996" height="17.5994" transform="translate(-6.6275 16.0001) rotate(-45)"/><path d="M16,2A13.9138,13.9138,0,0,0,2,16,13.9138,13.9138,0,0,0,16,30,13.9138,13.9138,0,0,0,30,16,13.9138,13.9138,0,0,0,16,2Zm0,26A12,12,0,1,1,28,16,12.0353,12.0353,0,0,1,16,28Z"/><rect fill="none" width="32" height="32"/></svg></div>
+            Critical anomaly flagged
+            <div class="flow-box__label">High-impact observation</div>
+          </div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="flow-box flow-box--blue">
+            <div class="flow-box__icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect x="18" y="10" width="2" height="2"/><rect x="12" y="10" width="2" height="2"/><path d="M26,20H21V18h1a2.0023,2.0023,0,0,0,2-2V12h2V10H24V8a2.0023,2.0023,0,0,0-2-2H20V2H18V6H14V2H12V6H10A2.0023,2.0023,0,0,0,8,8v2H6v2H8v4a2.0023,2.0023,0,0,0,2,2h1v2H6a2.0023,2.0023,0,0,0-2,2v8H6V22H26v8h2V22A2.0023,2.0023,0,0,0,26,20ZM10,8H22v8H10Zm3,10h6v2H13Z"/><rect fill="none" width="32" height="32"/></svg></div>
+            NOC agent activated
+            <div class="flow-box__label">Reasoning agent starts</div>
+          </div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="flow-box flow-box--purple">
+            <div class="flow-box__icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M29,27.5859l-7.5521-7.5521a11.0177,11.0177,0,1,0-1.4141,1.4141L27.5859,29ZM4,13a9,9,0,1,1,9,9A9.01,9.01,0,0,1,4,13Z"/><rect fill="none" width="32" height="32"/></svg></div>
+            RAG agent searches docs
+            <div class="flow-box__label">MOPs + knowledge base</div>
+          </div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="flow-box">
+            <div class="flow-box__icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M25.7,9.3l-7-7C18.5,2.1,18.3,2,18,2H8C6.9,2,6,2.9,6,4v24c0,1.1,0.9,2,2,2h16c1.1,0,2-0.9,2-2V10C26,9.7,25.9,9.5,25.7,9.3z M18,4.4l5.6,5.6H18V4.4z M24,28H8V4h8v6c0,1.1,0.9,2,2,2h6V28z"/><rect x="10" y="22" width="12" height="2"/><rect x="10" y="16" width="12" height="2"/><rect fill="none" width="32" height="32"/></svg></div>
+            Hypothesis generated
+            <div class="flow-box__label">Root cause + remediation</div>
+          </div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="flow-box flow-box--green">
+            <div class="flow-box__icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M29,14a1,1,0,0,0,1-1V8a2,2,0,0,0-2-2H4A2,2,0,0,0,2,8v5a1,1,0,0,0,1,1,2,2,0,0,1,0,4,1,1,0,0,0-1,1v5a2,2,0,0,0,2,2H28a2,2,0,0,0,2-2V19a1,1,0,0,0-1-1,2,2,0,0,1,0-4Zm-1,5.87V24H21V21H19v3H4V19.87a4,4,0,0,0,0-7.74V8H19v3h2V8h7v4.13a4,4,0,0,0,0,7.74Z"/><rect x="19" y="13" width="2" height="6"/><rect fill="none" width="32" height="32"/></svg></div>
+            ITSM ticket created
+            <div class="flow-box__label">ServiceNow / ITSM</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Remediation decision flow -->
+      <p style="font-size:15px;color:var(--ibm-text-secondary);margin-bottom:var(--ibm-spacing-04);font-weight:600;text-transform:uppercase;letter-spacing:0.32px;">Remediation: Autonomous or Human-in-the-Loop</p>
+      <div class="flow">
+        <div class="flow-step">
+          <div class="flow-box">
+            <div class="flow-box__icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M25.7,9.3l-7-7C18.5,2.1,18.3,2,18,2H8C6.9,2,6,2.9,6,4v24c0,1.1,0.9,2,2,2h16c1.1,0,2-0.9,2-2V10C26,9.7,25.9,9.5,25.7,9.3z M18,4.4l5.6,5.6H18V4.4z M24,28H8V4h8v6c0,1.1,0.9,2,2,2h6V28z"/><rect x="10" y="22" width="12" height="2"/><rect x="10" y="16" width="12" height="2"/><rect fill="none" width="32" height="32"/></svg></div>
+            Remediation plan ready
+            <div class="flow-box__label">Step-by-step actions</div>
+          </div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="flow-box">
+            <div class="flow-box__icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M21.71,11.71l-1.42-1.42-4.29,4.3-4.29-4.3-1.42,1.42,4.3,4.29-4.3,4.29,1.42,1.42,4.29-4.3,4.29,4.3,1.42-1.42-4.3-4.29,4.3-4.29ZM30.71,15.29l-6.3-6.29,3.08-3.07c.16.05.33.07.51.07,1.1,0,2-.9,2-2s-.9-2-2-2-2,.9-2,2c0,.18.02.35.07.51l-3.07,3.08-6.29-6.3c-.39-.39-1.03-.39-1.42,0l-6.29,6.3-3.07-3.08c.05-.16.07-.33.07-.51,0-1.1-.9-2-2-2s-2,.9-2,2,.9,2,2,2c.18,0,.35-.02.51-.07l3.08,3.07L1.29,15.29c-.39.39-.39,1.03,0,1.42l6.3,6.29-3.08,3.07c-.16-.05-.33-.07-.51-.07-1.1,0-2,.9-2,2s.9,2,2,2,2-.9,2-2c0-.18-.02-.35-.07-.51l3.07-3.08,6.29,6.3c.2.19.45.29.71.29s.51-.1.71-.29l6.29-6.3,3.07,3.08c-.05.16-.07.33-.07.51,0,1.1.9,2,2,2s2-.9,2-2-.9-2-2-2c-.18,0-.35.02-.51.07l-3.08-3.07,6.3-6.29c.39-.39.39-1.03,0-1.42ZM16,28.59L3.41,16,16,3.41l12.59,12.59-12.59,12.59Z"/><rect fill="none" width="32" height="32"/></svg></div>
+            Operating mode check
+            <div class="flow-box__label">Autonomous or Assistant?</div>
+          </div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="flow-box flow-box--blue">
+            <div class="flow-box__icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M27,16.76c0-.25,0-.5,0-.76s0-.51,0-.77l1.92-1.68A2,2,0,0,0,29.3,11L26.94,7a2,2,0,0,0-1.73-1,2,2,0,0,0-.64.1l-2.43.82a11.35,11.35,0,0,0-1.31-.75l-.51-2.52a2,2,0,0,0-2-1.61H13.64a2,2,0,0,0-2,1.61l-.51,2.52a11.48,11.48,0,0,0-1.32.75L7.43,6.06A2,2,0,0,0,6.79,6,2,2,0,0,0,5.06,7L2.7,11a2,2,0,0,0,.41,2.51L5,15.24c0,.25,0,.5,0,.76s0,.51,0,.77L3.11,18.45A2,2,0,0,0,2.7,21L5.06,25a2,2,0,0,0,1.73,1,2,2,0,0,0,.64-.1l2.43-.82a11.35,11.35,0,0,0,1.31.75l.51,2.52a2,2,0,0,0,2,1.61h4.72a2,2,0,0,0,2-1.61l.51-2.52a11.48,11.48,0,0,0,1.32-.75l2.42.82a2,2,0,0,0,.64.1,2,2,0,0,0,1.73-1L29.3,21a2,2,0,0,0-.41-2.51ZM25.21,24l-3.43-1.16a8.86,8.86,0,0,1-2.71,1.57L18.36,28H13.64l-.71-3.55a9.36,9.36,0,0,1-2.7-1.57L6.79,24,4.43,20l2.72-2.4a8.9,8.9,0,0,1,0-3.13L4.43,12,6.79,8l3.43,1.16a8.86,8.86,0,0,1,2.71-1.57L13.64,4h4.72l.71,3.55a9.36,9.36,0,0,1,2.7,1.57L25.21,8,27.57,12l-2.72,2.4a8.9,8.9,0,0,1,0,3.13L27.57,20Z"/><path d="M16,22a6,6,0,1,1,6-6A5.94,5.94,0,0,1,16,22Zm0-10a3.91,3.91,0,0,0-4,4,3.91,3.91,0,0,0,4,4,3.91,3.91,0,0,0,4-4A3.91,3.91,0,0,0,16,12Z"/><rect fill="none" width="32" height="32"/></svg></div>
+            Function-calling agent
+            <div class="flow-box__label">Executes tool calls</div>
+          </div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="flow-box flow-box--green">
+            <div class="flow-box__icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M16,2A14,14,0,1,0,30,16,14,14,0,0,0,16,2ZM14,21.5908l-5-5L10.5906,15,14,18.4092,21.41,11l1.5957,1.5859Z"/><rect fill="none" width="32" height="32"/></svg></div>
+            Issue resolved
+            <div class="flow-box__label">Ticket closed</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- WORKFLOW 4 -->
+    <div class="workflow-section">
+      <div class="workflow-header">
+        <span class="workflow-number">04</span>
+        <h3 class="workflow-title">Skills-Driven NOC Playbook Execution</h3>
+      </div>
+      <p class="workflow-desc">How a network engineer encodes their expertise as a reusable Skill — then how the AI applies it consistently and at scale across future occurrences of the same incident type.</p>
+
+      <div class="flow">
+        <div class="flow-step">
+          <div class="flow-box">
+            <div class="flow-box__icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M16,4a5,5,0,1,1-5,5,5,5,0,0,1,5-5m0-2a7,7,0,1,0,7,7A7,7,0,0,0,16,2Z"/><path d="M26,30H24V25a5,5,0,0,0-5-5H13a5,5,0,0,0-5,5v5H6V25a7,7,0,0,1,7-7h6a7,7,0,0,1,7,7Z"/><rect fill="none" width="32" height="32"/></svg></div>
+            Engineer creates Skill
+            <div class="flow-box__label">Defines steps in UI</div>
+          </div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="flow-box">
+            <div class="flow-box__icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M24,3H8A2,2,0,0,0,6,5V27a2,2,0,0,0,2,2H24a2,2,0,0,0,2-2V5A2,2,0,0,0,24,3Zm0,2v6H8V5ZM8,19V13H24v6Zm0,8V21H24v6Z"/><circle cx="11" cy="8" r="1"/><circle cx="11" cy="16" r="1"/><circle cx="11" cy="24" r="1"/><rect fill="none" width="32" height="32"/></svg></div>
+            Skill saved to library
+            <div class="flow-box__label">Team-wide access</div>
+          </div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="flow-box flow-box--blue">
+            <div class="flow-box__icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect x="18" y="10" width="2" height="2"/><rect x="12" y="10" width="2" height="2"/><path d="M26,20H21V18h1a2.0023,2.0023,0,0,0,2-2V12h2V10H24V8a2.0023,2.0023,0,0,0-2-2H20V2H18V6H14V2H12V6H10A2.0023,2.0023,0,0,0,8,8v2H6v2H8v4a2.0023,2.0023,0,0,0,2,2h1v2H6a2.0023,2.0023,0,0,0-2,2v8H6V22H26v8h2V22A2.0023,2.0023,0,0,0,26,20ZM10,8H22v8H10Zm3,10h6v2H13Z"/><rect fill="none" width="32" height="32"/></svg></div>
+            AI matches anomaly to Skill
+            <div class="flow-box__label">Pattern recognition</div>
+          </div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="flow-box flow-box--blue">
+            <div class="flow-box__icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M17.74,30,16,29l4-7h6a2,2,0,0,0,2-2V8a2,2,0,0,0-2-2H6A2,2,0,0,0,4,8V20a2,2,0,0,0,2,2h9v2H6a4,4,0,0,1-4-4V8A4,4,0,0,1,6,4H26a4,4,0,0,1,4,4V20a4,4,0,0,1-4,4H21.16Z"/><rect x="8" y="10" width="16" height="2"/><rect x="8" y="16" width="10" height="2"/><rect fill="none" width="32" height="32"/></svg></div>
+            Chat applies Skill
+            <div class="flow-box__label">Via chat assistant</div>
+          </div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="flow-box flow-box--green">
+            <div class="flow-box__icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><polygon points="24 17 25.912 20.703 30 21.297 27 24 27.771 28 24 25.75 20.229 28 21 24 18 21.297 22.2 20.703 24 17"/><rect x="6" y="16" width="6" height="2"/><rect x="6" y="12" width="10" height="2"/><rect x="6" y="8" width="10" height="2"/><path d="M16,26H4V6H28V16h2V6a2,2,0,0,0-2-2H4A2,2,0,0,0,2,6V26a2,2,0,0,0,2,2H16Z"/><rect fill="none" width="32" height="32"/></svg></div>
+            Consistent resolution
+            <div class="flow-box__label">Zero tribal knowledge loss</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </section><!-- end workflows -->
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- SECTION 4: USE CASES -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <section class="section" id="section-usecases">
+    <p class="section-eyebrow">Section 04</p>
+    <h2 class="section-title">Real-World <strong>Use Cases &amp; Problems Solved</strong></h2>
+    <p class="section-body">IBM Network Intelligence is deployed wherever multi-domain network operations require more than threshold-based alerting. Here are eight concrete scenarios where the AI-native approach makes the critical difference.</p>
+
+    <div class="usecase-grid">
+
+      <div class="usecase-card">
+        <p class="usecase-card__industry">Telecom / Carrier Operations</p>
+        <h4 class="usecase-card__title">Reducing NOC Alert Fatigue at Scale</h4>
+        <p class="usecase-card__scenario">A tier-1 carrier's NOC receives over 50,000 alerts per day across their IP and RAN networks. Operators spend the majority of their shift acknowledging low-priority alarms, leaving little time for genuine investigation. Network Intelligence's semantic AI filters out false positives, presenting operators with only the high-confidence anomalies that actually require attention — a fraction of the total event volume.</p>
+        <div class="usecase-card__result"><strong>Outcome:</strong> Meaningful reduction in alert noise; NOC operators shift from reactive alarm acknowledgment to proactive network management. MTBI improves as genuine issues are caught earlier.</div>
+      </div>
+
+      <div class="usecase-card">
+        <p class="usecase-card__industry">Enterprise IT Operations</p>
+        <h4 class="usecase-card__title">3am Outage — No On-Call Engineer Required</h4>
+        <p class="usecase-card__scenario">A router in a critical enterprise WAN degrades at 3am due to a recurring interface flap. Historically, the on-call engineer would be paged, spend 20 minutes reading logs, then execute a standard restart procedure from the MOP. With Network Intelligence in Autonomous mode, the anomaly is detected, the MOP is retrieved via RAG, and the remediation is executed automatically — the engineer wakes to a closed ticket.</p>
+        <div class="usecase-card__result"><strong>Outcome:</strong> Zero on-call disruption for routine incidents. MTTR reduced from 30+ minutes to under 5 minutes. Repeat incidents of the same type handled without human intervention.</div>
+      </div>
+
+      <div class="usecase-card">
+        <p class="usecase-card__industry">Multi-Vendor Network Environments</p>
+        <h4 class="usecase-card__title">Root Cause Tracing Across Vendor Boundaries</h4>
+        <p class="usecase-card__scenario">An enterprise runs a hybrid network with Cisco routers, Nokia RAN equipment, and a third-party SD-WAN overlay. An application degradation is reported by users — but the root cause spans three different vendor domains. Traditional monitoring tools each see their own piece; Network Intelligence ingests all three data streams, correlates the cross-domain anomalies semantically, and traces the root cause to a BGP route change on the Cisco side affecting Nokia RAN backhaul.</p>
+        <div class="usecase-card__result"><strong>Outcome:</strong> Root cause identified in minutes versus hours. No need for a cross-functional war room or manual log correlation across three vendor dashboards.</div>
+      </div>
+
+      <div class="usecase-card">
+        <p class="usecase-card__industry">Radio Access Network (RAN)</p>
+        <h4 class="usecase-card__title">Early Warning of RAN Degradation Before User Impact</h4>
+        <p class="usecase-card__scenario">A mobile operator's RAN cells in a dense urban area begin showing subtle, gradually worsening signal quality metrics — below threshold alarm levels, invisible to traditional monitoring. Network Intelligence's time-series foundation models detect the anomalous pattern six hours before it would have triggered a threshold alarm, giving engineering teams time to dispatch field maintenance before customers experience dropped calls.</p>
+        <div class="usecase-card__result"><strong>Outcome:</strong> Silent degradation caught before user impact. Proactive maintenance replaces reactive repair. Customer experience protected; SLA penalties avoided.</div>
+      </div>
+
+      <div class="usecase-card">
+        <p class="usecase-card__industry">Knowledge Management &amp; Staff Turnover</p>
+        <h4 class="usecase-card__title">Preserving Expert Knowledge When Senior Engineers Leave</h4>
+        <p class="usecase-card__scenario">A network operations team loses its most experienced engineer to retirement. That engineer's deep knowledge of specific vendor quirks, proprietary workarounds, and undocumented procedures lives in tribal knowledge. Before leaving, the team uploads all known MOPs, runbooks, and troubleshooting guides as Grounding Documents. New engineers ask the chat assistant in plain language and receive answers grounded in the retiring engineer's documented expertise.</p>
+        <div class="usecase-card__result"><strong>Outcome:</strong> Institutional knowledge preserved and made universally accessible. Junior engineers resolve issues that previously required the most senior team member. Onboarding time reduced significantly.</div>
+      </div>
+
+      <div class="usecase-card">
+        <p class="usecase-card__industry">ITSM &amp; ServiceNow Integration</p>
+        <h4 class="usecase-card__title">Pre-Filled Incident Tickets with AI Diagnosis</h4>
+        <p class="usecase-card__scenario">A managed service provider (MSP) is contractually required to meet a 15-minute initial response SLA on all Priority 1 incidents. Previously, engineers would manually create tickets, add initial notes, and attempt to gather diagnostic data — eating into the SLA window. Network Intelligence auto-creates the ServiceNow ticket at the moment of detection, pre-filled with the root-cause hypothesis, affected devices, and a recommended remediation plan.</p>
+        <div class="usecase-card__result"><strong>Outcome:</strong> P1 SLA compliance rate improves dramatically. Engineers arrive at a pre-investigated incident rather than a blank ticket. Customer reporting quality improved.</div>
+      </div>
+
+      <div class="usecase-card">
+        <p class="usecase-card__industry">AI Safety &amp; Compliance</p>
+        <h4 class="usecase-card__title">Explainable AI for Regulated Industries</h4>
+        <p class="usecase-card__scenario">A financial services firm deploys network operations AI but must meet internal auditability requirements: every automated action must be traceable to a documented decision chain. Network Intelligence's "View reasoning" feature exposes the full chain-of-thought behind every AI recommendation. Built-in prompt guardrails and AI scaffolding ensure the system stays focused on network outcomes — not free-form generation that could produce unreliable results.</p>
+        <div class="usecase-card__result"><strong>Outcome:</strong> AI automation adopted in a regulated environment without compliance concerns. Audit trail maintained for every agent action. Trust in AI recommendations built through transparency.</div>
+      </div>
+
+      <div class="usecase-card">
+        <p class="usecase-card__industry">Cloud &amp; Hybrid Infrastructure</p>
+        <h4 class="usecase-card__title">Unified Observability Across On-Prem and Cloud</h4>
+        <p class="usecase-card__scenario">A global enterprise runs critical workloads on a combination of on-premises IP infrastructure, private cloud, and AWS. Each layer has its own monitoring stack. Network Intelligence ingests data from all three via its flexible data pipeline — regardless of format or cleanliness — and applies unified anomaly detection across the hybrid environment, correlating on-prem router issues with cloud networking events in a single investigation view.</p>
+        <div class="usecase-card__result"><strong>Outcome:</strong> Single pane of glass for hybrid network intelligence. Cross-domain incidents no longer require multiple teams working in isolation. Infrastructure complexity becomes tractable for a smaller operations team.</div>
+      </div>
+
+    </div>
+  </section><!-- end use cases -->
+
+</main>
+
+<footer class="footer">
+  <p>IBM Network Intelligence — Understanding Document &nbsp;|&nbsp; Based on <a href="https://www.ibm.com/docs/en/ibm-network-intelligence/saas" target="_blank">IBM Documentation</a> &amp; <a href="https://www.ibm.com/products/network-intelligence" target="_blank">Product Page</a></p>
+  <p style="margin-top:8px;color:#a8a8a8;">© IBM Corporation &nbsp;·&nbsp; For internal reference use</p>
+</footer>
+
+<script>
+  (function () {
+    const navLinks = document.querySelectorAll('.toc-strip a');
+    const sections = Array.from(document.querySelectorAll('.section[id]'));
+
+    if (!navLinks.length || !sections.length) return;
+
+    function updateActiveNav() {
+      const scrollPos = window.scrollY + 130;
+      let currentSectionId = sections[0].id;
+
+      for (const section of sections) {
+        if (section.offsetTop <= scrollPos) {
+          currentSectionId = section.id;
+        }
+      }
+
+      navLinks.forEach(link => {
+        const href = link.getAttribute('href');
+        if (href === '#' + currentSectionId) {
+          link.classList.add('active');
+        } else {
+          link.classList.remove('active');
+        }
+      });
+    }
+
+    window.addEventListener('scroll', updateActiveNav, { passive: true });
+    window.addEventListener('resize', updateActiveNav, { passive: true });
+    updateActiveNav();
+  })();
+</script>
+
+</body>
+</html>
