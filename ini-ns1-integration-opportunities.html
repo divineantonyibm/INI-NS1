@@ -1,0 +1,1299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>INI × NS1 Connect — Integration Opportunities</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;600&family=IBM+Plex+Mono:wght@400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --white:        #ffffff;
+      --off-white:    #f5f4f0;
+      --light-grey:   #e8e8e8;
+      --mid-grey:     #c1c7cd;
+      --text:         #21272a;
+      --text-muted:   #4d5358;
+      --text-light:   #697077;
+      --ibm-blue:     #0f62fe;
+      --ibm-blue-dk:  #0043ce;
+      --divider:      #dde1e6;
+      --page-max:     1056px;
+
+      /* spacing tokens scaled ×1.2 for more whitespace */
+      --sp-1:  5px;
+      --sp-2:  10px;
+      --sp-3:  14px;
+      --sp-4:  19px;
+      --sp-5:  29px;
+      --sp-6:  38px;
+      --sp-7:  58px;
+      --sp-8:  77px;
+      --sp-9:  96px;
+      --sp-10: 115px;
+    }
+
+    html { scroll-behavior: smooth; font-size: 144%; }
+
+    body {
+      font-family: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
+      font-size: 23px;
+      line-height: 1.75;
+      color: var(--text);
+      background: var(--white);
+      display: flex;
+    }
+
+    /* ── Left navigation rail ── */
+    .left-nav {
+      width: 286px;
+      min-width: 286px;
+      background: #161616;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      padding: var(--sp-6) 0 var(--sp-5);
+      z-index: 200;
+      overflow-y: auto;
+      overflow-x: hidden;
+      transition: width 0.22s ease, min-width 0.22s ease;
+    }
+    .left-nav.collapsed {
+      width: 48px;
+      min-width: 48px;
+    }
+    .left-nav.collapsed .left-nav__body { display: none; }
+    .left-nav.collapsed .left-nav__logo-text { display: none; }
+    .left-nav.collapsed .left-nav__toggle-label { display: none; }
+
+    /* Toggle button */
+    .left-nav__toggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 var(--sp-5) var(--sp-5);
+      border-bottom: 1px solid #393939;
+      margin-bottom: var(--sp-5);
+      cursor: pointer;
+      user-select: none;
+    }
+    .left-nav.collapsed .left-nav__toggle {
+      justify-content: center;
+      padding: 0 0 var(--sp-5);
+      border-bottom: 1px solid #393939;
+    }
+    .left-nav__toggle-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      border-radius: 2px;
+      background: #262626;
+      flex-shrink: 0;
+      transition: background 0.12s;
+    }
+    .left-nav__toggle-icon:hover { background: #393939; }
+    .left-nav__toggle-icon svg {
+      width: 16px;
+      height: 16px;
+      fill: #c6c6c6;
+      transition: transform 0.22s ease;
+    }
+    .left-nav.collapsed .left-nav__toggle-icon svg {
+      transform: rotate(180deg);
+    }
+    .left-nav__toggle-label {
+      font-size: 13.2px;
+      color: #6f7880;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+    }
+
+    .left-nav__logo {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--sp-3);
+      flex: 1;
+      min-width: 0;
+    }
+    .left-nav__logo svg { width: 52px; height: 21px; flex-shrink: 0; }
+    .left-nav__logo-text {}
+    .left-nav__product {
+      font-size: 15.6px;
+      color: #a8b2bd;
+      letter-spacing: 0.16px;
+      margin-top: 2px;
+      line-height: 1.4;
+    }
+    .left-nav__section-label {
+      font-size: 13.2px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: #6f7880;
+      padding: 0 var(--sp-5);
+      margin-bottom: var(--sp-2);
+      margin-top: var(--sp-4);
+    }
+    .left-nav__section-label:first-of-type { margin-top: 0; }
+    .left-nav__link {
+      display: flex;
+      align-items: baseline;
+      gap: var(--sp-3);
+      padding: 11px var(--sp-5);
+      font-size: 18px;
+      color: #c6c6c6;
+      text-decoration: none;
+      line-height: 1.4;
+      transition: background 0.12s, color 0.12s;
+      border-left: 2px solid transparent;
+    }
+    .left-nav__link:hover {
+      background: #262626;
+      color: #ffffff;
+    }
+    .left-nav__link.active {
+      background: #262626;
+      color: #ffffff;
+      border-left-color: #78a9ff;
+    }
+    .left-nav__link-num {
+      font-size: 13.2px;
+      color: #6f7880;
+      min-width: 22px;
+      font-weight: 600;
+    }
+    .left-nav__divider {
+      border: none;
+      border-top: 1px solid #393939;
+      margin: var(--sp-4) 0;
+    }
+    .left-nav__footer {
+      margin-top: auto;
+      padding: var(--sp-4) var(--sp-5) 0;
+      border-top: 1px solid #393939;
+      font-size: 14.4px;
+      color: #6f7880;
+      line-height: 1.5;
+    }
+
+    /* ── Main content wrapper ── */
+    .main-content {
+      flex: 1;
+      min-width: 0;
+    }
+
+    @media (max-width: 900px) {
+      body { display: block; }
+      .left-nav { display: none; }
+    }
+
+    /* ── Cover page ── */
+    .cover {
+      min-height: 100vh;
+      background: var(--white);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: var(--sp-8) var(--sp-8) var(--sp-5);
+      position: relative;
+    }
+    .cover__content { max-width: 560px; }
+    .cover__label {
+      font-size: 18.7px;
+      font-weight: 400;
+      color: var(--text-muted);
+      letter-spacing: 0.16px;
+      margin-bottom: var(--sp-4);
+      text-transform: uppercase;
+    }
+    .cover__title {
+      font-size: clamp(57.6px, 5vw, 103.7px);
+      font-weight: 300;
+      line-height: 1.05;
+      color: var(--text);
+      margin-bottom: var(--sp-5);
+      letter-spacing: -0.5px;
+    }
+    .cover__subtitle {
+      font-size: 27.6px;
+      font-weight: 400;
+      color: var(--text-muted);
+      max-width: 480px;
+      line-height: 1.6;
+    }
+    .cover__footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      border-top: 1px solid var(--divider);
+      padding-top: var(--sp-4);
+    }
+    .cover__footer-label {
+      font-size: 17.3px;
+      color: var(--text-light);
+      letter-spacing: 0.32px;
+    }
+    .ibm-logo svg { width: 58px; height: 23px; }
+
+    /* ── Page breaks ── */
+    .page-break { page-break-before: always; }
+
+    /* ── Section pages ── */
+    .section-page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: var(--white);
+      border-top: 1px solid var(--divider);
+      position: relative;
+    }
+
+    /* ── Two-column layout (left label + right content) ── */
+    .two-col {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      flex: 1;
+    }
+    @media (max-width: 768px) {
+      .two-col { grid-template-columns: 1fr; }
+    }
+    .col-left {
+      background: var(--off-white);
+      padding: var(--sp-8) var(--sp-6) var(--sp-7);
+      border-right: 1px solid var(--divider);
+    }
+    .col-left__section-label {
+      font-size: 17.3px;
+      font-weight: 400;
+      color: var(--text-light);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: var(--sp-3);
+    }
+    .col-left__title {
+      font-size: clamp(40.3px, 3vw, 57.6px);
+      font-weight: 300;
+      line-height: 1.1;
+      color: var(--text);
+      margin-bottom: var(--sp-5);
+    }
+    .col-left__body {
+      font-size: 20.2px;
+      color: var(--text-muted);
+      line-height: 1.65;
+    }
+    .col-right {
+      padding: var(--sp-8) var(--sp-7) var(--sp-7);
+      overflow: hidden;
+    }
+
+    /* ── Full-width content page ── */
+    .full-page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: var(--white);
+      border-top: 1px solid var(--divider);
+      padding: var(--sp-8) var(--sp-8) var(--sp-7);
+    }
+    .full-page__header {
+      margin-bottom: var(--sp-7);
+    }
+
+    /* ── Page footer (number + doc title) ── */
+    .page-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid var(--divider);
+      padding: var(--sp-3) var(--sp-8);
+      font-size: 17.3px;
+      color: var(--text-light);
+      background: var(--white);
+    }
+
+    /* ── Typography ── */
+    .eyebrow {
+      font-size: 17.3px;
+      font-weight: 400;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-light);
+      margin-bottom: var(--sp-2);
+    }
+    .page-title {
+      font-size: clamp(34.6px, 3vw, 51.8px);
+      font-weight: 300;
+      color: var(--text);
+      line-height: 1.15;
+      margin-bottom: var(--sp-5);
+    }
+    .page-title strong { font-weight: 600; }
+    .body-text {
+      font-size: 20.2px;
+      color: var(--text-muted);
+      line-height: 1.65;
+      max-width: 680px;
+      margin-bottom: var(--sp-5);
+    }
+    h3 {
+      font-size: 21.6px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: var(--sp-2);
+    }
+
+    /* ── Intro block ── */
+    .intro-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--divider);
+      border: 1px solid var(--divider);
+      margin-bottom: var(--sp-6);
+    }
+    .intro-cell {
+      background: var(--white);
+      padding: var(--sp-5) var(--sp-5);
+    }
+    .intro-cell__product {
+      font-size: 15.8px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-light);
+      margin-bottom: var(--sp-2);
+    }
+    .intro-cell__body {
+      font-size: 20.2px;
+      color: var(--text-muted);
+      line-height: 1.65;
+    }
+
+    /* ── Integration foundations grid ── */
+    .foundations-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--divider);
+      border: 1px solid var(--divider);
+      margin-bottom: var(--sp-6);
+    }
+    @media (max-width: 900px) { .foundations-grid { grid-template-columns: 1fr 1fr; } }
+    .foundation-cell {
+      background: var(--white);
+      padding: var(--sp-5);
+    }
+    .foundation-cell__number {
+      font-size: 40.3px;
+      font-weight: 300;
+      color: var(--mid-grey);
+      line-height: 1;
+      margin-bottom: var(--sp-3);
+    }
+    .foundation-cell__title {
+      font-size: 20.2px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: var(--sp-2);
+    }
+    .foundation-cell__body {
+      font-size: 18.7px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* ── Use case entry ── */
+    .uc-entry {
+      border-bottom: 1px solid var(--divider);
+      padding: var(--sp-5) 0;
+    }
+    .uc-entry:last-child { border-bottom: none; }
+    .uc-entry__header {
+      display: flex;
+      align-items: baseline;
+      gap: var(--sp-4);
+      margin-bottom: var(--sp-3);
+    }
+    .uc-entry__num {
+      font-size: 15.8px;
+      font-weight: 600;
+      color: var(--text-light);
+      min-width: 28px;
+    }
+    .uc-entry__category {
+      font-size: 15.8px;
+      font-weight: 400;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      color: var(--text-light);
+    }
+    .uc-entry__title {
+      font-size: 21.6px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: var(--sp-2);
+      padding-left: 44px;
+    }
+    .uc-entry__scenario {
+      font-size: 18.7px;
+      color: var(--text-muted);
+      line-height: 1.65;
+      padding-left: 44px;
+      max-width: 640px;
+      margin-bottom: var(--sp-3);
+    }
+
+    /* Contributions side-by-side */
+    .contrib-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--sp-4);
+      padding-left: 44px;
+      margin-bottom: var(--sp-3);
+    }
+    @media (max-width: 640px) { .contrib-row { grid-template-columns: 1fr; } }
+    .contrib-cell {
+      padding: var(--sp-3) var(--sp-4);
+      border-top: 2px solid var(--divider);
+    }
+    .contrib-cell--ini { border-top-color: #0043ce; }
+    .contrib-cell--ns1 { border-top-color: #6e32c9; }
+    .contrib-cell__label {
+      font-size: 15.8px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      margin-bottom: 6px;
+    }
+    .contrib-cell--ini .contrib-cell__label { color: #0043ce; }
+    .contrib-cell--ns1 .contrib-cell__label { color: #6e32c9; }
+    .contrib-cell__body {
+      font-size: 18.7px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* Mechanism tags */
+    .mechanism-row {
+      padding-left: 44px;
+      margin-bottom: var(--sp-3);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+    }
+    .mechanism-label {
+      font-size: 15.8px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      color: var(--text-light);
+      margin-right: 4px;
+    }
+    .mech-tag {
+      font-size: 15.8px;
+      font-family: 'IBM Plex Mono', 'SFMono-Regular', Consolas, monospace;
+      background: var(--off-white);
+      color: var(--text-muted);
+      border: 1px solid var(--light-grey);
+      padding: 2px 8px;
+    }
+
+    /* Outcome */
+    .outcome-row {
+      padding-left: 44px;
+    }
+    .outcome-row__text {
+      font-size: 18.7px;
+      color: var(--text-muted);
+      line-height: 1.65;
+      border-left: 2px solid var(--text);
+      padding-left: var(--sp-3);
+    }
+    .outcome-row__text strong { color: var(--text); font-weight: 600; }
+
+    /* ── Category header ── */
+    .cat-header {
+      display: flex;
+      align-items: baseline;
+      gap: var(--sp-4);
+      padding-bottom: var(--sp-3);
+      border-bottom: 1px solid var(--divider);
+      margin-bottom: var(--sp-5);
+    }
+    .cat-header__number {
+      font-size: 57.6px;
+      font-weight: 300;
+      color: var(--mid-grey);
+      line-height: 1;
+    }
+    .cat-header__meta {}
+    .cat-header__label {
+      font-size: 15.8px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-light);
+      margin-bottom: 4px;
+    }
+    .cat-header__title {
+      font-size: 31.7px;
+      font-weight: 300;
+      color: var(--text);
+    }
+    .cat-header__title strong { font-weight: 600; }
+    .cat-header__desc {
+      font-size: 18.7px;
+      color: var(--text-muted);
+      line-height: 1.65;
+      margin-top: var(--sp-2);
+      max-width: 600px;
+    }
+
+    /* ── Summary table ── */
+    .summary-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 18.7px;
+    }
+    .summary-table thead tr {
+      border-bottom: 2px solid var(--text);
+    }
+    .summary-table thead th {
+      padding: var(--sp-2) var(--sp-3);
+      text-align: left;
+      font-size: 15.8px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      color: var(--text-muted);
+    }
+    .summary-table tbody tr {
+      border-bottom: 1px solid var(--divider);
+    }
+    .summary-table tbody tr:hover { background: var(--off-white); }
+    .summary-table tbody td {
+      padding: var(--sp-2) var(--sp-3);
+      color: var(--text-muted);
+      vertical-align: top;
+    }
+    .summary-table tbody td:first-child { color: var(--text-light); font-weight: 600; }
+    .summary-table tbody td:nth-child(2) { font-weight: 600; color: var(--text); }
+    .complexity {
+      font-size: 15.8px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+    .complexity--low    { color: #24a148; }
+    .complexity--medium { color: #f1c21b; }
+    .complexity--high   { color: #da1e28; }
+
+    /* ── Horizontal rule ── */
+    hr { border: none; border-top: 1px solid var(--divider); margin: var(--sp-6) 0; }
+  </style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════════ -->
+<!-- LEFT NAVIGATION -->
+<!-- ════════════════════════════════════════════════ -->
+<nav class="left-nav" id="left-nav">
+
+  <!-- Toggle header -->
+  <div class="left-nav__toggle" id="left-nav-toggle" title="Toggle navigation">
+    <div class="left-nav__logo">
+      <svg viewBox="0 0 58 23" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="IBM">
+        <path d="M0 17.4h6.6v1.8H0v-1.8zm0-4.2h6.6V15H0v-1.8zm1.8-4.2h3v1.8h-3V9zm0-4.2h3v1.8h-3V4.8zm-1.8 0h6.6v1.8H0V4.8zM0 .6h6.6v1.8H0V.6z" fill="#ffffff"/>
+        <path d="M8.4 17.4H21v1.8H8.4v-1.8zm2.4-4.2h7.8V15h-7.8v-1.8zm-2.4-4.2H21V10.8H8.4V9zm2.4-4.2h7.8v1.8h-7.8V4.8zm-2.4-4.2H21v1.8H8.4V.6z" fill="#ffffff"/>
+        <path d="M22.8 17.4h12.6v1.8H22.8v-1.8zm3-4.2h6.6V15h-6.6v-1.8zm-3-4.2h12.6V10.8H22.8V9zm3-4.2h6.6v1.8h-6.6V4.8zm-3-4.2h12.6v1.8H22.8V.6z" fill="#ffffff"/>
+        <path d="M37.2 9h4.2l2.4 4.2-2.4 4.2h-4.2l2.4-4.2-2.4-4.2zm-1.8-4.2H51v1.8H35.4V4.8zm0 12.6H51v1.8H35.4v-1.8zm3-8.4h9.6V10.8h-9.6V9zm0 4.2h9.6V15h-9.6v-1.8zm-3-12.6H51v1.8H35.4V.6z" fill="#ffffff"/>
+      </svg>
+      <div class="left-nav__logo-text">
+        <p class="left-nav__product">INI × NS1 Connect<br>Integration Opportunities</p>
+      </div>
+    </div>
+    <div class="left-nav__toggle-icon">
+      <!-- chevron-left icon -->
+      <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+        <path d="M10 3L5 8l5 5" stroke="#c6c6c6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Scrollable body -->
+  <div class="left-nav__body">
+
+    <p class="left-nav__section-label">Document</p>
+    <a class="left-nav__link active" href="#page-cover">
+      <span class="left-nav__link-num">—</span>Cover
+    </a>
+    <a class="left-nav__link" href="#page-overview">
+      <span class="left-nav__link-num">1</span>Overview
+    </a>
+
+    <hr class="left-nav__divider" />
+
+    <p class="left-nav__section-label">Categories</p>
+    <a class="left-nav__link" href="#page-traffic">
+      <span class="left-nav__link-num">2</span>Traffic Protection
+    </a>
+    <a class="left-nav__link" href="#page-intelligence">
+      <span class="left-nav__link-num">3</span>Intelligence Sharing
+    </a>
+    <a class="left-nav__link" href="#page-agentic">
+      <span class="left-nav__link-num">4</span>Agentic Automation
+    </a>
+    <a class="left-nav__link" href="#page-observability">
+      <span class="left-nav__link-num">5</span>Observability
+    </a>
+
+    <hr class="left-nav__divider" />
+
+    <p class="left-nav__section-label">Use Cases</p>
+    <a class="left-nav__link" href="#uc-01">
+      <span class="left-nav__link-num">01</span>Pre-emptive Failover
+    </a>
+    <a class="left-nav__link" href="#uc-02">
+      <span class="left-nav__link-num">02</span>DDoS Diversion
+    </a>
+    <a class="left-nav__link" href="#uc-03">
+      <span class="left-nav__link-num">03</span>RAN → CDN Re-steering
+    </a>
+    <a class="left-nav__link" href="#uc-04">
+      <span class="left-nav__link-num">04</span>DNS Telemetry into INI
+    </a>
+    <a class="left-nav__link" href="#uc-05">
+      <span class="left-nav__link-num">05</span>Pulsar + INI Latency
+    </a>
+    <a class="left-nav__link" href="#uc-06">
+      <span class="left-nav__link-num">06</span>Topology Context
+    </a>
+    <a class="left-nav__link" href="#uc-07">
+      <span class="left-nav__link-num">07</span>Autonomous NS1 Updates
+    </a>
+    <a class="left-nav__link" href="#uc-08">
+      <span class="left-nav__link-num">08</span>Human-in-the-Loop
+    </a>
+    <a class="left-nav__link" href="#uc-09">
+      <span class="left-nav__link-num">09</span>Predictive Load Balance
+    </a>
+    <a class="left-nav__link" href="#uc-10">
+      <span class="left-nav__link-num">10</span>Unified ITSM Ticket
+    </a>
+    <a class="left-nav__link" href="#uc-11">
+      <span class="left-nav__link-num">11</span>NS1 Change Monitoring
+    </a>
+    <a class="left-nav__link" href="#uc-12">
+      <span class="left-nav__link-num">12</span>NL DNS + Network Query
+    </a>
+
+    <hr class="left-nav__divider" />
+
+    <a class="left-nav__link" href="#page-summary">
+      <span class="left-nav__link-num">6</span>Summary Matrix
+    </a>
+
+    <div class="left-nav__footer">12 use cases · 4 categories</div>
+
+  </div><!-- /.left-nav__body -->
+
+</nav>
+
+<div class="main-content">
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- COVER PAGE -->
+<!-- ═══════════════════════════════════════════════ -->
+<div class="cover" id="page-cover">
+  <div class="cover__content">
+    <p class="cover__label">IBM Network Intelligence × NS1 Connect</p>
+    <h1 class="cover__title">Integration<br>Opportunities</h1>
+    <p class="cover__subtitle">A structured analysis of how IBM Network Intelligence and IBM NS1 Connect can be integrated to create outcomes neither product achieves alone — spanning traffic protection, intelligence sharing, agentic automation, and unified observability.</p>
+  </div>
+  <div class="cover__footer">
+    <span class="cover__footer-label">Integration Use Cases · 12 Scenarios</span>
+    <div class="ibm-logo">
+      <svg viewBox="0 0 58 23" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="IBM">
+        <path d="M0 17.4h6.6v1.8H0v-1.8zm0-4.2h6.6V15H0v-1.8zm1.8-4.2h3v1.8h-3V9zm0-4.2h3v1.8h-3V4.8zm-1.8 0h6.6v1.8H0V4.8zM0 .6h6.6v1.8H0V.6z" fill="#161616"/>
+        <path d="M8.4 17.4H21v1.8H8.4v-1.8zm2.4-4.2h7.8V15h-7.8v-1.8zm-2.4-4.2H21V10.8H8.4V9zm2.4-4.2h7.8v1.8h-7.8V4.8zm-2.4-4.2H21v1.8H8.4V.6z" fill="#161616"/>
+        <path d="M22.8 17.4h12.6v1.8H22.8v-1.8zm3-4.2h6.6V15h-6.6v-1.8zm-3-4.2h12.6V10.8H22.8V9zm3-4.2h6.6v1.8h-6.6V4.8zm-3-4.2h12.6v1.8H22.8V.6z" fill="#161616"/>
+        <path d="M37.2 9h4.2l2.4 4.2-2.4 4.2h-4.2l2.4-4.2-2.4-4.2zm-1.8-4.2H51v1.8H35.4V4.8zm0 12.6H51v1.8H35.4v-1.8zm3-8.4h9.6V10.8h-9.6V9zm0 4.2h9.6V15h-9.6v-1.8zm-3-12.6H51v1.8H35.4V.6z" fill="#161616"/>
+      </svg>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- PAGE 1: OVERVIEW -->
+<!-- ═══════════════════════════════════════════════ -->
+<div class="section-page page-break" id="page-overview">
+  <div class="two-col">
+    <div class="col-left">
+      <p class="col-left__section-label">Overview</p>
+      <h2 class="col-left__title">Two products.<br>One closed loop.</h2>
+      <p class="col-left__body">INI knows what is wrong and why at the network layer. NS1 controls where traffic flows at the DNS layer. The gap between those capabilities — detect a degradation, then act on it via DNS — is what every use case in this document bridges.</p>
+    </div>
+    <div class="col-right">
+      <div class="intro-grid">
+        <div class="intro-cell">
+          <div class="intro-cell__product">IBM Network Intelligence (INI)</div>
+          <div class="intro-cell__body">An AI-native SaaS platform that transforms multi-vendor network telemetry into anomaly detections, root-cause hypotheses, and agentic remediation. Core strength: understanding <em>what is wrong and why</em> — across IP and RAN domains — using time-series foundation models, NOC AI agents, and a RAG knowledge base.</div>
+        </div>
+        <div class="intro-cell">
+          <div class="intro-cell__product">IBM NS1 Connect</div>
+          <div class="intro-cell__body">An authoritative DNS and traffic steering platform that controls <em>where traffic flows</em> — routing users to the fastest, most available, and most cost-effective endpoint at the moment of each DNS query. Core strength: programmable, real-time traffic management via Filter Chains, health monitors, and Pulsar RUM data.</div>
+        </div>
+      </div>
+
+      <h3 style="margin-bottom: 19px; font-weight: 600; font-size: 20.2px;">Four technical integration pathways</h3>
+      <div class="foundations-grid">
+        <div class="foundation-cell">
+          <div class="foundation-cell__number">01</div>
+          <div class="foundation-cell__title">OpenAPI / REST</div>
+          <div class="foundation-cell__body">Both products expose fully documented REST APIs. INI can call NS1's record and monitor APIs; NS1 can receive INI anomaly signals via webhook or polling.</div>
+        </div>
+        <div class="foundation-cell">
+          <div class="foundation-cell__number">02</div>
+          <div class="foundation-cell__title">MCP Server Protocol</div>
+          <div class="foundation-cell__body">INI natively supports MCP server integration. NS1 query telemetry, routing decisions, and anomaly policies can be fed into INI as an MCP-connected data source.</div>
+        </div>
+        <div class="foundation-cell">
+          <div class="foundation-cell__number">03</div>
+          <div class="foundation-cell__title">Agent-to-Agent (A2A)</div>
+          <div class="foundation-cell__body">INI's agentic framework supports A2A protocol. An NS1 automation agent can act as an external agent in INI's multi-agent remediation workflow.</div>
+        </div>
+        <div class="foundation-cell">
+          <div class="foundation-cell__number">04</div>
+          <div class="foundation-cell__title">ITSM Ticket + Skills</div>
+          <div class="foundation-cell__body">INI auto-creates ITSM tickets with remediation plans. NS1 DNS change steps can be embedded as Skills in INI's knowledge base, included in every generated ticket.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="page-footer">
+    <span>INI × NS1 Connect — Integration Opportunities</span>
+    <span>1</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- PAGE 2: CATEGORY 01 — TRAFFIC PROTECTION -->
+<!-- ═══════════════════════════════════════════════ -->
+<div class="section-page page-break" id="page-traffic">
+  <div class="two-col">
+    <div class="col-left">
+      <p class="col-left__section-label">Category 01</p>
+      <h2 class="col-left__title">Traffic<br>Protection</h2>
+      <p class="col-left__body">INI detects degradation patterns early — often before a server fails a health check. These use cases exploit that early-warning capability to steer DNS traffic away from at-risk infrastructure proactively.</p>
+    </div>
+    <div class="col-right">
+
+      <!-- UC 01 -->
+      <div class="uc-entry" id="uc-01">
+        <div class="uc-entry__header">
+          <span class="uc-entry__num">01</span>
+          <span class="uc-entry__category">Predictive Failover</span>
+        </div>
+        <div class="uc-entry__title">AI-Predicted Pre-emptive DNS Failover</div>
+        <div class="uc-entry__scenario">NS1's health monitors detect endpoint failures reactively — after an endpoint stops responding. INI's time-series models identify subtle degradation patterns (rising latency, packet loss trends, CPU saturation gradients) minutes to hours before a service fails its health check. Integrating the two creates a pre-emptive failover loop: INI fires a warning when a server is on a degradation trajectory; NS1 adjusts the Filter Chain before it fails.</div>
+        <div class="contrib-row">
+          <div class="contrib-cell contrib-cell--ini">
+            <div class="contrib-cell__label">INI</div>
+            <div class="contrib-cell__body">Time-series anomaly detection identifies degrading endpoints 15–120 minutes before failure. NOC AI agent generates a root-cause hypothesis and triggers an API call with recommended DNS action.</div>
+          </div>
+          <div class="contrib-cell contrib-cell--ns1">
+            <div class="contrib-cell__label">NS1</div>
+            <div class="contrib-cell__body">Filter Chain updated via API to set the degrading endpoint's weight to zero or assign a lower priority tier. Traffic shifts to healthy alternatives before the endpoint fails its health check.</div>
+          </div>
+        </div>
+        <div class="mechanism-row">
+          <span class="mechanism-label">Mechanism</span>
+          <span class="mech-tag">INI OpenAPI → NS1 REST</span>
+          <span class="mech-tag">INI NOC Agent → A2A → NS1 DNS Agent</span>
+          <span class="mech-tag">INI Skill: adjust-filter-chain-weight</span>
+        </div>
+        <div class="outcome-row">
+          <p class="outcome-row__text"><strong>Outcome:</strong> Customer-impacting failover events are reduced. Traffic exits before the server collapses, eliminating the window where users hit a failing endpoint waiting for DNS TTL to expire.</p>
+        </div>
+      </div>
+
+      <!-- UC 02 -->
+      <div class="uc-entry" id="uc-02">
+        <div class="uc-entry__header">
+          <span class="uc-entry__num">02</span>
+          <span class="uc-entry__category">DDoS Correlation</span>
+        </div>
+        <div class="uc-entry__title">Network-Layer DDoS Signal → DNS Traffic Diversion</div>
+        <div class="uc-entry__scenario">INI monitors the underlying network — detecting volumetric anomalies, sudden traffic spikes, and infrastructure saturation that precede or accompany an attack. By sharing attack signals, INI sees the network being hit while NS1 simultaneously changes DNS answers to divert users to unaffected regions or a scrubbing centre endpoint.</div>
+        <div class="contrib-row">
+          <div class="contrib-cell contrib-cell--ini">
+            <div class="contrib-cell__label">INI</div>
+            <div class="contrib-cell__body">Anomaly detection flags abnormal traffic volume across IP domain routers. Root-cause hypothesis identifies attack type and affected PoP/region. Alert triggers API call to NS1 with affected region identifier.</div>
+          </div>
+          <div class="contrib-cell contrib-cell--ns1">
+            <div class="contrib-cell__label">NS1</div>
+            <div class="contrib-cell__body">Geographic filter in the Filter Chain overrides routing for the affected region — diverting queries to clean-pipe endpoints or scrubbing infrastructure.</div>
+          </div>
+        </div>
+        <div class="mechanism-row">
+          <span class="mechanism-label">Mechanism</span>
+          <span class="mech-tag">INI alert webhook → NS1 API geo-filter update</span>
+          <span class="mech-tag">INI Dashboard + NS1 Insights joint monitoring</span>
+        </div>
+        <div class="outcome-row">
+          <p class="outcome-row__text"><strong>Outcome:</strong> Unified attack response across network and DNS layers. Time from attack detection to traffic diversion compresses from minutes (manual) to seconds (automated).</p>
+        </div>
+      </div>
+
+      <!-- UC 03 -->
+      <div class="uc-entry" id="uc-03">
+        <div class="uc-entry__header">
+          <span class="uc-entry__num">03</span>
+          <span class="uc-entry__category">RAN Degradation</span>
+        </div>
+        <div class="uc-entry__title">RAN Site Degradation Triggering CDN Re-steering</div>
+        <div class="uc-entry__scenario">When INI detects a RAN site degradation — such as a base station with rising packet loss or a backhaul congestion event — NS1 can redirect content delivery for that geographic region to a CDN PoP with better connectivity, improving end-user quality of experience during network degradation events.</div>
+        <div class="contrib-row">
+          <div class="contrib-cell contrib-cell--ini">
+            <div class="contrib-cell__label">INI</div>
+            <div class="contrib-cell__body">RAN domain anomaly detection identifies degraded base station or backhaul segment. Device-level analysis provides geographic identifier (site ID, lat/lon, region code) of the affected area.</div>
+          </div>
+          <div class="contrib-cell contrib-cell--ns1">
+            <div class="contrib-cell__label">NS1</div>
+            <div class="contrib-cell__body">Subnet or geographic Filter Chain rule updated to route mobile subscribers in the affected area to an alternative CDN PoP with better backhaul connectivity.</div>
+          </div>
+        </div>
+        <div class="mechanism-row">
+          <span class="mechanism-label">Mechanism</span>
+          <span class="mech-tag">INI RAN anomaly → region code → NS1 geo-filter API</span>
+          <span class="mech-tag">INI Grounding Doc: RAN-region-to-CDN mapping</span>
+        </div>
+        <div class="outcome-row">
+          <p class="outcome-row__text"><strong>Outcome:</strong> Content delivery QoE preserved during RAN degradation events. Mobile users in an affected cell area are automatically routed to a better-performing CDN without manual intervention.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <div class="page-footer">
+    <span>INI × NS1 Connect — Integration Opportunities</span>
+    <span>2</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- PAGE 3: CATEGORY 02 — INTELLIGENCE SHARING -->
+<!-- ═══════════════════════════════════════════════ -->
+<div class="section-page page-break" id="page-intelligence">
+  <div class="two-col">
+    <div class="col-left">
+      <p class="col-left__section-label">Category 02</p>
+      <h2 class="col-left__title">Intelligence<br>Sharing</h2>
+      <p class="col-left__body">INI and NS1 each collect a distinct signal stream. These use cases connect those streams — giving INI richer context for root-cause analysis and giving NS1 deeper network telemetry to drive better routing decisions.</p>
+    </div>
+    <div class="col-right">
+
+      <!-- UC 04 -->
+      <div class="uc-entry" id="uc-04">
+        <div class="uc-entry__header">
+          <span class="uc-entry__num">04</span>
+          <span class="uc-entry__category">DNS Telemetry into INI</span>
+        </div>
+        <div class="uc-entry__title">NS1 DNS Query Telemetry as an INI Data Source</div>
+        <div class="uc-entry__scenario">NS1 Insights produces detailed DNS query analytics — query volumes by region, resolution latencies, routing decisions, and anomaly flags. Feeding NS1 telemetry into INI as an MCP-connected data source gives INI's AI models a complete picture: both the network-side anomaly and the application-side DNS impact, enabling richer root-cause correlations and faster MTTR.</div>
+        <div class="contrib-row">
+          <div class="contrib-cell contrib-cell--ini">
+            <div class="contrib-cell__label">INI</div>
+            <div class="contrib-cell__body">Ingests NS1 DNS telemetry as a new data stream via MCP Server integration. Correlates DNS resolution anomalies with network-layer events (e.g., CNAME resolution failures align with router interface drops on the same AS path).</div>
+          </div>
+          <div class="contrib-cell contrib-cell--ns1">
+            <div class="contrib-cell__label">NS1</div>
+            <div class="contrib-cell__body">Streams DNS Insights analytics — query volume changes, routing decision logs, health monitor state changes — as time-series metrics to INI's data pipeline via MCP or REST API.</div>
+          </div>
+        </div>
+        <div class="mechanism-row">
+          <span class="mechanism-label">Mechanism</span>
+          <span class="mech-tag">NS1 Insights API → INI MCP Server</span>
+          <span class="mech-tag">INI device triplet: NS1-zone / record / query-volume</span>
+        </div>
+        <div class="outcome-row">
+          <p class="outcome-row__text"><strong>Outcome:</strong> INI root-cause hypotheses include DNS-layer evidence. Engineers receive tickets with complete end-to-end causality: network fault → DNS consequence → user impact — in a single ticket.</p>
+        </div>
+      </div>
+
+      <!-- UC 05 -->
+      <div class="uc-entry" id="uc-05">
+        <div class="uc-entry__header">
+          <span class="uc-entry__num">05</span>
+          <span class="uc-entry__category">Pulsar + INI Latency Fusion</span>
+        </div>
+        <div class="uc-entry__title">Fusing Pulsar RUM Data with INI Network Latency Models</div>
+        <div class="uc-entry__scenario">NS1 Pulsar collects real-user latency measurements from browsers — the actual application-layer experience. INI monitors network-layer latency across routers and links. Correlating both datasets makes it possible to distinguish between "network is slow" and "CDN is slow" — a distinction that determines whether the right remediation is a network change (INI) or a DNS re-steer (NS1).</div>
+        <div class="contrib-row">
+          <div class="contrib-cell contrib-cell--ini">
+            <div class="contrib-cell__label">INI</div>
+            <div class="contrib-cell__body">Provides network-layer latency telemetry from routers, switches, and WAN links. INI's AI determines whether observed application latency is attributable to network infrastructure or to the CDN/application tier.</div>
+          </div>
+          <div class="contrib-cell contrib-cell--ns1">
+            <div class="contrib-cell__label">NS1</div>
+            <div class="contrib-cell__body">Pulsar RUM data provides real-user CDN/endpoint latency per region. When the CDN is the driver, NS1's Filter Chain is updated. When the network is the driver, NS1 defers to INI remediation.</div>
+          </div>
+        </div>
+        <div class="mechanism-row">
+          <span class="mechanism-label">Mechanism</span>
+          <span class="mech-tag">Pulsar latency API → INI data pipeline</span>
+          <span class="mech-tag">INI reasoning agent: CDN vs. network attribution</span>
+          <span class="mech-tag">Conditional NS1 Filter Chain update via A2A</span>
+        </div>
+        <div class="outcome-row">
+          <p class="outcome-row__text"><strong>Outcome:</strong> Smarter remediation routing. The AI correctly decides whether to fix the DNS (NS1) or fix the network (INI) — eliminating false remediations where DNS is re-steered when the root cause is actually a router in the path.</p>
+        </div>
+      </div>
+
+      <!-- UC 06 -->
+      <div class="uc-entry" id="uc-06">
+        <div class="uc-entry__header">
+          <span class="uc-entry__num">06</span>
+          <span class="uc-entry__category">Topology Context</span>
+        </div>
+        <div class="uc-entry__title">Network Topology Context Enriching NS1 Routing Decisions</div>
+        <div class="uc-entry__scenario">NS1's routing decisions are based on DNS-layer signals — health checks, latency probes, RUM data. They lack awareness of the underlying network topology: BGP AS paths, router utilisation, link capacity, and physical site interconnections. Exposing INI's semantic network context to NS1's Filter Chain engine means DNS routing can factor in network-layer capacity and congestion — not just endpoint availability.</div>
+        <div class="contrib-row">
+          <div class="contrib-cell contrib-cell--ini">
+            <div class="contrib-cell__label">INI</div>
+            <div class="contrib-cell__body">Semantic network context provides real-time topology data: which links are congested, which routers are approaching capacity, which AS paths have higher-than-normal latency. Exported via API as structured metadata tags per endpoint or region.</div>
+          </div>
+          <div class="contrib-cell contrib-cell--ns1">
+            <div class="contrib-cell__label">NS1</div>
+            <div class="contrib-cell__body">Record metadata fields and custom Filter Chain logic consume INI-provided network health tags — steering traffic away from endpoints that are "up" but reachable via a congested network path.</div>
+          </div>
+        </div>
+        <div class="mechanism-row">
+          <span class="mechanism-label">Mechanism</span>
+          <span class="mech-tag">INI topology API → NS1 record metadata update</span>
+          <span class="mech-tag">NS1 custom filter: network-congestion-score tag</span>
+        </div>
+        <div class="outcome-row">
+          <p class="outcome-row__text"><strong>Outcome:</strong> DNS routing that reflects the actual network, not just surface-level endpoint health. Users are steered to endpoints with genuinely clean network paths — combining the best of application-layer and network-layer observability.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <div class="page-footer">
+    <span>INI × NS1 Connect — Integration Opportunities</span>
+    <span>3</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- PAGE 4: CATEGORY 03 — AGENTIC AUTOMATION -->
+<!-- ═══════════════════════════════════════════════ -->
+<div class="section-page page-break" id="page-agentic">
+  <div class="two-col">
+    <div class="col-left">
+      <p class="col-left__section-label">Category 03</p>
+      <h2 class="col-left__title">Agentic<br>Automation</h2>
+      <p class="col-left__body">INI's NOC AI agents can detect, investigate, and execute remediation. NS1's API enables programmatic DNS change. These use cases describe fully automated closed-loop scenarios — with or without human approval.</p>
+    </div>
+    <div class="col-right">
+
+      <!-- UC 07 -->
+      <div class="uc-entry" id="uc-07">
+        <div class="uc-entry__header">
+          <span class="uc-entry__num">07</span>
+          <span class="uc-entry__category">Autonomous Mode</span>
+        </div>
+        <div class="uc-entry__title">INI NOC Agent Autonomously Updates NS1 Filter Chains</div>
+        <div class="uc-entry__scenario">For well-understood, repetitive network incidents with pre-validated remediation plans, INI operates in Autonomous mode — detecting the anomaly, identifying the root cause, and executing the NS1 DNS change without human intervention. An INI Skill encodes the NS1 API call sequence as a reusable workflow step invoked automatically by the NOC AI agent.</div>
+        <div class="contrib-row">
+          <div class="contrib-cell contrib-cell--ini">
+            <div class="contrib-cell__label">INI</div>
+            <div class="contrib-cell__body">Autonomous mode NOC agent detects anomaly, generates hypothesis, selects the "DNS-failover" Skill, and executes it — calling the NS1 API to update the record and logging the action to the ITSM ticket. No human in the loop.</div>
+          </div>
+          <div class="contrib-cell contrib-cell--ns1">
+            <div class="contrib-cell__label">NS1</div>
+            <div class="contrib-cell__body">REST API accepts programmatic record and Filter Chain updates from the INI agent. The change propagates globally in under 20 seconds. NS1 Insights confirms traffic re-routing success and feeds confirmation back to INI.</div>
+          </div>
+        </div>
+        <div class="mechanism-row">
+          <span class="mechanism-label">Mechanism</span>
+          <span class="mech-tag">INI Skill: ns1-update-filter-chain</span>
+          <span class="mech-tag">INI Autonomous mode → NS1 REST API</span>
+          <span class="mech-tag">NS1 confirmation → INI ITSM ticket close</span>
+        </div>
+        <div class="outcome-row">
+          <p class="outcome-row__text"><strong>Outcome:</strong> Zero-touch DNS failover for pre-approved incident types. The NOC team wakes up to a ticket showing: anomaly detected → DNS updated → traffic rerouted → incident auto-resolved.</p>
+        </div>
+      </div>
+
+      <!-- UC 08 -->
+      <div class="uc-entry" id="uc-08">
+        <div class="uc-entry__header">
+          <span class="uc-entry__num">08</span>
+          <span class="uc-entry__category">Assistant Mode</span>
+        </div>
+        <div class="uc-entry__title">Human-in-the-Loop DNS Change Approval Workflow</div>
+        <div class="uc-entry__scenario">For complex, high-risk, or novel incidents, INI's Assistant mode surfaces the full remediation plan — including the proposed NS1 DNS changes — for human review before execution. The NOC operator reviews the AI's root-cause analysis and the specific NS1 API calls it intends to make, approves with a single click in the ITSM ticket, and the INI agent executes the DNS change.</div>
+        <div class="contrib-row">
+          <div class="contrib-cell contrib-cell--ini">
+            <div class="contrib-cell__label">INI</div>
+            <div class="contrib-cell__body">Assistant mode generates an ITSM ticket with root-cause hypothesis, reasoning chain, and a pre-flight validated NS1 API payload. Human approves or edits. On approval, INI agent executes the NS1 call and logs the outcome.</div>
+          </div>
+          <div class="contrib-cell contrib-cell--ns1">
+            <div class="contrib-cell__label">NS1</div>
+            <div class="contrib-cell__body">Receives the validated API call from INI upon human approval. Because the payload was pre-validated, the change applies immediately with zero DNS configuration errors — no typos, no missing fields.</div>
+          </div>
+        </div>
+        <div class="mechanism-row">
+          <span class="mechanism-label">Mechanism</span>
+          <span class="mech-tag">INI ITSM ticket + NS1 payload preview</span>
+          <span class="mech-tag">Human approval → INI agent → NS1 REST API</span>
+          <span class="mech-tag">INI "View reasoning" for audit trail</span>
+        </div>
+        <div class="outcome-row">
+          <p class="outcome-row__text"><strong>Outcome:</strong> DNS changes for complex incidents happen 5–10× faster than fully manual workflows — with the same human accountability. Operators approve a pre-validated, AI-authored change rather than authoring it from scratch under pressure.</p>
+        </div>
+      </div>
+
+      <!-- UC 09 -->
+      <div class="uc-entry" id="uc-09">
+        <div class="uc-entry__header">
+          <span class="uc-entry__num">09</span>
+          <span class="uc-entry__category">Capacity Management</span>
+        </div>
+        <div class="uc-entry__title">Predictive DNS Load Balancing Based on INI Capacity Forecasts</div>
+        <div class="uc-entry__scenario">INI's time-series models detect capacity trends — gradual saturation of routers, rising utilisation on key infrastructure links, or seasonal traffic patterns predicting demand spikes. These forecasts can proactively adjust NS1's weighted load balancing before saturation occurs, redistributing DNS traffic away from infrastructure trending toward its capacity limit.</div>
+        <div class="contrib-row">
+          <div class="contrib-cell contrib-cell--ini">
+            <div class="contrib-cell__label">INI</div>
+            <div class="contrib-cell__body">Long-term time-series analysis forecasts which data centre or network region is trending toward saturation over the next 1–12 hours. Publishes a capacity score per region via API — refreshed every N minutes.</div>
+          </div>
+          <div class="contrib-cell contrib-cell--ns1">
+            <div class="contrib-cell__label">NS1</div>
+            <div class="contrib-cell__body">Weighted Shuffle filter in the Filter Chain consumes INI's capacity scores as weights — dynamically shifting traffic proportions across regions in real time as the forecast changes. No manual weight tuning required.</div>
+          </div>
+        </div>
+        <div class="mechanism-row">
+          <span class="mechanism-label">Mechanism</span>
+          <span class="mech-tag">INI capacity forecast API → NS1 weighted filter update</span>
+          <span class="mech-tag">Scheduled INI agent: capacity-to-weight translation</span>
+        </div>
+        <div class="outcome-row">
+          <p class="outcome-row__text"><strong>Outcome:</strong> Proactive load balancing that prevents network saturation events before they become outages. Traffic is redistributed gradually and automatically — not in a sudden failover spike when a threshold is breached.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <div class="page-footer">
+    <span>INI × NS1 Connect — Integration Opportunities</span>
+    <span>4</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- PAGE 5: CATEGORY 04 — OBSERVABILITY -->
+<!-- ═══════════════════════════════════════════════ -->
+<div class="section-page page-break" id="page-observability">
+  <div class="two-col">
+    <div class="col-left">
+      <p class="col-left__section-label">Category 04</p>
+      <h2 class="col-left__title">Observability &amp; Operational Efficiency</h2>
+      <p class="col-left__body">These use cases improve operational visibility and reduce toil — combining INI's deep network telemetry with NS1's DNS-layer observability for unified incident context and more efficient team workflows.</p>
+    </div>
+    <div class="col-right">
+
+      <!-- UC 10 -->
+      <div class="uc-entry" id="uc-10">
+        <div class="uc-entry__header">
+          <span class="uc-entry__num">10</span>
+          <span class="uc-entry__category">Unified Incident Context</span>
+        </div>
+        <div class="uc-entry__title">Single ITSM Ticket with Network + DNS Evidence</div>
+        <div class="uc-entry__scenario">Today, a production incident typically generates separate tickets or alerts in network monitoring tools and DNS management tools — engineers must manually correlate them. By integrating INI's ITSM ticket generation with NS1's Insights data, a single auto-generated ticket contains both the network-layer root cause and the DNS-layer impact: which endpoints were removed, how traffic shifted, and the user-facing consequence.</div>
+        <div class="contrib-row">
+          <div class="contrib-cell contrib-cell--ini">
+            <div class="contrib-cell__label">INI</div>
+            <div class="contrib-cell__body">Generates ITSM ticket with network root-cause hypothesis, affected devices, and anomaly timeline. NOC agent queries NS1 Insights API to append DNS impact data to the same ticket before filing it.</div>
+          </div>
+          <div class="contrib-cell contrib-cell--ns1">
+            <div class="contrib-cell__label">NS1</div>
+            <div class="contrib-cell__body">NS1 Insights API provides: which endpoints failed health checks, how Filter Chain routing changed, query volume impact by region, and whether failover was triggered.</div>
+          </div>
+        </div>
+        <div class="mechanism-row">
+          <span class="mechanism-label">Mechanism</span>
+          <span class="mech-tag">INI RAG: NS1 Insights API as grounding context</span>
+          <span class="mech-tag">INI ITSM enrichment: DNS impact section in ticket body</span>
+        </div>
+        <div class="outcome-row">
+          <p class="outcome-row__text"><strong>Outcome:</strong> Incident tickets are complete on arrival. On-call engineers see the full story — network fault, DNS consequence, traffic impact — in one place. Post-incident reviews are faster and more accurate.</p>
+        </div>
+      </div>
+
+      <!-- UC 11 -->
+      <div class="uc-entry" id="uc-11">
+        <div class="uc-entry__header">
+          <span class="uc-entry__num">11</span>
+          <span class="uc-entry__category">Change Risk Detection</span>
+        </div>
+        <div class="uc-entry__title">INI Monitors Network Impact of NS1 DNS Changes</div>
+        <div class="uc-entry__scenario">NS1 DNS changes — especially large-scale GSLB weight updates, geo-routing policy changes, or major failover events — can cause significant traffic shifts that affect downstream network infrastructure. By tagging planned NS1 DNS changes as events in INI's timeline, INI's anomaly detection can distinguish between anomalies caused by the DNS change and independent network faults, reducing false-positive alerts during change windows.</div>
+        <div class="contrib-row">
+          <div class="contrib-cell contrib-cell--ini">
+            <div class="contrib-cell__label">INI</div>
+            <div class="contrib-cell__body">Ingests NS1 change events as markers in the INI observation timeline. During and after a DNS change window, anomaly detection is calibrated to suppress expected traffic shifts while still alerting on genuine faults unrelated to the change.</div>
+          </div>
+          <div class="contrib-cell contrib-cell--ns1">
+            <div class="contrib-cell__label">NS1</div>
+            <div class="contrib-cell__body">Publishes DNS change events (record updates, Filter Chain modifications, health monitor state changes) via webhook or API — providing INI with the timing and scope of each change for contextual anomaly suppression.</div>
+          </div>
+        </div>
+        <div class="mechanism-row">
+          <span class="mechanism-label">Mechanism</span>
+          <span class="mech-tag">NS1 change webhook → INI event timeline</span>
+          <span class="mech-tag">INI contextual anomaly suppression during change windows</span>
+        </div>
+        <div class="outcome-row">
+          <p class="outcome-row__text"><strong>Outcome:</strong> Fewer false-positive alerts during DNS changes. NOC operators are not flooded with traffic-shift alerts every time a planned DNS change redistributes load — only genuine faults surface during and after change windows.</p>
+        </div>
+      </div>
+
+      <!-- UC 12 -->
+      <div class="uc-entry" id="uc-12">
+        <div class="uc-entry__header">
+          <span class="uc-entry__num">12</span>
+          <span class="uc-entry__category">NOC Chat Assistant</span>
+        </div>
+        <div class="uc-entry__title">Natural Language DNS + Network Queries via INI Chat</div>
+        <div class="uc-entry__scenario">By connecting NS1's data as a grounding source and tool in the INI chat, operators can ask cross-domain questions like "Why are users in Europe experiencing high latency?" and receive a synthesised answer spanning both the network layer (INI: router interface congestion on EU peering links) and the DNS layer (NS1: Pulsar data shows UK users being routed to US CDN endpoints due to a stale geo-filter).</div>
+        <div class="contrib-row">
+          <div class="contrib-cell contrib-cell--ini">
+            <div class="contrib-cell__label">INI</div>
+            <div class="contrib-cell__body">Chat assistant with chain-of-thought reasoning queries both INI's own anomaly data and NS1's Insights API as a registered tool. Synthesises a unified answer covering network and DNS layers. "View reasoning" shows which data sources were consulted.</div>
+          </div>
+          <div class="contrib-cell contrib-cell--ns1">
+            <div class="contrib-cell__label">NS1</div>
+            <div class="contrib-cell__body">NS1 REST API and Insights data are registered as Tools in INI's function-calling agent. INI chat can call NS1 in real time — retrieving current routing decisions, health monitor states, and query analytics on demand.</div>
+          </div>
+        </div>
+        <div class="mechanism-row">
+          <span class="mechanism-label">Mechanism</span>
+          <span class="mech-tag">NS1 API registered as INI Tool Management integration</span>
+          <span class="mech-tag">INI RAG: NS1 docs as grounding document</span>
+          <span class="mech-tag">INI Chat: cross-domain natural language queries</span>
+        </div>
+        <div class="outcome-row">
+          <p class="outcome-row__text"><strong>Outcome:</strong> A single pane of glass for network + DNS questions. NOC operators no longer need to context-switch between INI's dashboard and NS1's portal — the AI assembles the answer from both systems on demand.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <div class="page-footer">
+    <span>INI × NS1 Connect — Integration Opportunities</span>
+    <span>5</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- PAGE 6: SUMMARY MATRIX -->
+<!-- ═══════════════════════════════════════════════ -->
+<div class="full-page page-break" id="page-summary">
+  <div class="full-page__header">
+    <p class="eyebrow">Summary</p>
+    <h2 class="page-title">Use case reference matrix</h2>
+    <p class="body-text">All 12 use cases with their category, primary integration mechanism, key persona, and implementation complexity.</p>
+  </div>
+
+  <table class="summary-table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Use Case</th>
+        <th>Category</th>
+        <th>Primary Mechanism</th>
+        <th>Key Persona</th>
+        <th>Complexity</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>01</td><td>AI-Predicted Pre-emptive DNS Failover</td><td>Traffic Protection</td><td>INI API → NS1 Filter Chain</td><td>SRE</td><td><span class="complexity complexity--medium">Medium</span></td></tr>
+      <tr><td>02</td><td>Network DDoS Signal → DNS Diversion</td><td>Traffic Protection</td><td>INI alert webhook → NS1 geo-filter</td><td>NOC Operator</td><td><span class="complexity complexity--medium">Medium</span></td></tr>
+      <tr><td>03</td><td>RAN Degradation → CDN Re-steering</td><td>Traffic Protection</td><td>INI RAN anomaly → NS1 subnet filter</td><td>Telecom Ops</td><td><span class="complexity complexity--high">High</span></td></tr>
+      <tr><td>04</td><td>NS1 DNS Telemetry as INI Data Source</td><td>Intelligence Sharing</td><td>NS1 Insights API → INI MCP</td><td>Network Engineer</td><td><span class="complexity complexity--low">Low</span></td></tr>
+      <tr><td>05</td><td>Pulsar RUM + INI Latency Fusion</td><td>Intelligence Sharing</td><td>Pulsar API → INI pipeline + conditional NS1 update</td><td>SRE / Perf Engineer</td><td><span class="complexity complexity--high">High</span></td></tr>
+      <tr><td>06</td><td>Network Topology Context → NS1 Routing</td><td>Intelligence Sharing</td><td>INI topology API → NS1 record metadata</td><td>Network Architect</td><td><span class="complexity complexity--high">High</span></td></tr>
+      <tr><td>07</td><td>INI Agent Autonomously Updates NS1</td><td>Agentic Automation</td><td>INI Skill → NS1 REST API (autonomous)</td><td>SRE</td><td><span class="complexity complexity--medium">Medium</span></td></tr>
+      <tr><td>08</td><td>Human-in-the-Loop DNS Change Approval</td><td>Agentic Automation</td><td>INI ITSM ticket + human approval → NS1 API</td><td>NOC Operator</td><td><span class="complexity complexity--low">Low</span></td></tr>
+      <tr><td>09</td><td>Predictive DNS Load Balancing</td><td>Agentic Automation</td><td>INI forecast API → NS1 weighted filter</td><td>Network Engineer</td><td><span class="complexity complexity--high">High</span></td></tr>
+      <tr><td>10</td><td>Unified ITSM Ticket (Network + DNS)</td><td>Observability</td><td>INI ticket enrichment via NS1 Insights API</td><td>NOC Operator</td><td><span class="complexity complexity--low">Low</span></td></tr>
+      <tr><td>11</td><td>INI Monitors Impact of NS1 Changes</td><td>Observability</td><td>NS1 webhook → INI event timeline</td><td>Network Engineer</td><td><span class="complexity complexity--low">Low</span></td></tr>
+      <tr><td>12</td><td>Natural Language DNS + Network Queries</td><td>Observability</td><td>NS1 API as INI Tool Management integration</td><td>NOC Operator</td><td><span class="complexity complexity--medium">Medium</span></td></tr>
+    </tbody>
+  </table>
+
+  <div style="margin-top: auto;">
+    <div class="page-footer" style="margin: 0 calc(-1 * var(--sp-8)); padding-left: var(--sp-8); padding-right: var(--sp-8);">
+      <span>INI × NS1 Connect — Integration Opportunities</span>
+      <div class="ibm-logo">
+        <svg viewBox="0 0 58 23" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="IBM">
+          <path d="M0 17.4h6.6v1.8H0v-1.8zm0-4.2h6.6V15H0v-1.8zm1.8-4.2h3v1.8h-3V9zm0-4.2h3v1.8h-3V4.8zm-1.8 0h6.6v1.8H0V4.8zM0 .6h6.6v1.8H0V.6z" fill="#161616"/>
+          <path d="M8.4 17.4H21v1.8H8.4v-1.8zm2.4-4.2h7.8V15h-7.8v-1.8zm-2.4-4.2H21V10.8H8.4V9zm2.4-4.2h7.8v1.8h-7.8V4.8zm-2.4-4.2H21v1.8H8.4V.6z" fill="#161616"/>
+          <path d="M22.8 17.4h12.6v1.8H22.8v-1.8zm3-4.2h6.6V15h-6.6v-1.8zm-3-4.2h12.6V10.8H22.8V9zm3-4.2h6.6v1.8h-6.6V4.8zm-3-4.2h12.6v1.8H22.8V.6z" fill="#161616"/>
+          <path d="M37.2 9h4.2l2.4 4.2-2.4 4.2h-4.2l2.4-4.2-2.4-4.2zm-1.8-4.2H51v1.8H35.4V4.8zm0 12.6H51v1.8H35.4v-1.8zm3-8.4h9.6V10.8h-9.6V9zm0 4.2h9.6V15h-9.6v-1.8zm-3-12.6H51v1.8H35.4V.6z" fill="#161616"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /.main-content -->
+
+<script>
+  (function() {
+    // ── Collapse / expand toggle ──
+    var nav    = document.getElementById('left-nav');
+    var toggle = document.getElementById('left-nav-toggle');
+    toggle.addEventListener('click', function() {
+      nav.classList.toggle('collapsed');
+    });
+
+    // ── Scroll spy ──
+    var links = document.querySelectorAll('.left-nav__link');
+    var sections = [];
+    links.forEach(function(link) {
+      var id = link.getAttribute('href').replace('#', '');
+      var el = document.getElementById(id);
+      if (el) sections.push({ id: id, el: el, link: link });
+    });
+
+    function onScroll() {
+      var scrollY = window.scrollY || window.pageYOffset;
+      var active = sections[0];
+      for (var i = 0; i < sections.length; i++) {
+        if (sections[i].el.offsetTop <= scrollY + 80) {
+          active = sections[i];
+        }
+      }
+      links.forEach(function(l) { l.classList.remove('active'); });
+      if (active) active.link.classList.add('active');
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  })();
+</script>
+
+</body>
+</html>
