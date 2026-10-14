@@ -204,7 +204,7 @@
       padding: var(--sp-8) var(--sp-8) var(--sp-5);
       position: relative;
     }
-    .cover__content { max-width: 560px; }
+    .cover__content { max-width: 920px; }
     .cover__label {
       font-size: 18.7px;
       font-weight: 400;
@@ -225,7 +225,7 @@
       font-size: 27.6px;
       font-weight: 400;
       color: var(--text-muted);
-      max-width: 480px;
+      max-width: 860px;
       line-height: 1.6;
     }
     .cover__footer {
@@ -258,16 +258,18 @@
     /* ── Two-column layout (left label + right content) ── */
     .two-col {
       display: grid;
-      grid-template-columns: 280px 1fr;
+      grid-template-columns: 320px 1fr;
       flex: 1;
     }
-    @media (max-width: 768px) {
+    @media (max-width: 860px) {
       .two-col { grid-template-columns: 1fr; }
     }
     .col-left {
       background: var(--off-white);
-      padding: var(--sp-8) var(--sp-6) var(--sp-7);
+      padding: var(--sp-8) var(--sp-5) var(--sp-7);
       border-right: 1px solid var(--divider);
+      overflow-wrap: break-word;
+      word-break: break-word;
     }
     .col-left__section-label {
       font-size: 17.3px;
@@ -278,11 +280,14 @@
       margin-bottom: var(--sp-3);
     }
     .col-left__title {
-      font-size: clamp(40.3px, 3vw, 57.6px);
+      font-size: clamp(28px, 2.2vw, 36px);
       font-weight: 300;
-      line-height: 1.1;
+      line-height: 1.15;
       color: var(--text);
       margin-bottom: var(--sp-5);
+      overflow-wrap: break-word;
+      word-break: break-word;
+      hyphens: auto;
     }
     .col-left__body {
       font-size: 20.2px;
@@ -1395,7 +1400,7 @@
   <div class="two-col">
     <div class="col-left">
       <p class="col-left__section-label">Category 04</p>
-      <h2 class="col-left__title">Observability &amp; Operational Efficiency</h2>
+      <h2 class="col-left__title">Observability &amp;<br>Operational<br>Efficiency</h2>
       <p class="col-left__body">These use cases improve operational visibility and reduce toil — combining INI's deep network telemetry with NS1's DNS-layer observability for unified incident context and more efficient team workflows.</p>
     </div>
     <div class="col-right">
