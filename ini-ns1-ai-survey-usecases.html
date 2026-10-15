@@ -1,0 +1,1376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NS1 Connect AI Survey Capabilities — IBM Network Intelligence Integration Analysis</title>
+  <meta name="description" content="Strategic analysis and integration architecture mapping the 6 MaxDiff survey AI capabilities for DNS to IBM Network Intelligence foundation models, agentic workflows, and telemetry pipelines." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;600&family=IBM+Plex+Mono:wght@400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --white:        #ffffff;
+      --off-white:    #f5f4f0;
+      --light-grey:   #e8e8e8;
+      --mid-grey:     #c1c7cd;
+      --text:         #21272a;
+      --text-muted:   #4d5358;
+      --text-light:   #697077;
+      --ibm-blue:     #0f62fe;
+      --ibm-blue-dk:  #0043ce;
+      --divider:      #dde1e6;
+      --page-max:     1056px;
+
+      /* spacing tokens */
+      --sp-1:  5px;
+      --sp-2:  10px;
+      --sp-3:  14px;
+      --sp-4:  19px;
+      --sp-5:  29px;
+      --sp-6:  38px;
+      --sp-7:  58px;
+      --sp-8:  77px;
+      --sp-9:  96px;
+      --sp-10: 115px;
+    }
+
+    html { scroll-behavior: smooth; font-size: 144%; }
+
+    body {
+      font-family: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
+      font-size: 23px;
+      line-height: 1.75;
+      color: var(--text);
+      background: var(--white);
+      display: flex;
+    }
+
+    /* ── Left navigation rail ── */
+    .left-nav {
+      width: 286px;
+      min-width: 286px;
+      background: #161616;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      padding: var(--sp-6) 0 var(--sp-5);
+      z-index: 200;
+      overflow-y: auto;
+      overflow-x: hidden;
+      transition: width 0.22s ease, min-width 0.22s ease;
+    }
+    .left-nav.collapsed {
+      width: 48px;
+      min-width: 48px;
+    }
+    .left-nav.collapsed .left-nav__body { display: none; }
+    .left-nav.collapsed .left-nav__logo { display: none; }
+    .left-nav.collapsed .left-nav__logo-text { display: none; }
+    .left-nav.collapsed .left-nav__toggle-label { display: none; }
+    .left-nav.collapsed .left-nav__footer { display: none; }
+
+    /* Toggle button */
+    .left-nav__toggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 var(--sp-5) var(--sp-5);
+      border-bottom: 1px solid #393939;
+      margin-bottom: var(--sp-5);
+      cursor: pointer;
+      user-select: none;
+    }
+    .left-nav.collapsed .left-nav__toggle {
+      justify-content: center;
+      padding: 0 0 var(--sp-5);
+      border-bottom: 1px solid #393939;
+    }
+    .left-nav__toggle-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      border-radius: 2px;
+      background: #262626;
+      flex-shrink: 0;
+      transition: background 0.12s;
+    }
+    .left-nav__toggle-icon:hover { background: #393939; }
+    .left-nav__toggle-icon svg {
+      width: 16px;
+      height: 16px;
+      fill: #c6c6c6;
+      transition: transform 0.22s ease;
+    }
+    .left-nav.collapsed .left-nav__toggle-icon svg {
+      transform: rotate(180deg);
+    }
+    .left-nav__toggle-label {
+      font-size: 13.2px;
+      color: #6f7880;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+    }
+
+    .left-nav__logo {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--sp-3);
+      flex: 1;
+      min-width: 0;
+    }
+    .left-nav__logo img,
+    .left-nav__logo svg { width: 52px; height: auto; flex-shrink: 0; }
+    .left-nav__logo-text { min-width: 0; }
+    .left-nav__product {
+      font-size: 15.6px;
+      color: #a8b2bd;
+      letter-spacing: 0.16px;
+      margin-top: 2px;
+      line-height: 1.4;
+    }
+    .left-nav__section-label {
+      font-size: 13.2px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: #6f7880;
+      padding: 0 var(--sp-5);
+      margin-bottom: var(--sp-2);
+      margin-top: var(--sp-4);
+    }
+    .left-nav__section-label:first-of-type { margin-top: 0; }
+    .left-nav__link {
+      display: flex;
+      align-items: baseline;
+      gap: var(--sp-3);
+      padding: 11px var(--sp-5);
+      font-size: 18px;
+      color: #c6c6c6;
+      text-decoration: none;
+      line-height: 1.4;
+      transition: background 0.12s, color 0.12s;
+      border-left: 2px solid transparent;
+    }
+    .left-nav__link:hover {
+      background: #262626;
+      color: #ffffff;
+    }
+    .left-nav__link.active {
+      background: #262626;
+      color: #ffffff;
+      border-left-color: #78a9ff;
+    }
+    .left-nav__link-num {
+      font-size: 13.2px;
+      color: #6f7880;
+      min-width: 22px;
+      font-weight: 600;
+    }
+    .left-nav__divider {
+      border: none;
+      border-top: 1px solid #393939;
+      margin: var(--sp-4) 0;
+    }
+    .left-nav__footer {
+      margin-top: auto;
+      padding: var(--sp-4) var(--sp-5) 0;
+      border-top: 1px solid #393939;
+      font-size: 14.4px;
+      color: #6f7880;
+      line-height: 1.5;
+    }
+
+    /* ── Main content wrapper ── */
+    .main-content {
+      flex: 1;
+      min-width: 0;
+    }
+
+    @media (max-width: 900px) {
+      body { display: block; }
+      .left-nav { display: none; }
+    }
+
+    /* ── Cover page ── */
+    .cover {
+      min-height: 100vh;
+      background: var(--white);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: var(--sp-8) var(--sp-8) var(--sp-5);
+      position: relative;
+    }
+    .cover__content { max-width: 920px; }
+    .cover__label {
+      font-size: 18.7px;
+      font-weight: 400;
+      color: var(--text-muted);
+      letter-spacing: 0.16px;
+      margin-bottom: var(--sp-4);
+      text-transform: uppercase;
+    }
+    .cover__title {
+      font-size: clamp(52px, 4.5vw, 92px);
+      font-weight: 300;
+      line-height: 1.08;
+      color: var(--text);
+      margin-bottom: var(--sp-5);
+      letter-spacing: -0.5px;
+    }
+    .cover__subtitle {
+      font-size: 26px;
+      font-weight: 400;
+      color: var(--text-muted);
+      max-width: 860px;
+      line-height: 1.6;
+    }
+    .cover__footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      border-top: 1px solid var(--divider);
+      padding-top: var(--sp-4);
+    }
+    .cover__footer-label {
+      font-size: 17.3px;
+      color: var(--text-light);
+      letter-spacing: 0.32px;
+    }
+    .ibm-logo img,
+    .ibm-logo svg {
+      width: 58px;
+      height: auto;
+      display: block;
+      filter: brightness(0);
+    }
+
+    /* ── Page breaks ── */
+    .page-break { page-break-before: always; }
+
+    /* ── Section pages ── */
+    .section-page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: var(--white);
+      border-top: 1px solid var(--divider);
+      position: relative;
+    }
+
+    /* ── Two-column layout ── */
+    .two-col {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      flex: 1;
+    }
+    @media (max-width: 860px) {
+      .two-col { grid-template-columns: 1fr; }
+    }
+    .col-left {
+      background: var(--off-white);
+      padding: var(--sp-8) var(--sp-5) var(--sp-7);
+      border-right: 1px solid var(--divider);
+      overflow-wrap: break-word;
+      word-break: break-word;
+    }
+    .col-left__section-label {
+      font-size: 17.3px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--text-light);
+      margin-bottom: var(--sp-3);
+    }
+    .col-left__title {
+      font-size: clamp(28px, 2.2vw, 36px);
+      font-weight: 300;
+      line-height: 1.15;
+      color: var(--text);
+      margin-bottom: var(--sp-5);
+      overflow-wrap: break-word;
+      word-break: break-word;
+      hyphens: auto;
+    }
+    .col-left__body {
+      font-size: 20.2px;
+      color: var(--text-muted);
+      line-height: 1.65;
+    }
+    .col-right {
+      padding: var(--sp-8) var(--sp-8) var(--sp-7);
+      max-width: 1200px;
+      width: 100%;
+    }
+
+    /* ── Page footer ── */
+    .page-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid var(--divider);
+      padding: var(--sp-3) var(--sp-8);
+      font-size: 17.3px;
+      color: var(--text-light);
+      background: var(--white);
+    }
+
+    /* ── Typography & generic elements ── */
+    .eyebrow {
+      font-size: 17.3px;
+      font-weight: 400;
+      color: var(--text-muted);
+      letter-spacing: 0.16px;
+      margin-bottom: var(--sp-3);
+      text-transform: uppercase;
+    }
+    h2.section-title {
+      font-size: clamp(34.6px, 3vw, 51.8px);
+      font-weight: 300;
+      line-height: 1.15;
+      color: var(--text);
+      margin-bottom: var(--sp-4);
+      letter-spacing: -0.3px;
+    }
+    h2.section-title strong { font-weight: 600; }
+    .lead-paragraph {
+      font-size: 24.5px;
+      font-weight: 300;
+      color: var(--text);
+      line-height: 1.55;
+      max-width: 960px;
+      margin-bottom: var(--sp-5);
+    }
+    .body-text {
+      font-size: 20.2px;
+      color: var(--text-muted);
+      line-height: 1.65;
+      max-width: 960px;
+      margin-bottom: var(--sp-5);
+    }
+    h3 {
+      font-size: 21.6px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: var(--sp-2);
+    }
+
+    /* ── Foundations grid ── */
+    .foundations-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1px;
+      background: var(--divider);
+      border: 1px solid var(--divider);
+      margin-bottom: var(--sp-6);
+      width: 100%;
+    }
+    @media (min-width: 1600px) {
+      .foundations-grid { grid-template-columns: repeat(4, 1fr); }
+    }
+    @media (max-width: 700px) {
+      .foundations-grid { grid-template-columns: 1fr; }
+    }
+    .foundation-cell {
+      background: var(--white);
+      padding: var(--sp-5);
+    }
+    .foundation-cell__number {
+      font-size: 40.3px;
+      font-weight: 300;
+      color: var(--mid-grey);
+      line-height: 1;
+      margin-bottom: var(--sp-3);
+    }
+    .foundation-cell__title {
+      font-size: 20.2px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: var(--sp-2);
+    }
+    .foundation-cell__body {
+      font-size: 18.7px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* ── Use case entry ── */
+    .uc-entry {
+      border-bottom: 1px solid var(--divider);
+      padding: var(--sp-5) 0;
+    }
+    .uc-entry:last-child { border-bottom: none; }
+    .uc-entry__header {
+      display: flex;
+      align-items: baseline;
+      gap: var(--sp-4);
+      margin-bottom: var(--sp-3);
+    }
+    .uc-entry__num {
+      font-size: 15.8px;
+      font-weight: 600;
+      color: var(--text-light);
+      min-width: 28px;
+    }
+    .uc-entry__category {
+      font-size: 15.8px;
+      font-weight: 400;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      color: var(--text-light);
+    }
+    .uc-entry__fit {
+      font-size: 14.4px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 2px;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      margin-left: auto;
+    }
+    .fit--core { background: #defbe6; color: #0e6027; }
+    .fit--high { background: #edf5ff; color: #0043ce; }
+    .fit--moderate { background: #f4f4f4; color: #525252; }
+
+    .uc-entry__title {
+      font-size: 21.6px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: var(--sp-2);
+      padding-left: 44px;
+    }
+    .uc-entry__survey-box {
+      margin-left: 44px;
+      background: var(--off-white);
+      border-left: 3px solid var(--ibm-blue);
+      padding: var(--sp-3) var(--sp-4);
+      margin-bottom: var(--sp-4);
+      font-size: 18px;
+      color: var(--text-muted);
+    }
+    .uc-entry__survey-box strong { color: var(--text); }
+
+    .uc-entry__scenario {
+      font-size: 18.7px;
+      color: var(--text-muted);
+      line-height: 1.65;
+      padding-left: 44px;
+      max-width: 960px;
+      margin-bottom: var(--sp-3);
+    }
+
+    /* Contributions side-by-side */
+    .contrib-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--sp-4);
+      padding-left: 44px;
+      margin-bottom: var(--sp-3);
+    }
+    @media (max-width: 640px) { .contrib-row { grid-template-columns: 1fr; } }
+    .contrib-cell {
+      padding: var(--sp-3) var(--sp-4);
+      border-top: 2px solid var(--divider);
+    }
+    .contrib-cell--ini { border-top-color: #0043ce; }
+    .contrib-cell--ns1 { border-top-color: #6e32c9; }
+    .contrib-cell__label {
+      font-size: 15.8px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      margin-bottom: 6px;
+    }
+    .contrib-cell--ini .contrib-cell__label { color: #0043ce; }
+    .contrib-cell--ns1 .contrib-cell__label { color: #6e32c9; }
+    .contrib-cell__body {
+      font-size: 18.7px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* Mechanism tags */
+    .mechanism-row {
+      padding-left: 44px;
+      margin-bottom: var(--sp-3);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+    }
+    .mechanism-label {
+      font-size: 15.8px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      color: var(--text-light);
+      margin-right: 4px;
+    }
+    .mech-tag {
+      font-size: 15.8px;
+      font-family: 'IBM Plex Mono', 'SFMono-Regular', Consolas, monospace;
+      background: var(--off-white);
+      color: var(--text-muted);
+      border: 1px solid var(--light-grey);
+      padding: 2px 8px;
+    }
+
+    /* Meta tags */
+    .uc-meta {
+      padding-left: 44px;
+      margin-bottom: var(--sp-3);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+    }
+    .persona-tag {
+      font-size: 15.8px;
+      font-weight: 400;
+      padding: 1px 10px;
+      border-radius: 12px;
+      white-space: nowrap;
+    }
+    .persona-tag--primary { font-weight: 600; }
+    .persona-tag--arch { background: #f6f2ff; color: #6929c4; }
+    .persona-tag--eng  { background: #edf5ff; color: #0043ce; }
+    .persona-tag--ops  { background: #defbe6; color: #0e6027; }
+    .persona-tag--sec  { background: #fff1f1; color: #da1e28; }
+    .persona-tag--exec { background: #f4f4f4; color: #393939; }
+
+    .phase-tag, .control-tag {
+      font-size: 15.8px;
+      padding: 1px 8px;
+      border: 1px solid var(--mid-grey);
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+    .control-tag { border-style: dashed; }
+
+    .uc-guardrail {
+      padding-left: 44px;
+      margin-bottom: var(--sp-3);
+      font-size: 18.7px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+    .uc-guardrail strong { color: var(--text); font-weight: 600; }
+
+    /* Outcome */
+    .outcome-row {
+      padding-left: 44px;
+    }
+    .outcome-row__text {
+      font-size: 18.7px;
+      color: var(--text-muted);
+      line-height: 1.65;
+      border-left: 2px solid var(--text);
+      padding-left: var(--sp-3);
+    }
+    .outcome-row__text strong { color: var(--text); font-weight: 600; }
+
+    /* Category header */
+    .cat-header {
+      display: flex;
+      align-items: baseline;
+      gap: var(--sp-4);
+      padding-bottom: var(--sp-3);
+      border-bottom: 1px solid var(--divider);
+      margin-bottom: var(--sp-5);
+    }
+    .cat-header__number {
+      font-size: 57.6px;
+      font-weight: 300;
+      color: var(--mid-grey);
+      line-height: 1;
+    }
+    .cat-header__label {
+      font-size: 15.8px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-light);
+      margin-bottom: 4px;
+    }
+    .cat-header__title {
+      font-size: 31.7px;
+      font-weight: 300;
+      color: var(--text);
+    }
+    .cat-header__title strong { font-weight: 600; }
+    .cat-header__desc {
+      font-size: 18.7px;
+      color: var(--text-muted);
+      line-height: 1.65;
+      margin-top: var(--sp-2);
+      max-width: 600px;
+    }
+
+    /* Summary table */
+    .summary-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 18px;
+      margin-bottom: var(--sp-6);
+    }
+    .summary-table thead tr {
+      border-bottom: 2px solid var(--text);
+    }
+    .summary-table thead th {
+      padding: var(--sp-2) var(--sp-3);
+      text-align: left;
+      font-size: 15.8px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      color: var(--text-muted);
+    }
+    .summary-table tbody tr {
+      border-bottom: 1px solid var(--divider);
+    }
+    .summary-table tbody tr:hover { background: var(--off-white); }
+    .summary-table tbody td {
+      padding: var(--sp-2) var(--sp-3);
+      color: var(--text-muted);
+      vertical-align: top;
+    }
+    .summary-table tbody td:first-child { color: var(--text-light); font-weight: 600; }
+    .summary-table tbody td:nth-child(2) { font-weight: 600; color: var(--text); }
+
+    .complexity {
+      font-size: 15.8px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+    .complexity--low    { color: #24a148; }
+    .complexity--medium { color: #f1c21b; }
+    .complexity--high   { color: #da1e28; }
+
+    hr { border: none; border-top: 1px solid var(--divider); margin: var(--sp-6) 0; }
+    .exec-note {
+      font-size: 18.7px;
+      color: var(--text-muted);
+      line-height: 1.65;
+      border-left: 2px solid var(--ibm-blue);
+      padding-left: var(--sp-4);
+      margin-bottom: var(--sp-5);
+    }
+  </style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════════ -->
+<!-- LEFT NAVIGATION RAIL -->
+<!-- ════════════════════════════════════════════════ -->
+<nav class="left-nav" id="left-nav">
+
+  <!-- Toggle header -->
+  <div class="left-nav__toggle" id="left-nav-toggle" title="Toggle navigation">
+    <div class="left-nav__logo">
+      <div class="left-nav__logo-text">
+        <p class="left-nav__product">NS1 AI Survey × INI<br>Capability Matrix</p>
+      </div>
+    </div>
+    <div class="left-nav__toggle-icon">
+      <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+        <path d="M10 3L5 8l5 5" stroke="#c6c6c6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+  </div>
+
+  <div class="left-nav__body">
+    <p class="left-nav__section-label">Navigation</p>
+    <a class="left-nav__link" href="./index.html" style="color: #78a9ff;"><span class="left-nav__link-num">←</span>Knowledge Hub</a>
+    <a class="left-nav__link" href="#page-cover"><span class="left-nav__link-num">—</span>Cover</a>
+    <a class="left-nav__link" href="#page-overview"><span class="left-nav__link-num">00</span>Strategic Overview</a>
+    <a class="left-nav__link" href="#page-architecture"><span class="left-nav__link-num">01</span>INI AI Architecture</a>
+
+    <p class="left-nav__section-label">Survey Capabilities</p>
+    <a class="left-nav__link" href="#page-cat1"><span class="left-nav__link-num">UC4</span>Telemetry &amp; Troubleshooting</a>
+    <a class="left-nav__link" href="#page-cat2"><span class="left-nav__link-num">UC6</span>Plan &amp; Execute Changes</a>
+    <a class="left-nav__link" href="#page-cat3"><span class="left-nav__link-num">UC2</span>Advanced Traffic Steering</a>
+    <a class="left-nav__link" href="#page-cat4"><span class="left-nav__link-num">UC3</span>Pre-Deployment Validation</a>
+    <a class="left-nav__link" href="#page-cat5"><span class="left-nav__link-num">UC5</span>Expert In-Product Help</a>
+    <a class="left-nav__link" href="#page-cat6"><span class="left-nav__link-num">UC1</span>Guide Initial DNS Setup</a>
+
+    <p class="left-nav__section-label">Synthesis</p>
+    <a class="left-nav__link" href="#page-roadmap"><span class="left-nav__link-num">07</span>Matrix &amp; Roadmap</a>
+  </div>
+
+  <div class="left-nav__footer">
+    <p>INI × NS1 Connect<br>MaxDiff Capability Study<br>IBM Confidential</p>
+    <a href="./index.html" style="color:#78a9ff; text-decoration:none; display:inline-block; margin-top:6px;">← Back to Hub</a>
+  </div>
+</nav>
+
+<!-- ════════════════════════════════════════════════ -->
+<!-- MAIN CONTENT -->
+<!-- ════════════════════════════════════════════════ -->
+<div class="main-content">
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- COVER PAGE -->
+<!-- ═══════════════════════════════════════════════ -->
+<div class="cover" id="page-cover">
+  <div class="cover__content">
+    <p class="cover__label">IBM Network Intelligence × NS1 Connect</p>
+    <h1 class="cover__title">NS1 AI Survey Capabilities<br>&amp; INI Integration Analysis</h1>
+    <p class="cover__subtitle">A rigorous technical analysis mapping the six core AI use cases identified in the NS1 MaxDiff capability survey to IBM Network Intelligence foundation models, agentic NOC multi-agent systems, time-series anomaly detection, and closed-loop traffic control.</p>
+  </div>
+  <div class="cover__footer">
+    <span class="cover__footer-label">MaxDiff Survey Alignment · 6 Tested Capabilities · INI Architectural Mapping</span>
+    <div class="ibm-logo">
+      <img src="ibm.svg" alt="IBM" />
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- PAGE 1: OVERVIEW & SURVEY SYNTHESIS -->
+<!-- ═══════════════════════════════════════════════ -->
+<div class="section-page page-break" id="page-overview">
+  <div class="two-col">
+    <div class="col-left">
+      <p class="col-left__section-label">Synthesis</p>
+      <h2 class="col-left__title">Survey<br>Capability<br>Evaluation</h2>
+      <p class="col-left__body">Evaluating vendor-neutral DNS practitioner capabilities against IBM Network Intelligence's underlying foundation models, multi-agent reasoning systems, and MCP telemetry pipelines.</p>
+    </div>
+    <div class="col-right">
+      <p class="eyebrow">Strategic Context</p>
+      <h2 class="section-title">Mapping <strong>DNS Practitioner Needs</strong> to INI AI Assets</h2>
+      <p class="lead-paragraph">The MaxDiff survey isolates six core AI capabilities that appeal directly to DNS practitioners across the industry. When integrated with IBM Network Intelligence (INI / INM), these capabilities transform from generic LLM text prompts into enterprise-grade, deterministic, and autonomous network controls.</p>
+
+      <p class="body-text">Instead of treating DNS and underlay IP networks as isolated operational silos, the integration enables a continuous, closed-loop telemetry and remediation feedback cycle between NS1's authoritative edge routing and INI's multi-domain AI foundation models.</p>
+
+      <div class="foundations-grid">
+        <div class="foundation-cell">
+          <div class="foundation-cell__number">01</div>
+          <div class="foundation-cell__title">Time-Series AI Engine</div>
+          <div class="foundation-cell__body">Quantile &amp; Prophet foundation models processing over 1M indicators every 5 minutes across query and packet layers.</div>
+        </div>
+        <div class="foundation-cell">
+          <div class="foundation-cell__number">02</div>
+          <div class="foundation-cell__title">Multi-Agent NOC System</div>
+          <div class="foundation-cell__body">Tripartite architecture pairing Reasoning Agents with RAG (MOPs/runbooks) and Function-Calling API actuators.</div>
+        </div>
+        <div class="foundation-cell">
+          <div class="foundation-cell__number">03</div>
+          <div class="foundation-cell__title">Explainable AI &amp; Safety</div>
+          <div class="foundation-cell__body">Built-in prompt guardrails, chain-of-thought verification (<em>View reasoning</em>), and dual Assistant/Autonomous control modes.</div>
+        </div>
+        <div class="foundation-cell">
+          <div class="foundation-cell__number">04</div>
+          <div class="foundation-cell__title">MCP / A2A Protocol</div>
+          <div class="foundation-cell__body">Model Context Protocol telemetry streaming and Agent-to-Agent collaboration with tools like IBM Bob and Claude Code.</div>
+        </div>
+      </div>
+
+      <p class="exec-note"><strong>Key Finding:</strong> Survey Capabilities <strong>4 (Troubleshooting)</strong> and <strong>6 (Plan &amp; Execute)</strong> represent the strongest architectural fit with INI, directly unlocking closed-loop autonomous operations. Capabilities <strong>2 (Traffic Steering)</strong> and <strong>3 (Pre-flight Validation)</strong> leverage INI's reasoning and telemetry to prevent outages, while Capabilities <strong>1 &amp; 5</strong> provide high-efficiency knowledge grounding.</p>
+    </div>
+  </div>
+  <div class="page-footer">
+    <span>NS1 AI Survey Capabilities × INI Integration</span>
+    <span>Page 01 · Strategic Evaluation</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- PAGE 2: INI ARCHITECTURAL FOUNDATIONS -->
+<!-- ═══════════════════════════════════════════════ -->
+<div class="section-page page-break" id="page-architecture">
+  <div class="two-col">
+    <div class="col-left">
+      <p class="col-left__section-label">Architecture</p>
+      <h2 class="col-left__title">INI AI Platform<br>Primitives</h2>
+      <p class="col-left__body">How IBM Network Intelligence structures data, reasoning, and execution to deliver deterministic automation for network and DNS systems.</p>
+    </div>
+    <div class="col-right">
+      <p class="eyebrow">Technical Architecture</p>
+      <h2 class="section-title">The Three Pillars of <strong>INI's AI Pipeline</strong></h2>
+      <p class="lead-paragraph">IBM Network Intelligence is built on watsonx foundation models and distributed data processing. It bridges the gap between high-volume telemetry streams and structured function execution.</p>
+
+      <div class="intro-grid" style="display:grid; grid-template-columns:1fr; gap:1px; background:var(--divider); border:1px solid var(--divider); margin-bottom:var(--sp-6);">
+        <div class="intro-cell" style="background:var(--white); padding:var(--sp-5);">
+          <div class="intro-cell__product" style="color:var(--ibm-blue); font-size:16px; font-weight:600;">Pillar 1: Data Pipeline &amp; Semantic Topology</div>
+          <div class="intro-cell__body">Normalizes heterogeneous metric streams across IP routing, RAN, optical, and DNS edge points into standard tuples (Device, Component, Metric Indicator). Telemetry retains full topological context, allowing AI models to detect cascading failures across organizational boundaries.</div>
+        </div>
+        <div class="intro-cell" style="background:var(--white); padding:var(--sp-5);">
+          <div class="intro-cell__product" style="color:#6e32c9; font-size:16px; font-weight:600;">Pillar 2: Tripartite NOC Agent System</div>
+          <div class="intro-cell__body">Each anomaly is handled by three collaborative sub-agents:
+            <ul style="margin-top:10px; margin-left:20px; font-size:18.7px; color:var(--text-muted);">
+              <li><strong>Reasoning Agent:</strong> Evaluates anomalous patterns, generates root-cause hypotheses, and formulates remediation strategies.</li>
+              <li><strong>RAG Agent:</strong> Searches vector-embedded Methods of Procedure (MOPs), vendor RFCs, and runbooks to ground plans in verified standards.</li>
+              <li><strong>Function-Calling Agent:</strong> Translates verified plans into exact, typed API payloads for target endpoints (NS1 Connect, Cisco IOS, JunOS).</li>
+            </ul>
+          </div>
+        </div>
+        <div class="intro-cell" style="background:var(--white); padding:var(--sp-5);">
+          <div class="intro-cell__product" style="color:#0e6027; font-size:16px; font-weight:600;">Pillar 3: Dual Operating Modes &amp; Guardrails</div>
+          <div class="intro-cell__body">Supports <strong>Assistant Mode</strong> (human operator approval gate with transparent chain-of-thought inspection) and <strong>Autonomous Mode</strong> (sub-second zero-touch execution for pre-certified low-risk operational patterns).</div>
+        </div>
+      </div>
+
+      <p class="body-text">Below, each of the six capabilities from the MaxDiff survey is decomposed, demonstrating how INI provides the operational intelligence engine while NS1 Connect provides the authoritative edge control layer.</p>
+    </div>
+  </div>
+  <div class="page-footer">
+    <span>NS1 AI Survey Capabilities × INI Integration</span>
+    <span>Page 02 · Architectural Foundations</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- PAGE 3: SURVEY CAPABILITY 4 (CORE ALIGNMENT) -->
+<!-- ═══════════════════════════════════════════════ -->
+<div class="section-page page-break" id="page-cat1">
+  <div class="two-col">
+    <div class="col-left">
+      <p class="col-left__section-label">Survey UC 04</p>
+      <h2 class="col-left__title">Telemetry &amp;<br>Troubleshooting<br>Intelligence</h2>
+      <p class="col-left__body">Correlating authoritative DNS query streams, NXDOMAIN/SERVFAIL spikes, and Pulsar latency telemetry with underlay network performance.</p>
+    </div>
+    <div class="col-right">
+      <div class="cat-header">
+        <div class="cat-header__number">04</div>
+        <div class="cat-header__meta">
+          <p class="cat-header__label">MaxDiff Capability 4 · Core Architectural Alignment</p>
+          <h3 class="cat-header__title">Interpret DNS Telemetry &amp; <strong>Troubleshoot Issues</strong></h3>
+          <p class="cat-header__desc">Detect subtle traffic anomalies, identify cross-layer root causes, and isolate resolution failures before user impact occurs.</p>
+        </div>
+      </div>
+
+      <div class="uc-entry">
+        <div class="uc-entry__header">
+          <span class="uc-entry__num">UC01</span>
+          <span class="uc-entry__category">Observability &amp; Anomaly Detection</span>
+          <span class="uc-entry__fit fit--core">Core INI Fit</span>
+        </div>
+        <h4 class="uc-entry__title">Cross-Layer DNS &amp; Underlay Telemetry Correlation</h4>
+
+        <div class="uc-entry__survey-box">
+          <strong>Survey Tested Concept:</strong> <em>"Analyze DNS telemetry, such as query volume, response codes, query logs, or traffic-steering results, to identify patterns, anomalies, and potential causes of problems."</em>
+        </div>
+
+        <p class="uc-entry__scenario">When a critical service experiences localized resolution failures, operators struggle to determine whether the fault lies in NS1 health-check flapping, CDN edge degradation, authoritative nameserver rate-limiting, or an upstream ISP BGP transit route flap. INI ingests continuous NS1 query telemetry (QPS, response code distributions, Pulsar RUM latency) alongside underlay router interface counters, applying time-series foundation models to pinpoint the root cause immediately.</p>
+
+        <div class="contrib-row">
+          <div class="contrib-cell contrib-cell--ini">
+            <p class="contrib-cell__label">IBM Network Intelligence</p>
+            <p class="contrib-cell__body">Applies Quantile and Prophet foundation models to detect anomalous baseline shifts; correlates DNS anomalies with BGP routing flaps and interface congestion; auto-generates root-cause hypotheses.</p>
+          </div>
+          <div class="contrib-cell contrib-cell--ns1">
+            <p class="contrib-cell__label">IBM NS1 Connect</p>
+            <p class="contrib-cell__body">Streams real-time query metrics, Pulsar active/passive latency feeds, Filter Chain execution logs, and health monitor state transitions via MCP telemetry connectors.</p>
+          </div>
+        </div>
+
+        <div class="mechanism-row">
+          <span class="mechanism-label">Mechanisms</span>
+          <span class="mech-tag">Time-Series AI</span>
+          <span class="mech-tag">MCP Telemetry Ingest</span>
+          <span class="mech-tag">Semantic Correlation</span>
+          <span class="mech-tag">Pulsar RUM</span>
+          <span class="mech-tag">watsonx Foundation Models</span>
+        </div>
+
+        <div class="uc-meta">
+          <span class="persona-tag persona-tag--ops persona-tag--primary">NetOps / SRE</span>
+          <span class="persona-tag persona-tag--eng">Network Engineer</span>
+          <span class="phase-tag">AI Maturity: Phase 2–3</span>
+          <span class="control-tag">Assistant Mode</span>
+        </div>
+
+        <p class="uc-guardrail"><strong>Explainability &amp; Guardrails:</strong> Operators inspect the reasoning trace via <em>View reasoning</em> to see correlated time-series charts, confidence percentages, and historical anomaly baselines before initiating triage.</p>
+
+        <div class="outcome-row">
+          <p class="outcome-row__text"><strong>Measurable Impact:</strong> Reduces Mean Time to Detect (MTTD) by up to 70% and Mean Time to Identify (MTTI) from hours to seconds; eliminates alert fatigue by grouping thousands of raw query errors into a single actionable incident.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="page-footer">
+    <span>NS1 AI Survey Capabilities × INI Integration</span>
+    <span>Page 03 · Telemetry &amp; Troubleshooting</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- PAGE 4: SURVEY CAPABILITY 6 (CORE ALIGNMENT) -->
+<!-- ═══════════════════════════════════════════════ -->
+<div class="section-page page-break" id="page-cat2">
+  <div class="two-col">
+    <div class="col-left">
+      <p class="col-left__section-label">Survey UC 06</p>
+      <h2 class="col-left__title">Agentic Change<br>Planning &amp;<br>Execution</h2>
+      <p class="col-left__body">Translating operator intent and incident tickets into verified, dry-run tested, and safely executed NS1 Filter Chain and DNS record changes.</p>
+    </div>
+    <div class="col-right">
+      <div class="cat-header">
+        <div class="cat-header__number">06</div>
+        <div class="cat-header__meta">
+          <p class="cat-header__label">MaxDiff Capability 6 · Core Architectural Alignment</p>
+          <h3 class="cat-header__title">Plan and Execute <strong>DNS Changes</strong></h3>
+          <p class="cat-header__desc">Generate structured change plans, facilitate peer and AI review, enforce blast-radius gates, and execute via verified API calls.</p>
+        </div>
+      </div>
+
+      <div class="uc-entry">
+        <div class="uc-entry__header">
+          <span class="uc-entry__num">UC02</span>
+          <span class="uc-entry__category">Agentic Automation &amp; Remediation</span>
+          <span class="uc-entry__fit fit--core">Core INI Fit</span>
+        </div>
+        <h4 class="uc-entry__title">Intent-to-Execution DNS Orchestration with Multi-Agent NOC</h4>
+
+        <div class="uc-entry__survey-box">
+          <strong>Survey Tested Concept:</strong> <em>"Create a proposed plan for DNS changes, allow you to review and approve it, and then make the approved changes on your behalf."</em>
+        </div>
+
+        <p class="uc-entry__scenario">An enterprise needs to execute a complex emergency traffic migration — shedding 40% of traffic from an overloaded EU data center to US East and APAC while maintaining regional data compliance. Rather than manually editing records across multiple zones and risking misconfiguration, the engineer describes the intent in INI's Chat Assistant. INI's multi-agent system drafts the change, validates it against runbooks, generates exact NS1 API calls, and awaits approval.</p>
+
+        <div class="contrib-row">
+          <div class="contrib-cell contrib-cell--ini">
+            <p class="contrib-cell__label">IBM Network Intelligence</p>
+            <p class="contrib-cell__body">Reasoning Agent devises step-by-step traffic shifting plan; RAG Agent checks enterprise change policies; Function-Calling Agent constructs atomic NS1 API mutation payloads and rollback scripts.</p>
+          </div>
+          <div class="contrib-cell contrib-cell--ns1">
+            <p class="contrib-cell__label">IBM NS1 Connect</p>
+            <p class="contrib-cell__body">Executes dynamic Filter Chain weight updates, record modifications, and Pulsar steering overrides; provides instant sub-second propagation across all global PoPs.</p>
+          </div>
+        </div>
+
+        <div class="mechanism-row">
+          <span class="mechanism-label">Mechanisms</span>
+          <span class="mech-tag">NOC AI Multi-Agent</span>
+          <span class="mech-tag">RAG Policy Verification</span>
+          <span class="mech-tag">Function-Calling API</span>
+          <span class="mech-tag">Atomic Rollback</span>
+          <span class="mech-tag">Human-in-the-Loop</span>
+        </div>
+
+        <div class="uc-meta">
+          <span class="persona-tag persona-tag--arch persona-tag--primary">Infrastructure Architect</span>
+          <span class="persona-tag persona-tag--ops">SecOps / NOC</span>
+          <span class="phase-tag">AI Maturity: Phase 3–4</span>
+          <span class="control-tag">Assistant / Autonomous</span>
+        </div>
+
+        <p class="uc-guardrail"><strong>Safety &amp; Compliance Gates:</strong> Strict human approval required for production zone edits. In Autonomous mode (for pre-approved emergency runbooks), INI initiates real-time telemetry verification and triggers automatic rollback if error rates increase within 60 seconds.</p>
+
+        <div class="outcome-row">
+          <p class="outcome-row__text"><strong>Measurable Impact:</strong> Eliminates human syntax errors and configuration drift; reduces planned change execution time from 45 minutes to under 30 seconds; creates full audit compliance logs in ServiceNow / Jira.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="page-footer">
+    <span>NS1 AI Survey Capabilities × INI Integration</span>
+    <span>Page 04 · Agentic Change Planning</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- PAGE 5: SURVEY CAPABILITY 2 (HIGH POTENTIAL) -->
+<!-- ═══════════════════════════════════════════════ -->
+<div class="section-page page-break" id="page-cat3">
+  <div class="two-col">
+    <div class="col-left">
+      <p class="col-left__section-label">Survey UC 02</p>
+      <h2 class="col-left__title">Advanced Traffic<br>Steering Design</h2>
+      <p class="col-left__body">Designing sophisticated routing algorithms that align business goals, real-time Pulsar telemetry, and multi-cloud infrastructure capacity.</p>
+    </div>
+    <div class="col-right">
+      <div class="cat-header">
+        <div class="cat-header__number">02</div>
+        <div class="cat-header__meta">
+          <p class="cat-header__label">MaxDiff Capability 2 · Strategic Architecture</p>
+          <h3 class="cat-header__title">Build Advanced <strong>Traffic Steering Configurations</strong></h3>
+          <p class="cat-header__desc">Translate high-level routing goals into optimal Filter Chain architectures, combining Pulsar latency, geo-fencing, ASN, and load shedding.</p>
+        </div>
+      </div>
+
+      <div class="uc-entry">
+        <div class="uc-entry__header">
+          <span class="uc-entry__num">UC03</span>
+          <span class="uc-entry__category">Traffic Optimization &amp; Policy Design</span>
+          <span class="uc-entry__fit fit--high">High INI Fit</span>
+        </div>
+        <h4 class="uc-entry__title">Telemetry-Guided Filter Chain &amp; Pulsar Policy Synthesis</h4>
+
+        <div class="uc-entry__survey-box">
+          <strong>Survey Tested Concept:</strong> <em>"Help you design advanced traffic steering configurations by explaining available options and helping determine how traffic should be routed based on your intended outcome."</em>
+        </div>
+
+        <p class="uc-entry__scenario">Architects configuring multi-CDN and hybrid-cloud steering must balance latency performance, committed transit billing commitments, data sovereignty laws (GDPR), and origin capacity limits. INI's AI analyzes historical network telemetry and cloud egress rates to recommend the optimal Filter Chain ordering (e.g., UP/DOWN &rarr; SHED_LOAD &rarr; GEODNS &rarr; PULSAR &rarr; SELECT_FIRST_N) and encodes standard policies as reusable Skills.</p>
+
+        <div class="contrib-row">
+          <div class="contrib-cell contrib-cell--ini">
+            <p class="contrib-cell__label">IBM Network Intelligence</p>
+            <p class="contrib-cell__body">Evaluates multi-cloud egress costs, transit latency curves, and application capacity models; recommends optimal Filter Chain algorithms and saves patterns as reusable INI Skills.</p>
+          </div>
+          <div class="contrib-cell contrib-cell--ns1">
+            <p class="contrib-cell__label">IBM NS1 Connect</p>
+            <p class="contrib-cell__body">Provides patented modular Filter Chain engine, Pulsar real-user monitoring (RUM) telemetry feeds, and real-time DNS decisioning at global edge points.</p>
+          </div>
+        </div>
+
+        <div class="mechanism-row">
+          <span class="mechanism-label">Mechanisms</span>
+          <span class="mech-tag">Filter Chain Optimization</span>
+          <span class="mech-tag">Pulsar RUM Feeds</span>
+          <span class="mech-tag">Reusable Skills</span>
+          <span class="mech-tag">Intent Decomposition</span>
+        </div>
+
+        <div class="uc-meta">
+          <span class="persona-tag persona-tag--arch persona-tag--primary">Infrastructure Architect</span>
+          <span class="persona-tag persona-tag--eng">DevOps Engineer</span>
+          <span class="phase-tag">AI Maturity: Phase 2–3</span>
+          <span class="control-tag">Design Assistant</span>
+        </div>
+
+        <p class="uc-guardrail"><strong>Validation &amp; Bounds:</strong> Proposed steering policies enforce hard boundaries against traffic blackholing, circular fallbacks, and single-region overload conditions.</p>
+
+        <div class="outcome-row">
+          <p class="outcome-row__text"><strong>Measurable Impact:</strong> Lowers global user latency by 25–40%, prevents transit overage penalties by enforcing committed billing caps, and standardizes steering patterns across global engineering squads.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="page-footer">
+    <span>NS1 AI Survey Capabilities × INI Integration</span>
+    <span>Page 05 · Advanced Traffic Steering</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- PAGE 6: SURVEY CAPABILITY 3 (HIGH POTENTIAL) -->
+<!-- ═══════════════════════════════════════════════ -->
+<div class="section-page page-break" id="page-cat4">
+  <div class="two-col">
+    <div class="col-left">
+      <p class="col-left__section-label">Survey UC 03</p>
+      <h2 class="col-left__title">Pre-Deployment<br>Simulation &amp;<br>Safety Validation</h2>
+      <p class="col-left__body">Simulating DNS configuration changes against real-world traffic replays to catch routing blunders, TTL collisions, and capacity overloads before production deployment.</p>
+    </div>
+    <div class="col-right">
+      <div class="cat-header">
+        <div class="cat-header__number">03</div>
+        <div class="cat-header__meta">
+          <p class="cat-header__label">MaxDiff Capability 3 · Safety &amp; Resilience</p>
+          <h3 class="cat-header__title">Validate Configurations <strong>Before Deployment</strong></h3>
+          <p class="cat-header__desc">Simulate query distribution, test failover corner cases, verify blast radius, and provide auditable change confidence scores.</p>
+        </div>
+      </div>
+
+      <div class="uc-entry">
+        <div class="uc-entry__header">
+          <span class="uc-entry__num">UC04</span>
+          <span class="uc-entry__category">Safety Simulation &amp; Blast Radius Verification</span>
+          <span class="uc-entry__fit fit--high">High INI Fit</span>
+        </div>
+        <h4 class="uc-entry__title">Digital Twin DNS Simulation &amp; Blast Radius Verification</h4>
+
+        <div class="uc-entry__survey-box">
+          <strong>Survey Tested Concept:</strong> <em>"Review or simulate a proposed DNS configuration before it is deployed to identify potential problems and show how the configuration is expected to behave."</em>
+        </div>
+
+        <p class="uc-entry__scenario">A DevOps squad modifies DNS routing for a flagship service, shifting weights on legacy origins. Without validation, an unintended TTL caching issue or Filter Chain logic bug could overwhelm a smaller secondary datacenter. INI runs a simulation replaying the previous 24 hours of real query telemetry against the proposed NS1 Filter Chain configuration, generating a predictive traffic heatmap and blast-radius score.</p>
+
+        <div class="contrib-row">
+          <div class="contrib-cell contrib-cell--ini">
+            <p class="contrib-cell__label">IBM Network Intelligence</p>
+            <p class="contrib-cell__body">Replays historical telemetry through predictive foundation models; analyzes downstream network capacity; generates explainable risk reports via <em>View reasoning</em>.</p>
+          </div>
+          <div class="contrib-cell contrib-cell--ns1">
+            <p class="contrib-cell__label">IBM NS1 Connect</p>
+            <p class="contrib-cell__body">Provides dry-run evaluation endpoints, virtual Filter Chain execution sandboxes, and zone validation schemas to verify syntax and semantics.</p>
+          </div>
+        </div>
+
+        <div class="mechanism-row">
+          <span class="mechanism-label">Mechanisms</span>
+          <span class="mech-tag">Digital Twin Simulation</span>
+          <span class="mech-tag">Predictive Replay</span>
+          <span class="mech-tag">Blast-Radius Scoring</span>
+          <span class="mech-tag">Explainable AI Audit</span>
+        </div>
+
+        <div class="uc-meta">
+          <span class="persona-tag persona-tag--eng persona-tag--primary">Network Engineer</span>
+          <span class="persona-tag persona-tag--ops">SecOps</span>
+          <span class="phase-tag">AI Maturity: Phase 2–3</span>
+          <span class="control-tag">Pre-Flight Sandbox</span>
+        </div>
+
+        <p class="uc-guardrail"><strong>Enterprise Governance:</strong> CI/CD pipeline blocking gates automatically halt deployment if the simulated blast-radius score exceeds safety thresholds (e.g., >15% unhandled traffic shed).</p>
+
+        <div class="outcome-row">
+          <p class="outcome-row__text"><strong>Measurable Impact:</strong> Eliminates catastrophic DNS configuration outages, validates zero-downtime maintenance windows, and gives enterprise change advisory boards (CAB) quantifiable risk proof.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="page-footer">
+    <span>NS1 AI Survey Capabilities × INI Integration</span>
+    <span>Page 06 · Pre-Deployment Validation</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- PAGE 7: SURVEY CAPABILITIES 5 & 1 (KNOWLEDGE & ONBOARDING) -->
+<!-- ═══════════════════════════════════════════════ -->
+<div class="section-page page-break" id="page-cat5">
+  <div class="two-col">
+    <div class="col-left">
+      <p class="col-left__section-label">Survey UC 05 &amp; 01</p>
+      <h2 class="col-left__title">Operational Help<br>&amp; Guided Setup</h2>
+      <p class="col-left__body">Grounding everyday engineering tasks in organizational runbooks, MOPs, RFCs, and automated onboarding assistance.</p>
+    </div>
+    <div class="col-right">
+      <div class="cat-header">
+        <div class="cat-header__number">05</div>
+        <div class="cat-header__meta">
+          <p class="cat-header__label">MaxDiff Capabilities 5 &amp; 1 · Knowledge &amp; Onboarding Tier</p>
+          <h3 class="cat-header__title">Expert In-Product Help &amp; <strong>Initial Setup</strong></h3>
+          <p class="cat-header__desc">Empower engineers with context-aware runbook RAG and interactive assistance during initial bootstrapping and ongoing operations.</p>
+        </div>
+      </div>
+
+      <!-- UC05 -->
+      <div class="uc-entry">
+        <div class="uc-entry__header">
+          <span class="uc-entry__num">UC05</span>
+          <span class="uc-entry__category">Knowledge Assistance &amp; Runbook RAG</span>
+          <span class="uc-entry__fit fit--moderate">Moderate INI Fit</span>
+        </div>
+        <h4 class="uc-entry__title">Vector RAG Grounding for Day-to-Day Operations (Survey UC 5)</h4>
+
+        <div class="uc-entry__survey-box">
+          <strong>Survey Tested Concept:</strong> <em>"Answer questions about how a DNS platform works and how to accomplish specific tasks when you need help during day-to-day use."</em>
+        </div>
+
+        <p class="uc-entry__scenario">When an on-call engineer needs to configure DNSSEC with automated key rotation across secondary nameserver providers, searching through public documentation or stale wiki pages wastes valuable time. INI's vector-embedded knowledge base ingests official NS1 product docs, internal corporate MOPs, and DNS RFC standards, delivering cited, actionable instructions directly inside the chat workflow.</p>
+
+        <div class="contrib-row">
+          <div class="contrib-cell contrib-cell--ini">
+            <p class="contrib-cell__label">IBM Network Intelligence</p>
+            <p class="contrib-cell__body">Maintains vector database embedding company runbooks and standard operating procedures; grounds LLM responses with precise document citations and verified steps.</p>
+          </div>
+          <div class="contrib-cell contrib-cell--ns1">
+            <p class="contrib-cell__label">IBM NS1 Connect</p>
+            <p class="contrib-cell__body">Provides live API schema definitions, feature constraints, and zone capability metadata to validate guidance accuracy in real time.</p>
+          </div>
+        </div>
+
+        <div class="mechanism-row">
+          <span class="mechanism-label">Mechanisms</span>
+          <span class="mech-tag">Vector RAG Store</span>
+          <span class="mech-tag">Runbook Grounding</span>
+          <span class="mech-tag">In-Flow Assistant</span>
+        </div>
+
+        <div class="outcome-row">
+          <p class="outcome-row__text"><strong>Measurable Impact:</strong> Resolves standard operational inquiries in under 15 seconds; standardizes team procedures and reduces reliance on single senior architects.</p>
+        </div>
+      </div>
+
+      <!-- UC06 -->
+      <div class="uc-entry" style="margin-top:var(--sp-4);">
+        <div class="uc-entry__header">
+          <span class="uc-entry__num">UC06</span>
+          <span class="uc-entry__category">Guided Onboarding &amp; Provisioning</span>
+          <span class="uc-entry__fit fit--moderate">Moderate INI Fit</span>
+        </div>
+        <h4 class="uc-entry__title">Automated Initial DNS Setup &amp; Zone Migration (Survey UC 1)</h4>
+
+        <div class="uc-entry__survey-box">
+          <strong>Survey Tested Concept:</strong> <em>"Guide you through getting started with a DNS platform, including explaining setup steps and helping configure core elements such as zones, DNS records, monitoring, and API access."</em>
+        </div>
+
+        <p class="uc-entry__scenario">A customer migrating from legacy BIND or Route 53 to NS1 Connect needs to import thousands of records, configure DNS health monitors, provision API access tokens, and verify apex delegation. INI parses existing zone files (AXFR / BIND format), identifies unsupported custom records, suggests modern Filter Chain replacements, and scripts the initial setup.</p>
+
+        <div class="contrib-row">
+          <div class="contrib-cell contrib-cell--ini">
+            <p class="contrib-cell__label">IBM Network Intelligence</p>
+            <p class="contrib-cell__body">Analyzes imported zone files, maps legacy routing rules to intelligent steering models, and guides operators step-by-step through security best practices.</p>
+          </div>
+          <div class="contrib-cell contrib-cell--ns1">
+            <p class="contrib-cell__label">IBM NS1 Connect</p>
+            <p class="contrib-cell__body">Bulk zone creation API endpoints, DNSSEC key provisioning, monitoring probe initialization, and granular RBAC API token generation.</p>
+          </div>
+        </div>
+
+        <div class="mechanism-row">
+          <span class="mechanism-label">Mechanisms</span>
+          <span class="mech-tag">Zone Parser</span>
+          <span class="mech-tag">Onboarding Wizard</span>
+          <span class="mech-tag">API Token Provisioning</span>
+        </div>
+
+        <div class="outcome-row">
+          <p class="outcome-row__text"><strong>Measurable Impact:</strong> Accelerates enterprise customer onboarding from weeks to hours; eliminates syntax discrepancies between legacy nameserver implementations and modern traffic engines.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="page-footer">
+    <span>NS1 AI Survey Capabilities × INI Integration</span>
+    <span>Page 07 · Knowledge &amp; Onboarding</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- PAGE 8: ROADMAP & SYNTHESIS MATRIX -->
+<!-- ═══════════════════════════════════════════════ -->
+<div class="section-page page-break" id="page-roadmap">
+  <div class="two-col">
+    <div class="col-left">
+      <p class="col-left__section-label">Synthesis</p>
+      <h2 class="col-left__title">Integration Matrix<br>&amp; Roadmap</h2>
+      <p class="col-left__body">Comprehensive summary of the 6 survey capabilities mapped against technical complexity, INI architectural mechanism, and recommended rollout sequencing.</p>
+    </div>
+    <div class="col-right">
+      <p class="eyebrow">Strategic Rollout</p>
+      <h2 class="section-title">Capability Alignment <strong>Matrix</strong></h2>
+
+      <table class="summary-table">
+        <thead>
+          <tr>
+            <th>Survey UC</th>
+            <th>Capability Name</th>
+            <th>INI Integration Fit</th>
+            <th>Primary Mechanism</th>
+            <th>Complexity</th>
+            <th>Phase</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>UC 04</td>
+            <td>Interpret DNS Telemetry &amp; Troubleshoot Issues</td>
+            <td><strong style="color:#0e6027;">Core Fit</strong></td>
+            <td>Time-series models (Quantile/Prophet), MCP ingest</td>
+            <td><span class="complexity complexity--medium">Medium</span></td>
+            <td>Phase 1</td>
+          </tr>
+          <tr>
+            <td>UC 06</td>
+            <td>Plan &amp; Execute DNS Changes</td>
+            <td><strong style="color:#0e6027;">Core Fit</strong></td>
+            <td>NOC Multi-Agent (Reasoning + RAG + API Execution)</td>
+            <td><span class="complexity complexity--high">High</span></td>
+            <td>Phase 3</td>
+          </tr>
+          <tr>
+            <td>UC 02</td>
+            <td>Build Advanced Traffic Steering</td>
+            <td><strong style="color:#0043ce;">High Fit</strong></td>
+            <td>Intent-to-Filter-Chain, Pulsar RUM, Reusable Skills</td>
+            <td><span class="complexity complexity--medium">Medium</span></td>
+            <td>Phase 2</td>
+          </tr>
+          <tr>
+            <td>UC 03</td>
+            <td>Validate Configurations Before Deployment</td>
+            <td><strong style="color:#0043ce;">High Fit</strong></td>
+            <td>Digital twin simulation, predictive traffic replay</td>
+            <td><span class="complexity complexity--high">High</span></td>
+            <td>Phase 2</td>
+          </tr>
+          <tr>
+            <td>UC 05</td>
+            <td>Provide Expert In-Product Help</td>
+            <td><strong style="color:#525252;">Moderate</strong></td>
+            <td>Vector Knowledge Base, RAG runbook search</td>
+            <td><span class="complexity complexity--low">Low</span></td>
+            <td>Phase 1</td>
+          </tr>
+          <tr>
+            <td>UC 01</td>
+            <td>Guide Initial DNS Setup</td>
+            <td><strong style="color:#525252;">Moderate</strong></td>
+            <td>Conversational onboarding assistant, zone parsing</td>
+            <td><span class="complexity complexity--low">Low</span></td>
+            <td>Phase 1</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3 style="margin-top:var(--sp-5); margin-bottom:var(--sp-2);">Phased Rollout Strategy</h3>
+      <p class="body-text">To maximize practitioner trust and ensure safe enterprise adoption, capability rollout should strictly follow three sequential phases:</p>
+
+      <div style="display:flex; flex-direction:column; gap:var(--sp-4); margin-bottom:var(--sp-6);">
+        <div style="background:var(--off-white); padding:var(--sp-4); border-left:3px solid #24a148;">
+          <strong style="color:var(--text); font-size:19px;">Phase 1: Observation &amp; Assistance (UC 04, 05, 01)</strong>
+          <p style="font-size:18px; color:var(--text-muted); margin-top:4px;">Stream NS1 telemetry into INI for read-only anomaly detection and correlation; deploy RAG-grounded documentation and onboarding assistance. Zero risk of production disruption.</p>
+        </div>
+        <div style="background:var(--off-white); padding:var(--sp-4); border-left:3px solid #0f62fe;">
+          <strong style="color:var(--text); font-size:19px;">Phase 2: Intent-Based Design &amp; Pre-Flight Safety (UC 02, 03)</strong>
+          <p style="font-size:18px; color:var(--text-muted); margin-top:4px;">Enable interactive traffic steering policy synthesis and simulated dry-run validation. Changes are proposed with full <em>View reasoning</em> audit trails for human review.</p>
+        </div>
+        <div style="background:var(--off-white); padding:var(--sp-4); border-left:3px solid #6e32c9;">
+          <strong style="color:var(--text); font-size:19px;">Phase 3: Agentic Execution &amp; Closed-Loop Control (UC 06)</strong>
+          <p style="font-size:18px; color:var(--text-muted); margin-top:4px;">Deploy NOC multi-agent execution with human-in-the-loop approval gates. Transition certified, routine remediation runbooks to Autonomous Mode with sub-minute automated rollback.</p>
+        </div>
+      </div>
+
+      <div style="margin-top: auto;">
+        <div class="page-footer" style="margin: 0 calc(-1 * var(--sp-8)); padding-left: var(--sp-8); padding-right: var(--sp-8);">
+          <span>INI × NS1 Connect — AI Survey Integration Opportunities</span>
+          <div class="ibm-logo">
+            <img src="ibm.svg" alt="IBM" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /.main-content -->
+
+<script>
+  (function() {
+    // ── Collapse / expand toggle ──
+    var nav    = document.getElementById('left-nav');
+    var toggle = document.getElementById('left-nav-toggle');
+    toggle.addEventListener('click', function() {
+      nav.classList.toggle('collapsed');
+    });
+
+    // ── Scroll spy ──
+    var links = document.querySelectorAll('.left-nav__link');
+    var sections = [];
+    links.forEach(function(link) {
+      var id = link.getAttribute('href').replace('#', '');
+      var el = document.getElementById(id);
+      if (el) sections.push({ id: id, el: el, link: link });
+    });
+
+    function onScroll() {
+      var scrollY = window.scrollY || window.pageYOffset;
+      var active = sections[0];
+      for (var i = 0; i < sections.length; i++) {
+        if (sections[i].el.offsetTop <= scrollY + 80) {
+          active = sections[i];
+        }
+      }
+      links.forEach(function(l) { l.classList.remove('active'); });
+      if (active) active.link.classList.add('active');
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  })();
+</script>
+
+</body>
+</html>

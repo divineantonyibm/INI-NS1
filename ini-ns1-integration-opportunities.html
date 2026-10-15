@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>INI × NS1 Connect — Integration Opportunities</title>
+  <meta name="description" content="A structured analysis of how IBM Network Intelligence and IBM NS1 Connect can be integrated across 18 use cases, 5 categories, 5 personas, and 4 AI maturity phases." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;600&family=IBM+Plex+Mono:wght@400&display=swap" rel="stylesheet" />
@@ -68,8 +69,10 @@
       min-width: 48px;
     }
     .left-nav.collapsed .left-nav__body { display: none; }
+    .left-nav.collapsed .left-nav__logo { display: none; }
     .left-nav.collapsed .left-nav__logo-text { display: none; }
     .left-nav.collapsed .left-nav__toggle-label { display: none; }
+    .left-nav.collapsed .left-nav__footer { display: none; }
 
     /* Toggle button */
     .left-nav__toggle {
@@ -122,8 +125,9 @@
       flex: 1;
       min-width: 0;
     }
-    .left-nav__logo svg { width: 52px; height: 21px; flex-shrink: 0; }
-    .left-nav__logo-text {}
+    .left-nav__logo img,
+    .left-nav__logo svg { width: 52px; height: auto; flex-shrink: 0; }
+    .left-nav__logo-text { min-width: 0; }
     .left-nav__product {
       font-size: 15.6px;
       color: #a8b2bd;
@@ -302,7 +306,7 @@
     }
     .col-right {
       padding: var(--sp-8) var(--sp-7) var(--sp-7);
-      overflow: hidden;
+      overflow-x: auto;
     }
 
     /* ── Full-width content page ── */
@@ -546,7 +550,7 @@
       color: var(--mid-grey);
       line-height: 1;
     }
-    .cat-header__meta {}
+    .cat-header__meta { flex: 1; min-width: 0; }
     .cat-header__label {
       font-size: 15.8px;
       font-weight: 600;
@@ -570,6 +574,11 @@
     }
 
     /* ── Summary table ── */
+    .table-container {
+      width: 100%;
+      overflow-x: auto;
+      margin-bottom: var(--sp-6);
+    }
     .summary-table {
       width: 100%;
       border-collapse: collapse;
@@ -727,12 +736,6 @@
   <!-- Toggle header -->
   <div class="left-nav__toggle" id="left-nav-toggle" title="Toggle navigation">
     <div class="left-nav__logo">
-      <svg viewBox="0 0 58 23" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="IBM">
-        <path d="M0 17.4h6.6v1.8H0v-1.8zm0-4.2h6.6V15H0v-1.8zm1.8-4.2h3v1.8h-3V9zm0-4.2h3v1.8h-3V4.8zm-1.8 0h6.6v1.8H0V4.8zM0 .6h6.6v1.8H0V.6z" fill="#ffffff"/>
-        <path d="M8.4 17.4H21v1.8H8.4v-1.8zm2.4-4.2h7.8V15h-7.8v-1.8zm-2.4-4.2H21V10.8H8.4V9zm2.4-4.2h7.8v1.8h-7.8V4.8zm-2.4-4.2H21v1.8H8.4V.6z" fill="#ffffff"/>
-        <path d="M22.8 17.4h12.6v1.8H22.8v-1.8zm3-4.2h6.6V15h-6.6v-1.8zm-3-4.2h12.6V10.8H22.8V9zm3-4.2h6.6v1.8h-6.6V4.8zm-3-4.2h12.6v1.8H22.8V.6z" fill="#ffffff"/>
-        <path d="M37.2 9h4.2l2.4 4.2-2.4 4.2h-4.2l2.4-4.2-2.4-4.2zm-1.8-4.2H51v1.8H35.4V4.8zm0 12.6H51v1.8H35.4v-1.8zm3-8.4h9.6V10.8h-9.6V9zm0 4.2h9.6V15h-9.6v-1.8zm-3-12.6H51v1.8H35.4V.6z" fill="#ffffff"/>
-      </svg>
       <div class="left-nav__logo-text">
         <p class="left-nav__product">INI × NS1 Connect<br>Integration Opportunities</p>
       </div>
@@ -748,7 +751,10 @@
   <!-- Scrollable body -->
   <div class="left-nav__body">
 
-    <p class="left-nav__section-label">Document</p>
+    <p class="left-nav__section-label">Navigation</p>
+    <a class="left-nav__link" href="./index.html" style="color: #78a9ff;">
+      <span class="left-nav__link-num">←</span>Knowledge Hub
+    </a>
     <a class="left-nav__link active" href="#page-cover">
       <span class="left-nav__link-num">—</span>Cover
     </a>
@@ -842,7 +848,7 @@
       <span class="left-nav__link-num">8</span>Summary Matrix
     </a>
 
-    <div class="left-nav__footer">18 use cases · 5 categories · 5 personas</div>
+    <div class="left-nav__footer">18 use cases · 5 categories · 5 personas<br><a href="./index.html" style="color:#78a9ff; text-decoration:none; display:inline-block; margin-top:6px;">← Back to Hub</a></div>
 
   </div><!-- /.left-nav__body -->
 
@@ -1762,40 +1768,42 @@
     <p class="body-text">All 18 use cases with their category, primary integration mechanism, the NS1 personas involved (primary persona in bold), AI maturity phase, control level, and implementation complexity.</p>
   </div>
 
-  <table class="summary-table">
-    <thead>
-      <tr>
-        <th>#</th>
-        <th>Use Case</th>
-        <th>Category</th>
-        <th>Primary Mechanism</th>
-        <th>Personas</th>
-        <th>Phase</th>
-        <th>Control</th>
-        <th>Complexity</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr><td>01</td><td>AI-Predicted Pre-emptive DNS Failover</td><td>Traffic Protection</td><td>INI API → NS1 Filter Chain</td><td><strong>DNS SRE</strong>, DNS SecOps</td><td>4</td><td>Approve → Policy-bound</td><td><span class="complexity complexity--medium">Medium</span></td></tr>
-      <tr><td>02</td><td>Network DDoS Signal → DNS Diversion</td><td>Traffic Protection</td><td>INI alert webhook → NS1 geo-filter</td><td><strong>DNS SecOps</strong>, DNS SRE</td><td>4</td><td>Approve</td><td><span class="complexity complexity--medium">Medium</span></td></tr>
-      <tr><td>03</td><td>RAN Degradation → CDN Re-steering</td><td>Traffic Protection</td><td>INI RAN anomaly → NS1 subnet filter</td><td><strong>DNS Architect</strong>, DNS SRE</td><td>4</td><td>Approve</td><td><span class="complexity complexity--high">High</span></td></tr>
-      <tr><td>04</td><td>NS1 DNS Telemetry as INI Data Source</td><td>Intelligence Sharing</td><td>NS1 Insights API → INI MCP</td><td><strong>DNS SRE</strong>, AI Architect, DNS SecOps</td><td>3</td><td>Recommend</td><td><span class="complexity complexity--low">Low</span></td></tr>
-      <tr><td>05</td><td>Pulsar RUM + INI Latency Fusion</td><td>Intelligence Sharing</td><td>Pulsar API → INI pipeline + conditional NS1 update</td><td><strong>DNS SRE</strong>, DNS Architect</td><td>3</td><td>Recommend → Approve</td><td><span class="complexity complexity--high">High</span></td></tr>
-      <tr><td>06</td><td>Network Topology Context → NS1 Routing</td><td>Intelligence Sharing</td><td>INI topology API → NS1 record metadata</td><td><strong>DNS Architect</strong>, DNS SRE</td><td>4</td><td>Approve</td><td><span class="complexity complexity--high">High</span></td></tr>
-      <tr><td>07</td><td>INI Agent Updates NS1 Within Approved Policy</td><td>Agentic Automation</td><td>INI Skill → NS1 REST API (policy-bound)</td><td><strong>AI Architect</strong>, DNS SecOps, DNS SRE</td><td>4</td><td>Policy-bound</td><td><span class="complexity complexity--medium">Medium</span></td></tr>
-      <tr><td>08</td><td>Human-in-the-Loop DNS Change Approval</td><td>Agentic Automation</td><td>INI ITSM ticket + human approval → NS1 API</td><td><strong>DNS SRE</strong>, DNS SecOps</td><td>4</td><td>Approve</td><td><span class="complexity complexity--low">Low</span></td></tr>
-      <tr><td>09</td><td>Predictive DNS Load Balancing</td><td>Agentic Automation</td><td>INI forecast API → NS1 weighted filter</td><td><strong>DNS Architect</strong>, DNS SRE</td><td>4</td><td>Policy-bound</td><td><span class="complexity complexity--high">High</span></td></tr>
-      <tr><td>10</td><td>Unified ITSM Ticket (Network + DNS)</td><td>Observability</td><td>INI ticket enrichment via NS1 Insights API</td><td><strong>DNS SRE</strong>, DNS Architect</td><td>3</td><td>Recommend</td><td><span class="complexity complexity--low">Low</span></td></tr>
-      <tr><td>11</td><td>INI Monitors Impact of NS1 Changes</td><td>Observability</td><td>NS1 webhook → INI event timeline</td><td><strong>DNS SRE</strong>, DNS SecOps</td><td>3</td><td>Recommend</td><td><span class="complexity complexity--low">Low</span></td></tr>
-      <tr><td>12</td><td>Natural Language DNS + Network Queries</td><td>Observability</td><td>NS1 API as INI Tool Management integration</td><td><strong>DNS SRE</strong>, DNS Architect, Executive</td><td>1–3</td><td>Explain</td><td><span class="complexity complexity--medium">Medium</span></td></tr>
-      <tr><td>13</td><td>NS1 Knowledge Assistant</td><td>Guided AI Adoption</td><td>INI RAG: NS1 docs as grounding</td><td><strong>DNS SRE</strong>, DNS Architect</td><td>1</td><td>Explain</td><td><span class="complexity complexity--low">Low</span></td></tr>
-      <tr><td>14</td><td>Explain Filter Chains in Plain Language</td><td>Guided AI Adoption</td><td>NS1 read-only API → INI Tool</td><td><strong>DNS SRE</strong>, DNS Architect, DNS SecOps</td><td>2</td><td>Explain</td><td><span class="complexity complexity--low">Low</span></td></tr>
-      <tr><td>15</td><td>AI Zone &amp; Configuration Risk Scan</td><td>Guided AI Adoption</td><td>NS1 zone export → INI scan agent</td><td><strong>DNS SecOps</strong>, DNS SRE, DNS Architect</td><td>3</td><td>Recommend</td><td><span class="complexity complexity--medium">Medium</span></td></tr>
-      <tr><td>16</td><td>Dry-run Simulation of DNS Changes</td><td>Guided AI Adoption</td><td>INI Skill: ns1-dry-run</td><td><strong>DNS SRE</strong>, DNS Architect, DNS SecOps</td><td>4</td><td>Recommend → Approve</td><td><span class="complexity complexity--high">High</span></td></tr>
-      <tr><td>17</td><td>NL Business Requirements → Filter Chain</td><td>Guided AI Adoption</td><td>INI Chat → NS1 config draft + dry-run</td><td><strong>DNS Architect</strong>, DNS SRE, Executive</td><td>4</td><td>Approve</td><td><span class="complexity complexity--high">High</span></td></tr>
-      <tr><td>18</td><td>Scoped NS1 + INI MCP Servers</td><td>Guided AI Adoption</td><td>NS1 + INI MCP servers, shared audit</td><td><strong>AI Architect</strong>, DNS Architect, DNS SecOps, DNS SRE</td><td>2–4</td><td>Explain → Approve</td><td><span class="complexity complexity--medium">Medium</span></td></tr>
-    </tbody>
-  </table>
+  <div class="table-container">
+    <table class="summary-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Use Case</th>
+          <th>Category</th>
+          <th>Primary Mechanism</th>
+          <th>Personas</th>
+          <th>Phase</th>
+          <th>Control</th>
+          <th>Complexity</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>01</td><td>AI-Predicted Pre-emptive DNS Failover</td><td>Traffic Protection</td><td>INI API → NS1 Filter Chain</td><td><strong>DNS SRE</strong>, DNS SecOps</td><td>4</td><td>Approve → Policy-bound</td><td><span class="complexity complexity--medium">Medium</span></td></tr>
+        <tr><td>02</td><td>Network DDoS Signal → DNS Diversion</td><td>Traffic Protection</td><td>INI alert webhook → NS1 geo-filter</td><td><strong>DNS SecOps</strong>, DNS SRE</td><td>4</td><td>Approve</td><td><span class="complexity complexity--medium">Medium</span></td></tr>
+        <tr><td>03</td><td>RAN Degradation → CDN Re-steering</td><td>Traffic Protection</td><td>INI RAN anomaly → NS1 subnet filter</td><td><strong>DNS Architect</strong>, DNS SRE</td><td>4</td><td>Approve</td><td><span class="complexity complexity--high">High</span></td></tr>
+        <tr><td>04</td><td>NS1 DNS Telemetry as INI Data Source</td><td>Intelligence Sharing</td><td>NS1 Insights API → INI MCP</td><td><strong>DNS SRE</strong>, AI Architect, DNS SecOps</td><td>3</td><td>Recommend</td><td><span class="complexity complexity--low">Low</span></td></tr>
+        <tr><td>05</td><td>Pulsar RUM + INI Latency Fusion</td><td>Intelligence Sharing</td><td>Pulsar API → INI pipeline + conditional NS1 update</td><td><strong>DNS SRE</strong>, DNS Architect</td><td>3</td><td>Recommend → Approve</td><td><span class="complexity complexity--high">High</span></td></tr>
+        <tr><td>06</td><td>Network Topology Context → NS1 Routing</td><td>Intelligence Sharing</td><td>INI topology API → NS1 record metadata</td><td><strong>DNS Architect</strong>, DNS SRE</td><td>4</td><td>Approve</td><td><span class="complexity complexity--high">High</span></td></tr>
+        <tr><td>07</td><td>INI Agent Updates NS1 Within Approved Policy</td><td>Agentic Automation</td><td>INI Skill → NS1 REST API (policy-bound)</td><td><strong>AI Architect</strong>, DNS SecOps, DNS SRE</td><td>4</td><td>Policy-bound</td><td><span class="complexity complexity--medium">Medium</span></td></tr>
+        <tr><td>08</td><td>Human-in-the-Loop DNS Change Approval</td><td>Agentic Automation</td><td>INI ITSM ticket + human approval → NS1 API</td><td><strong>DNS SRE</strong>, DNS SecOps</td><td>4</td><td>Approve</td><td><span class="complexity complexity--low">Low</span></td></tr>
+        <tr><td>09</td><td>Predictive DNS Load Balancing</td><td>Agentic Automation</td><td>INI forecast API → NS1 weighted filter</td><td><strong>DNS Architect</strong>, DNS SRE</td><td>4</td><td>Policy-bound</td><td><span class="complexity complexity--high">High</span></td></tr>
+        <tr><td>10</td><td>Unified ITSM Ticket (Network + DNS)</td><td>Observability</td><td>INI ticket enrichment via NS1 Insights API</td><td><strong>DNS SRE</strong>, DNS Architect</td><td>3</td><td>Recommend</td><td><span class="complexity complexity--low">Low</span></td></tr>
+        <tr><td>11</td><td>INI Monitors Impact of NS1 Changes</td><td>Observability</td><td>NS1 webhook → INI event timeline</td><td><strong>DNS SRE</strong>, DNS SecOps</td><td>3</td><td>Recommend</td><td><span class="complexity complexity--low">Low</span></td></tr>
+        <tr><td>12</td><td>Natural Language DNS + Network Queries</td><td>Observability</td><td>NS1 API as INI Tool Management integration</td><td><strong>DNS SRE</strong>, DNS Architect, Executive</td><td>1–3</td><td>Explain</td><td><span class="complexity complexity--medium">Medium</span></td></tr>
+        <tr><td>13</td><td>NS1 Knowledge Assistant</td><td>Guided AI Adoption</td><td>INI RAG: NS1 docs as grounding</td><td><strong>DNS SRE</strong>, DNS Architect</td><td>1</td><td>Explain</td><td><span class="complexity complexity--low">Low</span></td></tr>
+        <tr><td>14</td><td>Explain Filter Chains in Plain Language</td><td>Guided AI Adoption</td><td>NS1 read-only API → INI Tool</td><td><strong>DNS SRE</strong>, DNS Architect, DNS SecOps</td><td>2</td><td>Explain</td><td><span class="complexity complexity--low">Low</span></td></tr>
+        <tr><td>15</td><td>AI Zone &amp; Configuration Risk Scan</td><td>Guided AI Adoption</td><td>NS1 zone export → INI scan agent</td><td><strong>DNS SecOps</strong>, DNS SRE, DNS Architect</td><td>3</td><td>Recommend</td><td><span class="complexity complexity--medium">Medium</span></td></tr>
+        <tr><td>16</td><td>Dry-run Simulation of DNS Changes</td><td>Guided AI Adoption</td><td>INI Skill: ns1-dry-run</td><td><strong>DNS SRE</strong>, DNS Architect, DNS SecOps</td><td>4</td><td>Recommend → Approve</td><td><span class="complexity complexity--high">High</span></td></tr>
+        <tr><td>17</td><td>NL Business Requirements → Filter Chain</td><td>Guided AI Adoption</td><td>INI Chat → NS1 config draft + dry-run</td><td><strong>DNS Architect</strong>, DNS SRE, Executive</td><td>4</td><td>Approve</td><td><span class="complexity complexity--high">High</span></td></tr>
+        <tr><td>18</td><td>Scoped NS1 + INI MCP Servers</td><td>Guided AI Adoption</td><td>NS1 + INI MCP servers, shared audit</td><td><strong>AI Architect</strong>, DNS Architect, DNS SecOps, DNS SRE</td><td>2–4</td><td>Explain → Approve</td><td><span class="complexity complexity--medium">Medium</span></td></tr>
+      </tbody>
+    </table>
+  </div>
 
   <h3 style="margin-top: var(--sp-6); margin-bottom: var(--sp-3);">Executive view: business value across the maturity path</h3>
   <div class="foundations-grid">

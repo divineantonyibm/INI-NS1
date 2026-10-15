@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NS1 AI Survey Use Cases — User Journey Maps</title>
+  <meta name="description" content="Stage-by-stage user journey maps for the six NS1 MaxDiff survey AI use cases, showing actions, touchpoints, emotions, pain points and INI × NS1 support." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;600&family=IBM+Plex+Mono:wght@400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --white: #ffffff; --off-white: #f5f4f0; --light-grey: #e8e8e8; --mid-grey: #c1c7cd;
+      --text: #21272a; --text-muted: #4d5358; --text-light: #697077;
+      --ibm-blue: #0f62fe; --ibm-blue-dk: #0043ce; --purple: #6e32c9; --green: #24a148; --red: #da1e28;
+      --divider: #dde1e6;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif; font-size: 15px; line-height: 1.6; color: var(--text); background: var(--white); display: flex; }
+
+    /* Left nav */
+    .nav { width: 264px; min-width: 264px; background: #161616; position: sticky; top: 0; height: 100vh; overflow-y: auto; padding: 28px 0 20px; display: flex; flex-direction: column; }
+    .nav__product { font-size: 13px; color: #a8b2bd; padding: 0 22px 20px; border-bottom: 1px solid #393939; margin-bottom: 20px; line-height: 1.4; }
+    .nav__label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .6px; color: #6f7880; padding: 0 22px; margin: 16px 0 8px; }
+    .nav__link { display: flex; gap: 12px; align-items: baseline; padding: 9px 22px; font-size: 13.5px; color: #c6c6c6; text-decoration: none; border-left: 2px solid transparent; line-height: 1.35; }
+    .nav__link:hover { background: #262626; color: #fff; }
+    .nav__link.active { background: #262626; color: #fff; border-left-color: #78a9ff; }
+    .nav__num { font-size: 11px; color: #6f7880; font-weight: 600; min-width: 26px; }
+    .nav__footer { margin-top: auto; padding: 16px 22px 0; border-top: 1px solid #393939; font-size: 12px; color: #6f7880; line-height: 1.5; }
+    .nav__footer a { color: #78a9ff; text-decoration: none; display: inline-block; margin-top: 6px; }
+    @media (max-width: 900px) { body { display: block; } .nav { display: none; } }
+
+    .main { flex: 1; min-width: 0; }
+
+    /* Cover */
+    .cover { padding: 72px 56px 40px; border-bottom: 1px solid var(--divider); }
+    .cover__label { font-size: 13px; text-transform: uppercase; letter-spacing: .5px; color: var(--text-muted); margin-bottom: 14px; }
+    .cover__title { font-size: clamp(34px, 3.6vw, 52px); font-weight: 300; line-height: 1.1; letter-spacing: -.4px; margin-bottom: 18px; }
+    .cover__sub { font-size: 18px; color: var(--text-muted); max-width: 820px; line-height: 1.6; }
+    .cover__logo { margin-top: 36px; }
+    .cover__logo img { width: 52px; filter: brightness(0); display: block; }
+
+    .block { padding: 48px 56px; border-bottom: 1px solid var(--divider); }
+    .eyebrow { font-size: 12px; text-transform: uppercase; letter-spacing: .5px; color: var(--text-muted); margin-bottom: 6px; }
+    h2.block__title { font-size: 28px; font-weight: 300; margin-bottom: 14px; }
+    h2.block__title strong { font-weight: 600; }
+    .lead { font-size: 16.5px; color: var(--text-muted); max-width: 860px; margin-bottom: 24px; }
+
+    /* How to read */
+    .legend { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 1px; background: var(--divider); border: 1px solid var(--divider); margin-bottom: 28px; }
+    .legend__cell { background: #fff; padding: 16px 18px; }
+    .legend__cell h3 { font-size: 14px; margin-bottom: 4px; }
+    .legend__cell p { font-size: 13.5px; color: var(--text-muted); }
+
+    table.ov { width: 100%; border-collapse: collapse; font-size: 14px; }
+    table.ov th { text-align: left; font-size: 12px; text-transform: uppercase; letter-spacing: .4px; color: var(--text-muted); padding: 8px 12px; border-bottom: 2px solid var(--text); }
+    table.ov td { padding: 10px 12px; border-bottom: 1px solid var(--divider); color: var(--text-muted); vertical-align: top; }
+    table.ov td:first-child { font-weight: 600; color: var(--text-light); white-space: nowrap; }
+    table.ov a { color: var(--ibm-blue-dk); font-weight: 600; text-decoration: none; }
+    table.ov a:hover { text-decoration: underline; }
+
+    /* Journey */
+    .journey { padding: 52px 56px 56px; border-bottom: 1px solid var(--divider); scroll-margin-top: 0; }
+    .journey__head { display: flex; align-items: flex-start; gap: 20px; margin-bottom: 20px; }
+    .journey__num { font-size: 56px; font-weight: 300; color: var(--mid-grey); line-height: 1; }
+    .journey__title { font-size: 28px; font-weight: 300; line-height: 1.2; }
+    .journey__sub { font-size: 15px; color: var(--text-muted); margin-top: 2px; }
+    .fit { margin-left: auto; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .4px; padding: 3px 10px; border-radius: 2px; white-space: nowrap; }
+    .fit--core { background: #defbe6; color: #0e6027; }
+    .fit--high { background: #edf5ff; color: #0043ce; }
+    .fit--moderate { background: #f4f4f4; color: #525252; }
+
+    .survey-box { background: var(--off-white); border-left: 3px solid var(--ibm-blue); padding: 12px 16px; font-size: 14.5px; color: var(--text-muted); margin-bottom: 20px; }
+    .survey-box strong { color: var(--text); }
+
+    .brief { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 1px; background: var(--divider); border: 1px solid var(--divider); margin-bottom: 24px; }
+    .brief__cell { background: #fff; padding: 14px 16px; }
+    .brief__label { font-size: 11.5px; font-weight: 600; text-transform: uppercase; letter-spacing: .5px; color: var(--text-light); margin-bottom: 4px; }
+    .brief__body { font-size: 14px; color: var(--text-muted); line-height: 1.5; }
+    .brief__body strong { color: var(--text); }
+
+    /* Journey grid */
+    .jm-scroll { overflow-x: auto; border: 1px solid var(--divider); margin-bottom: 24px; }
+    .jm-grid { display: grid; min-width: 1100px; }
+    .jm-corner { background: #161616; }
+    .jm-stage { background: #161616; color: #fff; font-size: 14px; font-weight: 600; padding: 12px 14px; border-left: 1px solid #393939; display: flex; gap: 10px; align-items: baseline; line-height: 1.3; }
+    .jm-stage__num { font-size: 12px; color: #78a9ff; font-weight: 600; }
+    .jm-label { background: var(--off-white); font-size: 11.5px; font-weight: 600; text-transform: uppercase; letter-spacing: .5px; color: var(--text-muted); padding: 14px; border-top: 1px solid var(--divider); }
+    .jm-label--pain { color: #a2191f; }
+    .jm-label--help { color: var(--ibm-blue-dk); }
+    .jm-cell { font-size: 13.5px; color: var(--text-muted); line-height: 1.5; padding: 14px; border-top: 1px solid var(--divider); border-left: 1px solid var(--divider); background: #fff; }
+    .jm-cell--pain { background: #fff8f8; }
+    .jm-cell--help { background: #f2f6ff; color: var(--text); }
+    .jm-emo { border-top: 1px solid var(--divider); border-left: 1px solid var(--divider); background: #fff; }
+
+    .emo-chart { position: relative; height: 140px; }
+    .emo-chart svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+    .emo-mid { stroke: var(--divider); stroke-width: 1; stroke-dasharray: 4 4; }
+    .emo-line { fill: none; stroke: var(--ibm-blue); stroke-width: 2; }
+    .emo-dot { position: absolute; width: 14px; height: 14px; border-radius: 50%; transform: translate(-50%, -50%); border: 2px solid #fff; box-shadow: 0 0 0 1px var(--mid-grey); }
+    .emo-1 { background: #da1e28; } .emo-2 { background: #ff832b; } .emo-3 { background: #c1c7cd; } .emo-4 { background: #4589ff; } .emo-5 { background: #24a148; }
+    .emo-word { position: absolute; transform: translate(-50%, 12px); font-size: 11.5px; color: var(--text-muted); white-space: nowrap; }
+
+    .takeaways { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
+    .takeaway ul { padding-left: 18px; font-size: 14px; color: var(--text-muted); }
+    .takeaway li { margin-bottom: 4px; }
+    .takeaway p:not(.brief__label) { font-size: 14px; color: var(--text-muted); }
+    .takeaway--impact { border-left: 2px solid var(--text); padding-left: 14px; }
+
+    .scale { display: flex; gap: 18px; flex-wrap: wrap; font-size: 13px; color: var(--text-muted); margin-top: 6px; }
+    .scale span::before { content: ''; display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; vertical-align: middle; }
+    .scale .s1::before { background: #da1e28; } .scale .s2::before { background: #ff832b; } .scale .s3::before { background: #c1c7cd; } .scale .s4::before { background: #4589ff; } .scale .s5::before { background: #24a148; }
+
+    .foot { padding: 20px 56px; font-size: 12.5px; color: var(--text-light); display: flex; justify-content: space-between; }
+    @media (max-width: 700px) { .cover, .block, .journey, .foot { padding-left: 20px; padding-right: 20px; } .journey__head { flex-wrap: wrap; } .fit { margin-left: 0; } }
+    @media print { .nav { display: none; } .journey { page-break-before: always; } }
+  </style>
+</head>
+<body>
+
+<nav class="nav" id="nav">
+  <p class="nav__product">NS1 AI Survey × INI<br>User Journey Maps</p>
+  <a class="nav__link" href="./index.html" style="color:#78a9ff;"><span class="nav__num">←</span>Knowledge Hub</a>
+  <p class="nav__label">Overview</p>
+  <a class="nav__link" href="#top"><span class="nav__num">—</span>Cover</a>
+  <a class="nav__link" href="#overview"><span class="nav__num">00</span>How to read</a>
+  <p class="nav__label">Journeys</p>
+    <a class="nav__link" href="#uc1"><span class="nav__num">UC1</span>Guide Initial DNS Setup</a>
+    <a class="nav__link" href="#uc2"><span class="nav__num">UC2</span>Advanced Traffic Steering</a>
+    <a class="nav__link" href="#uc3"><span class="nav__num">UC3</span>Pre-Deployment Validation</a>
+    <a class="nav__link" href="#uc4"><span class="nav__num">UC4</span>Telemetry &amp; Troubleshooting</a>
+    <a class="nav__link" href="#uc5"><span class="nav__num">UC5</span>Expert In-Product Help</a>
+    <a class="nav__link" href="#uc6"><span class="nav__num">UC6</span>Plan &amp; Execute Changes</a>
+  <div class="nav__footer">
+    <p>INI × NS1 Connect<br>MaxDiff Capability Study<br>IBM Confidential</p>
+    <a href="./ini-ns1-ai-survey-usecases.html">Source: survey use cases</a>
+  </div>
+</nav>
+
+<div class="main">
+
+<header class="cover" id="top">
+  <p class="cover__label">IBM Network Intelligence × NS1 Connect</p>
+  <h1 class="cover__title">User Journey Maps<br>for the Six AI Survey Use Cases</h1>
+  <p class="cover__sub">A stage-by-stage view of how each practitioner moves from trigger to outcome: what they do, where they struggle, how they feel, and where IBM Network Intelligence and NS1 Connect step in. Derived from the use cases in <a href="./ini-ns1-ai-survey-usecases.html" style="color:var(--ibm-blue-dk);">NS1 AI Survey Capabilities &amp; INI Integration Analysis</a>.</p>
+  <div class="cover__logo"><img src="ibm.svg" alt="IBM" /></div>
+</header>
+
+<section class="block" id="overview">
+  <p class="eyebrow">Overview</p>
+  <h2 class="block__title">How to <strong>read the maps</strong></h2>
+  <p class="lead">Each map follows one persona through six stages. Personas, triggers, touchpoints and impacts come from the source document. Stage details, thoughts and emotion ratings are illustrative hypotheses to be validated in research with NS1 practitioners.</p>
+
+  <div class="legend">
+    <div class="legend__cell"><h3>Does / Touchpoints</h3><p>The actions taken and the tools or surfaces used at each stage.</p></div>
+    <div class="legend__cell"><h3>Thinks / Feels</h3><p>The practitioner's inner question and a five-point emotion rating plotted as a curve.</p></div>
+    <div class="legend__cell"><h3>Pain points</h3><p>What gets in the way today, shaded red.</p></div>
+    <div class="legend__cell"><h3>INI × NS1 support</h3><p>How the AI capability and NS1 Connect remove the pain, shaded blue.</p></div>
+  </div>
+
+  <div class="scale"><span class="s1">Frustrated</span><span class="s2">Anxious</span><span class="s3">Neutral</span><span class="s4">Confident</span><span class="s5">Delighted</span></div>
+
+  <table class="ov" style="margin-top:28px;">
+    <thead><tr><th>Survey UC</th><th>Journey</th><th>Primary persona</th><th>Stages</th><th>Lowest point</th><th>Control mode</th></tr></thead>
+    <tbody>
+          <tr><td>UC 01</td><td><a href="#uc1">Guide Initial DNS Setup</a></td><td>DevOps Engineer / Network Engineer</td><td>6</td><td>Plan migration</td><td>Assistant Mode</td></tr>
+          <tr><td>UC 02</td><td><a href="#uc2">Advanced Traffic Steering</a></td><td>Infrastructure Architect</td><td>6</td><td>Check bounds</td><td>Design Assistant</td></tr>
+          <tr><td>UC 03</td><td><a href="#uc3">Pre-Deployment Validation</a></td><td>Network Engineer</td><td>6</td><td>Prepare change</td><td>Pre-Flight Sandbox</td></tr>
+          <tr><td>UC 04</td><td><a href="#uc4">Telemetry &amp; Troubleshooting</a></td><td>NetOps / SRE</td><td>6</td><td>Detect</td><td>Assistant Mode</td></tr>
+          <tr><td>UC 05</td><td><a href="#uc5">Expert In-Product Help</a></td><td>On-call Network Engineer / DevOps Engineer</td><td>6</td><td>Hit a question</td><td>In-Flow Assistant</td></tr>
+          <tr><td>UC 06</td><td><a href="#uc6">Plan &amp; Execute Changes</a></td><td>Infrastructure Architect</td><td>6</td><td>Express intent</td><td>Assistant / Autonomous</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="journey" id="uc1">
+  <div class="journey__head">
+    <div class="journey__num">01</div>
+    <div>
+      <p class="eyebrow">Survey use case 01 · Phase 1</p>
+      <h2 class="journey__title">Guide Initial DNS Setup</h2>
+      <p class="journey__sub">Automated initial DNS setup &amp; zone migration</p>
+    </div>
+    <span class="fit fit--moderate">Moderate INI Fit</span>
+  </div>
+
+  <div class="survey-box"><strong>Survey tested concept:</strong> <em>"Guide you through getting started with a DNS platform, including explaining setup steps and helping configure core elements such as zones, DNS records, monitoring, and API access."</em></div>
+
+  <div class="brief">
+    <div class="brief__cell"><p class="brief__label">Persona</p><p class="brief__body"><strong>DevOps Engineer / Network Engineer</strong><br>New NS1 Connect customer migrating from legacy BIND or Route 53</p></div>
+    <div class="brief__cell"><p class="brief__label">Trigger</p><p class="brief__body">A contract is signed and the legacy DNS provider has to be retired on a fixed date.</p></div>
+    <div class="brief__cell"><p class="brief__label">Goal</p><p class="brief__body">Move thousands of records to NS1 Connect with monitors, API access and delegation configured correctly, with no resolution gap.</p></div>
+    <div class="brief__cell"><p class="brief__label">Control mode</p><p class="brief__body">Assistant Mode</p></div>
+  </div>
+
+  <div class="jm-scroll"><div class="jm-grid" style="grid-template-columns:132px repeat(6, minmax(168px, 1fr));">
+      <div class="jm-corner"></div><div class="jm-stage"><span class="jm-stage__num">1</span>Plan migration</div><div class="jm-stage"><span class="jm-stage__num">2</span>Import zones</div><div class="jm-stage"><span class="jm-stage__num">3</span>Map legacy routing</div><div class="jm-stage"><span class="jm-stage__num">4</span>Configure monitoring &amp; access</div><div class="jm-stage"><span class="jm-stage__num">5</span>Verify delegation</div><div class="jm-stage"><span class="jm-stage__num">6</span>Operate</div>
+      <div class="jm-label">Does</div><div class="jm-cell">Reviews the legacy estate and the NS1 getting-started material; opens the INI chat assistant.</div><div class="jm-cell">Uploads BIND / AXFR zone files for parsing.</div><div class="jm-cell">Reviews suggested replacements for weighted or failover rules.</div><div class="jm-cell">Sets up health monitors, DNSSEC and scoped API tokens.</div><div class="jm-cell">Checks apex delegation and compares answers old vs new before cutover.</div><div class="jm-cell">Switches delegation, watches the first queries, closes the migration.</div>
+      <div class="jm-label">Touchpoints</div><div class="jm-cell">INI Chat Assistant, NS1 docs</div><div class="jm-cell">Zone parser, bulk zone API</div><div class="jm-cell">Assistant chat, Filter Chain preview</div><div class="jm-cell">Onboarding wizard, RBAC token API</div><div class="jm-cell">Verification checklist, NS1 Connect</div><div class="jm-cell">NS1 Connect, INI telemetry</div>
+      <div class="jm-label">Thinks</div><div class="jm-cell">"Where do I even start, and what will not map across?"</div><div class="jm-cell">"Did every record come across?"</div><div class="jm-cell">"Is the new steering equivalent to what I had?"</div><div class="jm-cell">"Am I giving out too much access?"</div><div class="jm-cell">"Will anything break when I switch the NS records?"</div><div class="jm-cell">"It worked, and I did it in hours not weeks."</div>
+      <div class="jm-label">Feels</div><div class="jm-emo" style="grid-column: 2 / span 6;"><div class="emo-chart">
+        <svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+          <line x1="0" y1="50" x2="100" y2="50" class="emo-mid" vector-effect="non-scaling-stroke"/>
+          <polyline points="8.33,70.00 25.00,50.00 41.67,50.00 58.33,30.00 75.00,70.00 91.67,10.00" class="emo-line" vector-effect="non-scaling-stroke"/>
+        </svg>
+        <span class="emo-dot emo-2" style="left:8.33%;top:70.00%" title="Anxious"></span><span class="emo-word" style="left:8.33%;top:70.00%">Anxious</span><span class="emo-dot emo-3" style="left:25.00%;top:50.00%" title="Neutral"></span><span class="emo-word" style="left:25.00%;top:50.00%">Neutral</span><span class="emo-dot emo-3" style="left:41.67%;top:50.00%" title="Neutral"></span><span class="emo-word" style="left:41.67%;top:50.00%">Neutral</span><span class="emo-dot emo-4" style="left:58.33%;top:30.00%" title="Confident"></span><span class="emo-word" style="left:58.33%;top:30.00%">Confident</span><span class="emo-dot emo-2" style="left:75.00%;top:70.00%" title="Anxious"></span><span class="emo-word" style="left:75.00%;top:70.00%">Anxious</span><span class="emo-dot emo-5" style="left:91.67%;top:10.00%" title="Delighted"></span><span class="emo-word" style="left:91.67%;top:10.00%">Delighted</span>
+      </div></div>
+      <div class="jm-label jm-label--pain">Pain points</div><div class="jm-cell jm-cell--pain">Unknown scope; zone files, custom records and routing rules are spread across systems.</div><div class="jm-cell jm-cell--pain">Syntax differences and unsupported record types fail silently or in bulk.</div><div class="jm-cell jm-cell--pain">Legacy routing logic is not documented and is hard to translate.</div><div class="jm-cell jm-cell--pain">Security settings are easy to misconfigure and easy to forget.</div><div class="jm-cell jm-cell--pain">Cutover is high stakes and hard to roll back after TTLs expire.</div><div class="jm-cell jm-cell--pain">Few; some residual cleanup of legacy records.</div>
+      <div class="jm-label jm-label--help">INI × NS1 support</div><div class="jm-cell jm-cell--help">Assistant asks about provider, zone count and goals, then proposes an ordered setup checklist.</div><div class="jm-cell jm-cell--help">INI parses the files, flags unsupported or custom records and shows a diff of what imports cleanly.</div><div class="jm-cell jm-cell--help">INI maps legacy rules to Filter Chain equivalents and explains each choice.</div><div class="jm-cell jm-cell--help">Step-by-step guidance with least-privilege token templates and DNSSEC key provisioning.</div><div class="jm-cell jm-cell--help">Guided pre-cutover checks and a rollback note recorded with the plan.</div><div class="jm-cell jm-cell--help">Setup summary and next-step suggestions hand over to day-to-day operations (UC 5).</div>
+    </div></div>
+
+  <div class="takeaways">
+    <div class="takeaway">
+      <p class="brief__label">Moments of truth</p>
+      <ul><li>Zone import diff builds trust that nothing was lost.</li><li>Pre-cutover verification removes the biggest fear in the journey.</li></ul>
+    </div>
+    <div class="takeaway">
+      <p class="brief__label">Success measures</p>
+      <ul><li>Time to first working zone</li><li>Records imported without manual fix-up</li><li>Migration completed without resolution gap</li></ul>
+    </div>
+    <div class="takeaway takeaway--impact">
+      <p class="brief__label">Expected impact</p>
+      <p>Accelerates enterprise onboarding from weeks to hours and removes syntax discrepancies between legacy and NS1 implementations.</p>
+    </div>
+  </div>
+</section>
+
+<section class="journey" id="uc2">
+  <div class="journey__head">
+    <div class="journey__num">02</div>
+    <div>
+      <p class="eyebrow">Survey use case 02 · Phase 2</p>
+      <h2 class="journey__title">Build Advanced Traffic Steering</h2>
+      <p class="journey__sub">Telemetry-guided Filter Chain &amp; Pulsar policy synthesis</p>
+    </div>
+    <span class="fit fit--high">High INI Fit</span>
+  </div>
+
+  <div class="survey-box"><strong>Survey tested concept:</strong> <em>"Help you design advanced traffic steering configurations by explaining available options and helping determine how traffic should be routed based on your intended outcome."</em></div>
+
+  <div class="brief">
+    <div class="brief__cell"><p class="brief__label">Persona</p><p class="brief__body"><strong>Infrastructure Architect</strong><br>Secondary: DevOps Engineer. Designs multi-CDN and hybrid-cloud steering</p></div>
+    <div class="brief__cell"><p class="brief__label">Trigger</p><p class="brief__body">A new multi-CDN or multi-region rollout needs a steering policy that satisfies performance, cost and GDPR constraints.</p></div>
+    <div class="brief__cell"><p class="brief__label">Goal</p><p class="brief__body">Turn a business routing goal into a Filter Chain that balances latency, transit cost, data sovereignty and origin capacity.</p></div>
+    <div class="brief__cell"><p class="brief__label">Control mode</p><p class="brief__body">Design Assistant</p></div>
+  </div>
+
+  <div class="jm-scroll"><div class="jm-grid" style="grid-template-columns:132px repeat(6, minmax(168px, 1fr));">
+      <div class="jm-corner"></div><div class="jm-stage"><span class="jm-stage__num">1</span>Define outcome</div><div class="jm-stage"><span class="jm-stage__num">2</span>Explore options</div><div class="jm-stage"><span class="jm-stage__num">3</span>Review draft chain</div><div class="jm-stage"><span class="jm-stage__num">4</span>Check bounds</div><div class="jm-stage"><span class="jm-stage__num">5</span>Save as Skill</div><div class="jm-stage"><span class="jm-stage__num">6</span>Apply &amp; refine</div>
+      <div class="jm-label">Does</div><div class="jm-cell">States the goal in plain language: lowest latency in-region, cap transit spend, keep EU data in the EU.</div><div class="jm-cell">Asks which filters exist and how they interact.</div><div class="jm-cell">Reads the recommended order, for example UP/DOWN, SHED_LOAD, GEODNS, PULSAR, SELECT_FIRST_N.</div><div class="jm-cell">Reviews warnings about blackholing, circular fallbacks and single-region overload.</div><div class="jm-cell">Accepts the design and saves the pattern as a reusable Skill.</div><div class="jm-cell">Applies the config (via UC 3 and UC 6) and tunes using Pulsar results.</div>
+      <div class="jm-label">Touchpoints</div><div class="jm-cell">INI Chat Assistant</div><div class="jm-cell">Assistant chat, NS1 docs (RAG)</div><div class="jm-cell">Filter Chain preview, Pulsar RUM feeds</div><div class="jm-cell">Validation panel, View reasoning</div><div class="jm-cell">INI Skills library</div><div class="jm-cell">NS1 Connect, Pulsar</div>
+      <div class="jm-label">Thinks</div><div class="jm-cell">"I know the outcome but not the exact filter combination."</div><div class="jm-cell">"What are my options, and what does each one cost me?"</div><div class="jm-cell">"Does this fit my real traffic and my contracts?"</div><div class="jm-cell">"What could this get wrong?"</div><div class="jm-cell">"My team should not have to redesign this each time."</div><div class="jm-cell">"Latency is down and the bill is under control."</div>
+      <div class="jm-label">Feels</div><div class="jm-emo" style="grid-column: 2 / span 6;"><div class="emo-chart">
+        <svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+          <line x1="0" y1="50" x2="100" y2="50" class="emo-mid" vector-effect="non-scaling-stroke"/>
+          <polyline points="8.33,50.00 25.00,50.00 41.67,30.00 58.33,70.00 75.00,30.00 91.67,10.00" class="emo-line" vector-effect="non-scaling-stroke"/>
+        </svg>
+        <span class="emo-dot emo-3" style="left:8.33%;top:50.00%" title="Neutral"></span><span class="emo-word" style="left:8.33%;top:50.00%">Neutral</span><span class="emo-dot emo-3" style="left:25.00%;top:50.00%" title="Neutral"></span><span class="emo-word" style="left:25.00%;top:50.00%">Neutral</span><span class="emo-dot emo-4" style="left:41.67%;top:30.00%" title="Confident"></span><span class="emo-word" style="left:41.67%;top:30.00%">Confident</span><span class="emo-dot emo-2" style="left:58.33%;top:70.00%" title="Anxious"></span><span class="emo-word" style="left:58.33%;top:70.00%">Anxious</span><span class="emo-dot emo-4" style="left:75.00%;top:30.00%" title="Confident"></span><span class="emo-word" style="left:75.00%;top:30.00%">Confident</span><span class="emo-dot emo-5" style="left:91.67%;top:10.00%" title="Delighted"></span><span class="emo-word" style="left:91.67%;top:10.00%">Delighted</span>
+      </div></div>
+      <div class="jm-label jm-label--pain">Pain points</div><div class="jm-cell jm-cell--pain">Business goals do not map directly to Filter Chain terms.</div><div class="jm-cell jm-cell--pain">Many filters and ordering rules; trial and error is slow.</div><div class="jm-cell jm-cell--pain">Cannot tell whether the proposal fits actual egress costs and capacity.</div><div class="jm-cell jm-cell--pain">Edge cases are easy to miss until an incident exposes them.</div><div class="jm-cell jm-cell--pain">Patterns live in individual heads, so squads drift apart.</div><div class="jm-cell jm-cell--pain">Ongoing tuning needs fresh data.</div>
+      <div class="jm-label jm-label--help">INI × NS1 support</div><div class="jm-cell jm-cell--help">INI decomposes the intent into constraints: latency, cost, geography, capacity.</div><div class="jm-cell jm-cell--help">Plain-language explanation of filters with examples grounded in the live NS1 schema.</div><div class="jm-cell jm-cell--help">Recommendation uses historical telemetry, cloud egress rates and capacity models.</div><div class="jm-cell jm-cell--help">Hard policy bounds are enforced and every warning is explained.</div><div class="jm-cell jm-cell--help">Reusable, versioned Skills standardize steering across squads.</div><div class="jm-cell jm-cell--help">Telemetry feedback suggests weight and order adjustments over time.</div>
+    </div></div>
+
+  <div class="takeaways">
+    <div class="takeaway">
+      <p class="brief__label">Moments of truth</p>
+      <ul><li>Seeing the draft chain justified by real telemetry rather than generic advice.</li><li>Saving a Skill turns one design into a team standard.</li></ul>
+    </div>
+    <div class="takeaway">
+      <p class="brief__label">Success measures</p>
+      <ul><li>Design time from goal to approved chain</li><li>Latency change after rollout</li><li>Skills reused across squads</li></ul>
+    </div>
+    <div class="takeaway takeaway--impact">
+      <p class="brief__label">Expected impact</p>
+      <p>Lowers global user latency by 25–40%, prevents transit overage penalties and standardizes steering patterns across squads.</p>
+    </div>
+  </div>
+</section>
+
+<section class="journey" id="uc3">
+  <div class="journey__head">
+    <div class="journey__num">03</div>
+    <div>
+      <p class="eyebrow">Survey use case 03 · Phase 2</p>
+      <h2 class="journey__title">Validate Configurations Before Deployment</h2>
+      <p class="journey__sub">Digital twin DNS simulation &amp; blast-radius verification</p>
+    </div>
+    <span class="fit fit--high">High INI Fit</span>
+  </div>
+
+  <div class="survey-box"><strong>Survey tested concept:</strong> <em>"Review or simulate a proposed DNS configuration before it is deployed to identify potential problems and show how the configuration is expected to behave."</em></div>
+
+  <div class="brief">
+    <div class="brief__cell"><p class="brief__label">Persona</p><p class="brief__body"><strong>Network Engineer</strong><br>Secondary: SecOps. Owns a flagship service and its change approvals</p></div>
+    <div class="brief__cell"><p class="brief__label">Trigger</p><p class="brief__body">A weight shift on legacy origins could overload a smaller secondary data centre if a TTL or chain logic bug slips through.</p></div>
+    <div class="brief__cell"><p class="brief__label">Goal</p><p class="brief__body">Prove a routing change is safe before it reaches production, with evidence a change board will accept.</p></div>
+    <div class="brief__cell"><p class="brief__label">Control mode</p><p class="brief__body">Pre-Flight Sandbox</p></div>
+  </div>
+
+  <div class="jm-scroll"><div class="jm-grid" style="grid-template-columns:132px repeat(6, minmax(168px, 1fr));">
+      <div class="jm-corner"></div><div class="jm-stage"><span class="jm-stage__num">1</span>Prepare change</div><div class="jm-stage"><span class="jm-stage__num">2</span>Run simulation</div><div class="jm-stage"><span class="jm-stage__num">3</span>Review blast radius</div><div class="jm-stage"><span class="jm-stage__num">4</span>Inspect reasoning</div><div class="jm-stage"><span class="jm-stage__num">5</span>Fix &amp; re-test</div><div class="jm-stage"><span class="jm-stage__num">6</span>Gate &amp; deploy</div>
+      <div class="jm-label">Does</div><div class="jm-cell">Drafts the new weights and Filter Chain in a branch or ticket.</div><div class="jm-cell">Requests a replay of the previous 24 hours of query telemetry against the proposal.</div><div class="jm-cell">Reads the predicted traffic heatmap and blast-radius score.</div><div class="jm-cell">Opens View reasoning to see how the score was reached.</div><div class="jm-cell">Adjusts weights or fallbacks and re-runs until under threshold.</div><div class="jm-cell">Pipeline gate passes (for example under a 15% unhandled-shed limit); CAB receives the report.</div>
+      <div class="jm-label">Touchpoints</div><div class="jm-cell">NS1 Connect, change ticket</div><div class="jm-cell">INI simulation, dry-run endpoints</div><div class="jm-cell">Heatmap, risk report</div><div class="jm-cell">View reasoning trace</div><div class="jm-cell">Chat assistant, simulation</div><div class="jm-cell">CI/CD gate, CAB report</div>
+      <div class="jm-label">Thinks</div><div class="jm-cell">"I think this is right, but I cannot be sure."</div><div class="jm-cell">"Show me what really happens."</div><div class="jm-cell">"Which sites get hit, and by how much?"</div><div class="jm-cell">"Can I defend this number to the CAB?"</div><div class="jm-cell">"Quick loop, I can iterate safely."</div><div class="jm-cell">"Nobody has to guess."</div>
+      <div class="jm-label">Feels</div><div class="jm-emo" style="grid-column: 2 / span 6;"><div class="emo-chart">
+        <svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+          <line x1="0" y1="50" x2="100" y2="50" class="emo-mid" vector-effect="non-scaling-stroke"/>
+          <polyline points="8.33,70.00 25.00,50.00 41.67,70.00 58.33,30.00 75.00,30.00 91.67,10.00" class="emo-line" vector-effect="non-scaling-stroke"/>
+        </svg>
+        <span class="emo-dot emo-2" style="left:8.33%;top:70.00%" title="Anxious"></span><span class="emo-word" style="left:8.33%;top:70.00%">Anxious</span><span class="emo-dot emo-3" style="left:25.00%;top:50.00%" title="Neutral"></span><span class="emo-word" style="left:25.00%;top:50.00%">Neutral</span><span class="emo-dot emo-2" style="left:41.67%;top:70.00%" title="Anxious"></span><span class="emo-word" style="left:41.67%;top:70.00%">Anxious</span><span class="emo-dot emo-4" style="left:58.33%;top:30.00%" title="Confident"></span><span class="emo-word" style="left:58.33%;top:30.00%">Confident</span><span class="emo-dot emo-4" style="left:75.00%;top:30.00%" title="Confident"></span><span class="emo-word" style="left:75.00%;top:30.00%">Confident</span><span class="emo-dot emo-5" style="left:91.67%;top:10.00%" title="Delighted"></span><span class="emo-word" style="left:91.67%;top:10.00%">Delighted</span>
+      </div></div>
+      <div class="jm-label jm-label--pain">Pain points</div><div class="jm-cell jm-cell--pain">No safe way to test against real traffic; reviews rely on eyeballing config.</div><div class="jm-cell jm-cell--pain">Waiting for results with no sense of how long or how reliable they are.</div><div class="jm-cell jm-cell--pain">Raw numbers without context are hard to interpret.</div><div class="jm-cell jm-cell--pain">Black-box scores are not trusted by approvers.</div><div class="jm-cell jm-cell--pain">Slow iteration would push teams to skip validation.</div><div class="jm-cell jm-cell--pain">Manual gate evidence is time consuming to assemble.</div>
+      <div class="jm-label jm-label--help">INI × NS1 support</div><div class="jm-cell jm-cell--help">Proposed config is submitted to INI for pre-flight review.</div><div class="jm-cell jm-cell--help">Predictive replay through the virtual Filter Chain sandbox.</div><div class="jm-cell jm-cell--help">Risk report highlights overloaded origins and TTL collisions in plain language.</div><div class="jm-cell jm-cell--help">Explainable audit trail with assumptions, inputs and confidence.</div><div class="jm-cell jm-cell--help">INI suggests specific fixes; each re-run is fast and logged.</div><div class="jm-cell jm-cell--help">Auto-generated change evidence; the gate blocks deployment above the threshold.</div>
+    </div></div>
+
+  <div class="takeaways">
+    <div class="takeaway">
+      <p class="brief__label">Moments of truth</p>
+      <ul><li>The blast-radius score turns an opinion into evidence.</li><li>A pipeline gate that blocks risky changes automatically builds long-term trust.</li></ul>
+    </div>
+    <div class="takeaway">
+      <p class="brief__label">Success measures</p>
+      <ul><li>Changes caught by simulation before release</li><li>Iterations to reach a passing score</li><li>Config-caused incidents</li></ul>
+    </div>
+    <div class="takeaway takeaway--impact">
+      <p class="brief__label">Expected impact</p>
+      <p>Prevents configuration outages, validates zero-downtime windows and gives CABs quantifiable risk proof.</p>
+    </div>
+  </div>
+</section>
+
+<section class="journey" id="uc4">
+  <div class="journey__head">
+    <div class="journey__num">04</div>
+    <div>
+      <p class="eyebrow">Survey use case 04 · Phase 1</p>
+      <h2 class="journey__title">Interpret DNS Telemetry &amp; Troubleshoot Issues</h2>
+      <p class="journey__sub">Cross-layer DNS &amp; underlay telemetry correlation</p>
+    </div>
+    <span class="fit fit--core">Core INI Fit</span>
+  </div>
+
+  <div class="survey-box"><strong>Survey tested concept:</strong> <em>"Analyze DNS telemetry, such as query volume, response codes, query logs, or traffic-steering results, to identify patterns, anomalies, and potential causes of problems."</em></div>
+
+  <div class="brief">
+    <div class="brief__cell"><p class="brief__label">Persona</p><p class="brief__body"><strong>NetOps / SRE</strong><br>Secondary: Network Engineer. On call for a critical service</p></div>
+    <div class="brief__cell"><p class="brief__label">Trigger</p><p class="brief__body">Localized resolution failures appear for a critical service; the fault could be health-check flapping, CDN edge, rate limiting or an upstream BGP flap.</p></div>
+    <div class="brief__cell"><p class="brief__label">Goal</p><p class="brief__body">Find the real root cause of resolution failures in seconds and avoid chasing the wrong layer.</p></div>
+    <div class="brief__cell"><p class="brief__label">Control mode</p><p class="brief__body">Assistant Mode</p></div>
+  </div>
+
+  <div class="jm-scroll"><div class="jm-grid" style="grid-template-columns:132px repeat(6, minmax(168px, 1fr));">
+      <div class="jm-corner"></div><div class="jm-stage"><span class="jm-stage__num">1</span>Detect</div><div class="jm-stage"><span class="jm-stage__num">2</span>Triage</div><div class="jm-stage"><span class="jm-stage__num">3</span>Correlate layers</div><div class="jm-stage"><span class="jm-stage__num">4</span>Inspect reasoning</div><div class="jm-stage"><span class="jm-stage__num">5</span>Remediate / hand off</div><div class="jm-stage"><span class="jm-stage__num">6</span>Close &amp; learn</div>
+      <div class="jm-label">Does</div><div class="jm-cell">Receives one grouped incident rather than thousands of raw error alerts.</div><div class="jm-cell">Opens the incident and reads the impact summary and affected zones.</div><div class="jm-cell">Reviews DNS anomalies alongside BGP flaps and interface counters.</div><div class="jm-cell">Opens View reasoning to see charts, confidence and past baselines.</div><div class="jm-cell">Applies a fix or escalates to the owning team with evidence attached.</div><div class="jm-cell">Confirms recovery and records the root cause.</div>
+      <div class="jm-label">Touchpoints</div><div class="jm-cell">INI incident view, paging</div><div class="jm-cell">INI chat, NS1 query metrics</div><div class="jm-cell">Semantic topology, MCP telemetry</div><div class="jm-cell">View reasoning trace</div><div class="jm-cell">Assistant chat, ticketing</div><div class="jm-cell">INI incident record</div>
+      <div class="jm-label">Thinks</div><div class="jm-cell">"Is this real, and how bad is it?"</div><div class="jm-cell">"Which customers and regions are affected?"</div><div class="jm-cell">"Is it DNS or is it the network under it?"</div><div class="jm-cell">"Do I trust this hypothesis?"</div><div class="jm-cell">"I can hand over a clear diagnosis."</div><div class="jm-cell">"It was found in seconds, not hours."</div>
+      <div class="jm-label">Feels</div><div class="jm-emo" style="grid-column: 2 / span 6;"><div class="emo-chart">
+        <svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+          <line x1="0" y1="50" x2="100" y2="50" class="emo-mid" vector-effect="non-scaling-stroke"/>
+          <polyline points="8.33,70.00 25.00,70.00 41.67,50.00 58.33,30.00 75.00,30.00 91.67,10.00" class="emo-line" vector-effect="non-scaling-stroke"/>
+        </svg>
+        <span class="emo-dot emo-2" style="left:8.33%;top:70.00%" title="Anxious"></span><span class="emo-word" style="left:8.33%;top:70.00%">Anxious</span><span class="emo-dot emo-2" style="left:25.00%;top:70.00%" title="Anxious"></span><span class="emo-word" style="left:25.00%;top:70.00%">Anxious</span><span class="emo-dot emo-3" style="left:41.67%;top:50.00%" title="Neutral"></span><span class="emo-word" style="left:41.67%;top:50.00%">Neutral</span><span class="emo-dot emo-4" style="left:58.33%;top:30.00%" title="Confident"></span><span class="emo-word" style="left:58.33%;top:30.00%">Confident</span><span class="emo-dot emo-4" style="left:75.00%;top:30.00%" title="Confident"></span><span class="emo-word" style="left:75.00%;top:30.00%">Confident</span><span class="emo-dot emo-5" style="left:91.67%;top:10.00%" title="Delighted"></span><span class="emo-word" style="left:91.67%;top:10.00%">Delighted</span>
+      </div></div>
+      <div class="jm-label jm-label--pain">Pain points</div><div class="jm-cell jm-cell--pain">Alert fatigue; NXDOMAIN and SERVFAIL spikes arrive as noise.</div><div class="jm-cell jm-cell--pain">Several tools and dashboards needed to size the problem.</div><div class="jm-cell jm-cell--pain">DNS and underlay are separate silos owned by different teams.</div><div class="jm-cell jm-cell--pain">Unexplained AI conclusions would not be acted on.</div><div class="jm-cell jm-cell--pain">Handoffs lose context between teams.</div><div class="jm-cell jm-cell--pain">Post-incident write-ups are manual.</div>
+      <div class="jm-label jm-label--help">INI × NS1 support</div><div class="jm-cell jm-cell--help">Time-series models detect baseline shifts and group related alerts.</div><div class="jm-cell jm-cell--help">Impact summary from NS1 QPS, response-code distribution and Pulsar latency.</div><div class="jm-cell jm-cell--help">Cross-layer correlation with topology context across NS1 and underlay.</div><div class="jm-cell jm-cell--help">Transparent hypothesis with confidence percentages and supporting evidence.</div><div class="jm-cell jm-cell--help">Evidence pack is attached to the ticket; a fix can flow into UC 6 for approval.</div><div class="jm-cell jm-cell--help">Auto-summary and baseline update reduce repeat incidents.</div>
+    </div></div>
+
+  <div class="takeaways">
+    <div class="takeaway">
+      <p class="brief__label">Moments of truth</p>
+      <ul><li>One grouped incident replaces an alert storm.</li><li>A cross-layer root cause answers the "DNS or network?" question immediately.</li></ul>
+    </div>
+    <div class="takeaway">
+      <p class="brief__label">Success measures</p>
+      <ul><li>MTTD / MTTI</li><li>Alerts grouped per incident</li><li>Escalations with correct owner first time</li></ul>
+    </div>
+    <div class="takeaway takeaway--impact">
+      <p class="brief__label">Expected impact</p>
+      <p>Reduces MTTD by up to 70% and cuts Mean Time to Identify from hours to seconds.</p>
+    </div>
+  </div>
+</section>
+
+<section class="journey" id="uc5">
+  <div class="journey__head">
+    <div class="journey__num">05</div>
+    <div>
+      <p class="eyebrow">Survey use case 05 · Phase 1</p>
+      <h2 class="journey__title">Provide Expert In-Product Help</h2>
+      <p class="journey__sub">Vector RAG grounding for day-to-day operations</p>
+    </div>
+    <span class="fit fit--moderate">Moderate INI Fit</span>
+  </div>
+
+  <div class="survey-box"><strong>Survey tested concept:</strong> <em>"Answer questions about how a DNS platform works and how to accomplish specific tasks when you need help during day-to-day use."</em></div>
+
+  <div class="brief">
+    <div class="brief__cell"><p class="brief__label">Persona</p><p class="brief__body"><strong>On-call Network Engineer / DevOps Engineer</strong><br>Needs an answer mid-task without leaving the workflow</p></div>
+    <div class="brief__cell"><p class="brief__label">Trigger</p><p class="brief__body">An engineer must configure a feature they rarely touch; the public docs and internal wiki disagree or are stale.</p></div>
+    <div class="brief__cell"><p class="brief__label">Goal</p><p class="brief__body">Get a correct, cited answer for a specific task, for example DNSSEC with automated key rotation, in seconds.</p></div>
+    <div class="brief__cell"><p class="brief__label">Control mode</p><p class="brief__body">In-Flow Assistant</p></div>
+  </div>
+
+  <div class="jm-scroll"><div class="jm-grid" style="grid-template-columns:132px repeat(6, minmax(168px, 1fr));">
+      <div class="jm-corner"></div><div class="jm-stage"><span class="jm-stage__num">1</span>Hit a question</div><div class="jm-stage"><span class="jm-stage__num">2</span>Ask in flow</div><div class="jm-stage"><span class="jm-stage__num">3</span>Review cited answer</div><div class="jm-stage"><span class="jm-stage__num">4</span>Validate vs live env</div><div class="jm-stage"><span class="jm-stage__num">5</span>Apply</div><div class="jm-stage"><span class="jm-stage__num">6</span>Share &amp; reuse</div>
+      <div class="jm-label">Does</div><div class="jm-cell">Gets stuck mid-task, for example on DNSSEC key rotation with secondary providers.</div><div class="jm-cell">Types the question in natural language.</div><div class="jm-cell">Reads the steps and opens the cited sources.</div><div class="jm-cell">Checks the guidance against current zone settings and constraints.</div><div class="jm-cell">Follows the steps or asks the assistant to prepare the change.</div><div class="jm-cell">Shares the answer with the team or saves it as a runbook snippet.</div>
+      <div class="jm-label">Touchpoints</div><div class="jm-cell">NS1 Connect UI</div><div class="jm-cell">In-flow chat</div><div class="jm-cell">Answer with citations</div><div class="jm-cell">NS1 API schema, zone metadata</div><div class="jm-cell">NS1 Connect, UC 6 for execution</div><div class="jm-cell">Team chat, runbook store</div>
+      <div class="jm-label">Thinks</div><div class="jm-cell">"I do not want to open five tabs."</div><div class="jm-cell">"Will it understand my situation?"</div><div class="jm-cell">"Can I trust this? Show me where it came from."</div><div class="jm-cell">"Does this apply to my zone and plan?"</div><div class="jm-cell">"Done in minutes."</div><div class="jm-cell">"The next on-call will not hit this wall."</div>
+      <div class="jm-label">Feels</div><div class="jm-emo" style="grid-column: 2 / span 6;"><div class="emo-chart">
+        <svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+          <line x1="0" y1="50" x2="100" y2="50" class="emo-mid" vector-effect="non-scaling-stroke"/>
+          <polyline points="8.33,70.00 25.00,50.00 41.67,30.00 58.33,30.00 75.00,10.00 91.67,30.00" class="emo-line" vector-effect="non-scaling-stroke"/>
+        </svg>
+        <span class="emo-dot emo-2" style="left:8.33%;top:70.00%" title="Anxious"></span><span class="emo-word" style="left:8.33%;top:70.00%">Anxious</span><span class="emo-dot emo-3" style="left:25.00%;top:50.00%" title="Neutral"></span><span class="emo-word" style="left:25.00%;top:50.00%">Neutral</span><span class="emo-dot emo-4" style="left:41.67%;top:30.00%" title="Confident"></span><span class="emo-word" style="left:41.67%;top:30.00%">Confident</span><span class="emo-dot emo-4" style="left:58.33%;top:30.00%" title="Confident"></span><span class="emo-word" style="left:58.33%;top:30.00%">Confident</span><span class="emo-dot emo-5" style="left:75.00%;top:10.00%" title="Delighted"></span><span class="emo-word" style="left:75.00%;top:10.00%">Delighted</span><span class="emo-dot emo-4" style="left:91.67%;top:30.00%" title="Confident"></span><span class="emo-word" style="left:91.67%;top:30.00%">Confident</span>
+      </div></div>
+      <div class="jm-label jm-label--pain">Pain points</div><div class="jm-cell jm-cell--pain">Context switching; stale wiki pages; reliance on a senior colleague.</div><div class="jm-cell jm-cell--pain">Generic chatbots give generic answers.</div><div class="jm-cell jm-cell--pain">Uncited answers invite doubt and re-checking.</div><div class="jm-cell jm-cell--pain">Docs may not reflect account-specific limits.</div><div class="jm-cell jm-cell--pain">Manual copying of steps is error prone.</div><div class="jm-cell jm-cell--pain">Knowledge stays with individuals.</div>
+      <div class="jm-label jm-label--help">INI × NS1 support</div><div class="jm-cell jm-cell--help">Assistant is available in the product at the point of need.</div><div class="jm-cell jm-cell--help">Question is grounded in product docs, internal MOPs and DNS RFCs.</div><div class="jm-cell jm-cell--help">Every step carries a document citation from the vector knowledge base.</div><div class="jm-cell jm-cell--help">Live API schema and capability metadata confirm the guidance fits the account.</div><div class="jm-cell jm-cell--help">Steps can be handed to the change-planning flow when changes are needed.</div><div class="jm-cell jm-cell--help">Frequently asked questions highlight gaps to update in runbooks.</div>
+    </div></div>
+
+  <div class="takeaways">
+    <div class="takeaway">
+      <p class="brief__label">Moments of truth</p>
+      <ul><li>Citations convert a chatbot answer into trusted guidance.</li><li>Account-aware validation prevents "correct but not for me" answers.</li></ul>
+    </div>
+    <div class="takeaway">
+      <p class="brief__label">Success measures</p>
+      <ul><li>Time to answer</li><li>Answers with source clicked</li><li>Escalations to senior staff</li></ul>
+    </div>
+    <div class="takeaway takeaway--impact">
+      <p class="brief__label">Expected impact</p>
+      <p>Resolves standard operational questions in under 15 seconds and reduces reliance on single senior architects.</p>
+    </div>
+  </div>
+</section>
+
+<section class="journey" id="uc6">
+  <div class="journey__head">
+    <div class="journey__num">06</div>
+    <div>
+      <p class="eyebrow">Survey use case 06 · Phase 3</p>
+      <h2 class="journey__title">Plan and Execute DNS Changes</h2>
+      <p class="journey__sub">Intent-to-execution DNS orchestration with multi-agent NOC</p>
+    </div>
+    <span class="fit fit--core">Core INI Fit</span>
+  </div>
+
+  <div class="survey-box"><strong>Survey tested concept:</strong> <em>"Create a proposed plan for DNS changes, allow you to review and approve it, and then make the approved changes on your behalf."</em></div>
+
+  <div class="brief">
+    <div class="brief__cell"><p class="brief__label">Persona</p><p class="brief__body"><strong>Infrastructure Architect</strong><br>Secondary: SecOps / NOC. Approves and audits production edits</p></div>
+    <div class="brief__cell"><p class="brief__label">Trigger</p><p class="brief__body">An overloaded EU data centre needs traffic moved to US East and APAC while regional data-compliance rules still hold.</p></div>
+    <div class="brief__cell"><p class="brief__label">Goal</p><p class="brief__body">Execute a multi-zone emergency migration, for example shedding 40% of EU traffic, without manual record edits.</p></div>
+    <div class="brief__cell"><p class="brief__label">Control mode</p><p class="brief__body">Assistant / Autonomous</p></div>
+  </div>
+
+  <div class="jm-scroll"><div class="jm-grid" style="grid-template-columns:132px repeat(6, minmax(168px, 1fr));">
+      <div class="jm-corner"></div><div class="jm-stage"><span class="jm-stage__num">1</span>Express intent</div><div class="jm-stage"><span class="jm-stage__num">2</span>Review draft plan</div><div class="jm-stage"><span class="jm-stage__num">3</span>Policy check</div><div class="jm-stage"><span class="jm-stage__num">4</span>Approve</div><div class="jm-stage"><span class="jm-stage__num">5</span>Execute</div><div class="jm-stage"><span class="jm-stage__num">6</span>Verify &amp; audit</div>
+      <div class="jm-label">Does</div><div class="jm-cell">Describes the migration goal in the INI Chat Assistant or links the incident ticket.</div><div class="jm-cell">Reads the proposed changes, ordering and rollback script.</div><div class="jm-cell">Sees results of change-policy and compliance checks.</div><div class="jm-cell">Approves the plan (human-in-the-loop gate); SecOps co-signs if required.</div><div class="jm-cell">INI applies the change through NS1 Connect.</div><div class="jm-cell">Watches live telemetry; rollback triggers automatically if errors rise within 60 seconds.</div>
+      <div class="jm-label">Touchpoints</div><div class="jm-cell">INI Chat Assistant, ticket</div><div class="jm-cell">Plan view, View reasoning</div><div class="jm-cell">RAG policy verification</div><div class="jm-cell">Approval gate, ServiceNow / Jira</div><div class="jm-cell">Function-Calling Agent, NS1 API</div><div class="jm-cell">Telemetry, audit log</div>
+      <div class="jm-label">Thinks</div><div class="jm-cell">"I should not have to hand-edit records under pressure."</div><div class="jm-cell">"Is every step understood and reversible?"</div><div class="jm-cell">"Does this comply with our change policies and data rules?"</div><div class="jm-cell">"I am accountable, so I need to be sure."</div><div class="jm-cell">"Watch it land."</div><div class="jm-cell">"Done safely, and fully recorded."</div>
+      <div class="jm-label">Feels</div><div class="jm-emo" style="grid-column: 2 / span 6;"><div class="emo-chart">
+        <svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+          <line x1="0" y1="50" x2="100" y2="50" class="emo-mid" vector-effect="non-scaling-stroke"/>
+          <polyline points="8.33,70.00 25.00,50.00 41.67,30.00 58.33,50.00 75.00,50.00 91.67,10.00" class="emo-line" vector-effect="non-scaling-stroke"/>
+        </svg>
+        <span class="emo-dot emo-2" style="left:8.33%;top:70.00%" title="Anxious"></span><span class="emo-word" style="left:8.33%;top:70.00%">Anxious</span><span class="emo-dot emo-3" style="left:25.00%;top:50.00%" title="Neutral"></span><span class="emo-word" style="left:25.00%;top:50.00%">Neutral</span><span class="emo-dot emo-4" style="left:41.67%;top:30.00%" title="Confident"></span><span class="emo-word" style="left:41.67%;top:30.00%">Confident</span><span class="emo-dot emo-3" style="left:58.33%;top:50.00%" title="Neutral"></span><span class="emo-word" style="left:58.33%;top:50.00%">Neutral</span><span class="emo-dot emo-3" style="left:75.00%;top:50.00%" title="Neutral"></span><span class="emo-word" style="left:75.00%;top:50.00%">Neutral</span><span class="emo-dot emo-5" style="left:91.67%;top:10.00%" title="Delighted"></span><span class="emo-word" style="left:91.67%;top:10.00%">Delighted</span>
+      </div></div>
+      <div class="jm-label jm-label--pain">Pain points</div><div class="jm-cell jm-cell--pain">Emergency edits across zones invite syntax errors and drift.</div><div class="jm-cell jm-cell--pain">Large plans are slow to read when time matters.</div><div class="jm-cell jm-cell--pain">Policies live in documents nobody has time to cross-check.</div><div class="jm-cell jm-cell--pain">Approval without evidence is a leap of faith.</div><div class="jm-cell jm-cell--pain">Anxiety during propagation.</div><div class="jm-cell jm-cell--pain">Audit evidence is normally assembled by hand afterwards.</div>
+      <div class="jm-label jm-label--help">INI × NS1 support</div><div class="jm-cell jm-cell--help">Reasoning Agent turns the intent into a stepwise traffic shifting plan.</div><div class="jm-cell jm-cell--help">Plan is structured, with exact NS1 API payloads and an atomic rollback.</div><div class="jm-cell jm-cell--help">RAG Agent verifies the plan against enterprise runbooks and policies.</div><div class="jm-cell jm-cell--help">Approver sees reasoning, simulated outcome (UC 3) and blast radius in one place.</div><div class="jm-cell jm-cell--help">Atomic Filter Chain and record updates with sub-second propagation to global PoPs.</div><div class="jm-cell jm-cell--help">Auto-rollback in Autonomous mode for pre-approved runbooks; full audit log to ServiceNow / Jira.</div>
+    </div></div>
+
+  <div class="takeaways">
+    <div class="takeaway">
+      <p class="brief__label">Moments of truth</p>
+      <ul><li>The approver sees reasoning, simulation and rollback together before saying yes.</li><li>Automatic rollback within 60 seconds removes fear of executing.</li></ul>
+    </div>
+    <div class="takeaway">
+      <p class="brief__label">Success measures</p>
+      <ul><li>Change lead time</li><li>Rollbacks triggered vs. incidents avoided</li><li>Changes with complete audit trail</li></ul>
+    </div>
+    <div class="takeaway takeaway--impact">
+      <p class="brief__label">Expected impact</p>
+      <p>Cuts planned-change execution from 45 minutes to under 30 seconds and eliminates human syntax errors with full audit logs.</p>
+    </div>
+  </div>
+</section>
+
+<footer class="foot">
+  <span>INI × NS1 Connect — AI Survey User Journey Maps</span>
+  <a href="./index.html" style="color:var(--ibm-blue-dk); text-decoration:none;">Back to Knowledge Hub</a>
+</footer>
+
+</div>
+
+<script>
+  (function () {
+    var links = document.querySelectorAll('.nav__link');
+    var sections = [];
+    links.forEach(function (l) {
+      var h = l.getAttribute('href');
+      if (h.charAt(0) !== '#') return;
+      var el = document.getElementById(h.slice(1));
+      if (el) sections.push({ el: el, link: l });
+    });
+    function onScroll() {
+      var y = window.scrollY || window.pageYOffset;
+      var active = sections[0];
+      sections.forEach(function (s) { if (s.el.offsetTop <= y + 80) active = s; });
+      links.forEach(function (l) { l.classList.remove('active'); });
+      if (active) active.link.classList.add('active');
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  })();
+</script>
+
+</body>
+</html>
