@@ -240,7 +240,13 @@
       color: var(--text-light);
       letter-spacing: 0.32px;
     }
-    .ibm-logo svg { width: 58px; height: 23px; }
+    .ibm-logo img,
+    .ibm-logo svg {
+      width: 58px;
+      height: auto;
+      display: block;
+      filter: brightness(0);
+    }
 
     /* ── Page breaks ── */
     .page-break { page-break-before: always; }
@@ -856,12 +862,7 @@
   <div class="cover__footer">
     <span class="cover__footer-label">Integration Use Cases · 18 Scenarios · 5 Personas</span>
     <div class="ibm-logo">
-      <svg viewBox="0 0 58 23" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="IBM">
-        <path d="M0 17.4h6.6v1.8H0v-1.8zm0-4.2h6.6V15H0v-1.8zm1.8-4.2h3v1.8h-3V9zm0-4.2h3v1.8h-3V4.8zm-1.8 0h6.6v1.8H0V4.8zM0 .6h6.6v1.8H0V.6z" fill="#161616"/>
-        <path d="M8.4 17.4H21v1.8H8.4v-1.8zm2.4-4.2h7.8V15h-7.8v-1.8zm-2.4-4.2H21V10.8H8.4V9zm2.4-4.2h7.8v1.8h-7.8V4.8zm-2.4-4.2H21v1.8H8.4V.6z" fill="#161616"/>
-        <path d="M22.8 17.4h12.6v1.8H22.8v-1.8zm3-4.2h6.6V15h-6.6v-1.8zm-3-4.2h12.6V10.8H22.8V9zm3-4.2h6.6v1.8h-6.6V4.8zm-3-4.2h12.6v1.8H22.8V.6z" fill="#161616"/>
-        <path d="M37.2 9h4.2l2.4 4.2-2.4 4.2h-4.2l2.4-4.2-2.4-4.2zm-1.8-4.2H51v1.8H35.4V4.8zm0 12.6H51v1.8H35.4v-1.8zm3-8.4h9.6V10.8h-9.6V9zm0 4.2h9.6V15h-9.6v-1.8zm-3-12.6H51v1.8H35.4V.6z" fill="#161616"/>
-      </svg>
+      <img src="ibm.svg" alt="IBM" />
     </div>
   </div>
 </div>
@@ -1821,12 +1822,7 @@
     <div class="page-footer" style="margin: 0 calc(-1 * var(--sp-8)); padding-left: var(--sp-8); padding-right: var(--sp-8);">
       <span>INI × NS1 Connect — Integration Opportunities</span>
       <div class="ibm-logo">
-        <svg viewBox="0 0 58 23" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="IBM">
-          <path d="M0 17.4h6.6v1.8H0v-1.8zm0-4.2h6.6V15H0v-1.8zm1.8-4.2h3v1.8h-3V9zm0-4.2h3v1.8h-3V4.8zm-1.8 0h6.6v1.8H0V4.8zM0 .6h6.6v1.8H0V.6z" fill="#161616"/>
-          <path d="M8.4 17.4H21v1.8H8.4v-1.8zm2.4-4.2h7.8V15h-7.8v-1.8zm-2.4-4.2H21V10.8H8.4V9zm2.4-4.2h7.8v1.8h-7.8V4.8zm-2.4-4.2H21v1.8H8.4V.6z" fill="#161616"/>
-          <path d="M22.8 17.4h12.6v1.8H22.8v-1.8zm3-4.2h6.6V15h-6.6v-1.8zm-3-4.2h12.6V10.8H22.8V9zm3-4.2h6.6v1.8h-6.6V4.8zm-3-4.2h12.6v1.8H22.8V.6z" fill="#161616"/>
-          <path d="M37.2 9h4.2l2.4 4.2-2.4 4.2h-4.2l2.4-4.2-2.4-4.2zm-1.8-4.2H51v1.8H35.4V4.8zm0 12.6H51v1.8H35.4v-1.8zm3-8.4h9.6V10.8h-9.6V9zm0 4.2h9.6V15h-9.6v-1.8zm-3-12.6H51v1.8H35.4V.6z" fill="#161616"/>
-        </svg>
+        <img src="ibm.svg" alt="IBM" />
       </div>
     </div>
   </div>
