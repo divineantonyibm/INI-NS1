@@ -41,8 +41,16 @@ function scanHtmlFiles(dir, baseDir = dir) {
 export function generateIndexHtml(rootDir = process.cwd()) {
   const files = scanHtmlFiles(rootDir, rootDir);
 
-  // Sort files alphabetically by title
-  files.sort((a, b) => a.title.localeCompare(b.title));
+  // Explicit order for listed files; any others follow alphabetically by title
+  const ORDER = [
+    'INI-understanding-document.html',
+    'ns1-understanding-document.html',
+    'ini-ns1-integration-opportunities.html',
+    'ini-ns1-ai-survey-usecases.html',
+    'ini-ns1-ai-survey-journey-maps.html'
+  ];
+  const rank = (f) => { const i = ORDER.indexOf(f.filename); return i === -1 ? ORDER.length : i; };
+  files.sort((a, b) => rank(a) - rank(b) || a.title.localeCompare(b.title));
 
   const cardsHtml = files.map((file, i) => `
         <li class="doc-card">
