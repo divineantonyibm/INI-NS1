@@ -218,7 +218,7 @@
     .card__title { font-size: 20.13px; font-weight: 600; color: var(--ibm-text-primary); margin-bottom: var(--ibm-spacing-03); }
     .card__body  { font-size: 18.69px; color: var(--ibm-text-secondary); line-height: 1.6; }
 
-    /* ── Comparison Table (Before vs With INM) ── */
+    /* ── Comparison Table (Before vs With INI) ── */
     .comparison-table-wrapper {
       margin-bottom: var(--ibm-spacing-08);
       overflow-x: auto;
@@ -433,9 +433,9 @@
 <!-- HERO -->
 <section class="hero">
   <div class="hero__inner">
-    <p class="hero__eyebrow">IBM Network Intelligence · INM</p>
+    <p class="hero__eyebrow">IBM Network Intelligence · INI</p>
     <h1 class="hero__title">Turn network chaos into <strong>agentic AI-driven clarity</strong></h1>
-    <p class="hero__subtitle">A comprehensive understanding of what IBM Network Intelligence is, who it serves, how it works, and the real-world problems it solves.</p>
+    <p class="hero__subtitle">What IBM Network Intelligence is, who uses it, how it works, and the problems it solves.</p>
   </div>
 </section>
 
@@ -458,41 +458,41 @@
     <p class="section-eyebrow">Section 01</p>
     <h2 class="section-title">What is <strong>IBM Network Intelligence</strong>?</h2>
     <p class="section-body">
-      IBM® Network Intelligence (INM) is an AI-native, software-as-a-service (SaaS) platform deployed and managed on IBM Cloud. It transforms complex, multi-vendor and multi-domain network data into actionable intelligence — automatically detecting anomalies, generating root-cause hypotheses, and orchestrating remediation through agentic AI agents.<br><br>
-      Built on IBM's advanced <strong>watsonx AI platform</strong>, Network Intelligence uses domain-trained time-series foundation models (Quantile, Prophet) and Network Operations Center (NOC) AI agents to process streaming and historical telemetry data from IP and Radio Access Network (RAN) domains. A single distributed node can process <strong>over one million indicators every five minutes</strong>, with capacity horizontally scalable by adding nodes.
+      IBM® Network Intelligence (INI) is an AI-native SaaS platform on IBM Cloud. It turns multi-vendor, multi-domain network data into actionable intelligence: it detects anomalies, proposes root causes, and drives remediation through AI agents.<br><br>
+      Built on <strong>watsonx</strong>, it uses time-series AI models and Network Operations Center (NOC) agents to analyze IP and Radio Access Network (RAN) telemetry. One node handles <strong>over one million indicators every five minutes</strong>, and you scale by adding nodes.
     </p>
 
     <div class="callout">
       <span class="callout__icon">ℹ</span>
-      <p class="callout__body"><strong>Plain language definition:</strong> Think of your network as a city with thousands of roads, intersections, and vehicles. Traditional monitoring tools are like traffic cameras — they capture what's happening but can't tell you <em>why</em> there's a jam or what to do about it. IBM Network Intelligence is a smart traffic control AI that not only sees every issue across every road but automatically figures out the root cause, writes a repair plan, and can dispatch a fix — with or without a human in the loop.</p>
+      <p class="callout__body"><strong>In plain language:</strong> Traditional monitoring is like a traffic camera: it shows a jam but not why. Network Intelligence finds the cause, writes the fix, and can apply it, with or without a human in the loop.</p>
     </div>
 
     <hr class="divider" />
 
     <p class="section-eyebrow">Architecture Overview</p>
     <h3 class="section-title" style="font-size: 31.62px;">How <strong>Network Intelligence</strong> is structured</h3>
-    <p class="section-body">Network Intelligence is built on two core architectural pillars — Analytics and Automation — supported by four foundational components that work together to deliver end-to-end intelligence.</p>
+    <p class="section-body">Two pillars, Analytics and Automation, built on four components.</p>
 
     <div class="arch-grid">
       <div class="arch-pillar">
         <div class="arch-pillar__number">01</div>
         <p class="arch-pillar__title">Data Pipeline</p>
-        <p class="arch-pillar__body">Scalable streaming ingestion of real-time and historical time-series data. Supports metrics, events, and logs regardless of data cleanliness.</p>
+        <p class="arch-pillar__body">Streaming ingestion of real-time and historical metrics, events, and logs, however clean the data.</p>
       </div>
       <div class="arch-pillar">
         <div class="arch-pillar__number">02</div>
         <p class="arch-pillar__title">AI Pipeline</p>
-        <p class="arch-pillar__body">Domain-trained time-series foundation models for ultra-low latency inferencing, early warning detection, and outlier identification from telemetry data.</p>
+        <p class="arch-pillar__body">Time-series models that give early warnings and flag outliers with low latency.</p>
       </div>
       <div class="arch-pillar">
         <div class="arch-pillar__number">03</div>
         <p class="arch-pillar__title">Semantic Network Context</p>
-        <p class="arch-pillar__body">Interprets data across domains and vendors with semantic understanding of network topology, grounding AI models in network-specific knowledge.</p>
+        <p class="arch-pillar__body">Understands topology across domains and vendors, so AI answers are grounded in your network.</p>
       </div>
       <div class="arch-pillar">
         <div class="arch-pillar__number">04</div>
         <p class="arch-pillar__title">Agentic Framework</p>
-        <p class="arch-pillar__body">NOC AI agents with reasoning, RAG, and function-calling capabilities. Generates remediation plans executable autonomously or with human oversight.</p>
+        <p class="arch-pillar__body">NOC agents that reason, retrieve knowledge (RAG), and call tools to build remediation plans, run autonomously or with approval.</p>
       </div>
     </div>
 
@@ -500,12 +500,12 @@
 
     <p class="section-eyebrow">Users &amp; Customers</p>
     <h3 class="section-title" style="font-size: 31.62px;">Who uses <strong>IBM Network Intelligence</strong>?</h3>
-    <p class="section-body">Network Intelligence serves the teams responsible for keeping critical network infrastructure operational — from day-to-day NOC operators to strategic IT leadership in telecom, enterprise, and cloud service provider environments.</p>
+    <p class="section-body">Network Intelligence serves the teams that keep critical networks running, from NOC operators to IT leaders.</p>
 
     <table>
       <thead>
         <tr>
-          <th>Role / Persona</th>
+          <th>Role</th>
           <th>What they care about</th>
           <th>How Network Intelligence helps</th>
         </tr>
@@ -513,40 +513,35 @@
       <tbody>
         <tr>
           <td>NOC Operators</td>
-          <td>Reducing alert noise, faster triage, clear remediation steps</td>
-          <td>AI filters false positives, surfaces only high-confidence anomalies with pre-written root-cause hypotheses and action plans</td>
+          <td>Less alert noise, faster triage</td>
+          <td>Filters false positives and shows only high-confidence anomalies, each with a root-cause hypothesis and action plan</td>
         </tr>
         <tr>
           <td>Network Engineers</td>
-          <td>Understanding complex multi-vendor root causes, reducing MTTR</td>
-          <td>Semantic context-driven analysis traces issues across devices, objects, and indicators — even across vendor boundaries</td>
+          <td>Multi-vendor root causes, lower mean time to repair (MTTR)</td>
+          <td>Traces issues across devices and vendors using semantic context</td>
         </tr>
         <tr>
-          <td>Site Reliability Engineers (SREs)</td>
-          <td>Automated remediation, reducing on-call toil, fewer repeat incidents</td>
-          <td>Agentic AI agents execute remediation plans autonomously or with human-in-the-loop approval via ITSM integration</td>
+          <td>Site Reliability Engineers</td>
+          <td>Less on-call toil, fewer repeat incidents</td>
+          <td>AI agents remediate automatically or after human approval, with ITSM integration</td>
         </tr>
         <tr>
           <td>IT / Network Architects</td>
-          <td>Multi-domain visibility, hybrid infrastructure observability</td>
-          <td>Unified ingestion across IP and RAN domains; OpenAPI, MCP server, and connector integrations extend to any data source</td>
+          <td>Multi-domain visibility</td>
+          <td>One ingestion layer for IP and RAN; OpenAPI, MCP, and connectors reach other sources</td>
         </tr>
         <tr>
-          <td>Telecom Operations Leaders</td>
-          <td>Network KPIs, Mean Time Between Incidents (MTBI), Mean Time to Repair (MTTR)</td>
-          <td>Automated hypothesis generation and ticket creation reduce manual investigation time; dashboards show aggregated network health across all devices</td>
-        </tr>
-        <tr>
-          <td>VP / Director of IT Operations</td>
-          <td>Operational cost, vendor risk, strategic AI adoption</td>
-          <td>Built on IBM Cloud with watsonx AI guardrails; explainable AI with built-in prompt guardrails maintains trust and auditability</td>
+          <td>Operations Leaders</td>
+          <td>Mean time between incidents (MTBI), MTTR, cost, trust in AI</td>
+          <td>Auto-created tickets cut investigation time; explainable AI with guardrails supports auditability</td>
         </tr>
       </tbody>
     </table>
 
     <p class="section-eyebrow">Pain Points Addressed</p>
     <h3 class="section-title" style="font-size: 31.62px;">The problems Network Intelligence <strong>was built to solve</strong></h3>
-    <p class="section-body">Critical networks face persistent challenges: increasing complexity across multiple domains and vendors, high volumes of noisy alerts, manual lifecycle operations, and overlapping generations of technologies — all of which lead to slow incident response and costly downtime.</p>
+    <p class="section-body">Critical networks suffer from multi-vendor complexity, noisy alerts, and manual operations, which slow incident response and raise downtime costs.</p>
 
     <div class="comparison-table-wrapper">
       <table class="comparison-table">
@@ -558,20 +553,20 @@
         </thead>
         <tbody>
           <tr>
-            <td class="td--before">NOC operators are overwhelmed by thousands of alerts per day, most of them false positives or low-priority noise. Engineers spend hours triaging before even beginning to investigate.</td>
-            <td class="td--after">AI semantic understanding filters noise, surfacing only actionable high-confidence anomalies. Operators see a prioritized list of genuine issues — not a flood of alerts.</td>
+            <td class="td--before">Thousands of daily alerts, mostly noise. Engineers spend hours triaging before they can investigate.</td>
+            <td class="td--after">Only high-confidence anomalies are surfaced, as a prioritized list of real issues.</td>
           </tr>
           <tr>
-            <td class="td--before">When a degradation occurs, engineers must manually correlate data across multiple monitoring tools, vendor dashboards, and logs — a process that can take hours and requires deep domain expertise.</td>
-            <td class="td--after">NOC AI agents automatically cross-correlate anomalies across devices, objects, and indicators to generate root-cause hypotheses with semantic context — in minutes, not hours.</td>
+            <td class="td--before">Engineers manually correlate data across tools, vendor dashboards, and logs, which takes hours.</td>
+            <td class="td--after">NOC agents correlate anomalies across devices and indicators and propose root causes in minutes.</td>
           </tr>
           <tr>
-            <td class="td--before">Remediation steps live in siloed runbooks, Methods of Procedure (MOP) documents, and tribal knowledge. New engineers struggle to act quickly, and repeat incidents are common.</td>
-            <td class="td--after">Grounding documents (MOPs, config guides, knowledge base) are uploaded once and used by RAG agents to generate specific, contextual remediation plans for every anomaly.</td>
+            <td class="td--before">Remediation knowledge sits in siloed runbooks and tribal knowledge, so repeat incidents are common.</td>
+            <td class="td--after">Upload MOPs and guides once; RAG agents use them to write a specific remediation plan for every anomaly.</td>
           </tr>
           <tr>
-            <td class="td--before">Multi-vendor, multi-domain environments require integrating data from dozens of different sources, each with incompatible formats and APIs. Building a unified view is a bespoke, expensive project.</td>
-            <td class="td--after">Network Intelligence's data pipeline ingests data from any source — streaming or historical — regardless of format or data cleanliness, normalising it into a unified metric triplet model.</td>
+            <td class="td--before">Dozens of sources with incompatible formats make a unified view a costly custom project.</td>
+            <td class="td--after">The data pipeline ingests any source, streaming or historical, and normalizes it into a device-component-indicator model.</td>
           </tr>
         </tbody>
       </table>
@@ -584,104 +579,62 @@
   <section class="section" id="section-capabilities">
     <p class="section-eyebrow">Section 02</p>
     <h2 class="section-title">Capabilities of <strong>IBM Network Intelligence</strong></h2>
-    <p class="section-body">Network Intelligence bundles an AI-native network operations platform with distinct features for observation, investigation, knowledge management, and integration. Each capability is described both technically and in plain language, with a real-world example.</p>
+    <p class="section-body">Nine capabilities cover monitoring, investigation, knowledge, and integration.</p>
 
     <div class="cap-grid">
 
       <div class="cap-card">
         <div class="cap-card__number">01</div>
-        <p class="cap-card__title">Dashboard &amp; Observation Monitoring</p>
-        <span class="cap-card__tech">Centralized visibility · Timeframe filters · Metric &amp; Alarm views</span>
-        <p class="cap-card__body">A centralized hub providing real-time information on network observations across all devices and objects. Observations are split into Metrics, Alarms, and Total columns. Supports time-period filtering to focus on recent activity or investigate historical patterns. Flags critical anomalies for immediate attention.</p>
-        <div class="cap-card__example"><strong>Plain language:</strong> A single control room screen showing every anomaly happening across your entire network right now — colour-coded by severity, filterable by time, and free of the noise that buries critical issues in traditional monitoring tools.</div>
+        <p class="cap-card__title">Dashboard &amp; Monitoring</p>
+        <p class="cap-card__body">One view of anomalies across all devices, split into metrics and alarms, filterable by time, with critical issues flagged first.</p>
       </div>
 
       <div class="cap-card">
         <div class="cap-card__number">02</div>
-        <p class="cap-card__title">Anomaly Detection with Time-Series AI</p>
-        <span class="cap-card__tech">Quantile · Prophet · Time-series foundation models · &gt;1M indicators/5min</span>
-        <p class="cap-card__body">Continuously monitors metric data streams using Quantile, Prophet, and domain-trained time-series foundation models. Performs analysis in both time and frequency domains, identifying long- and short-term patterns to detect anomalies before they cause user impact. A single distributed node processes over one million indicators every five minutes.</p>
-        <div class="cap-card__example"><strong>Plain language:</strong> Instead of waiting for a threshold alarm (e.g., "CPU &gt; 90%"), Network Intelligence detects subtle, emerging patterns — like a gradual degradation that traditional tools miss entirely — hours before an outage occurs.</div>
+        <p class="cap-card__title">Anomaly Detection</p>
+        <p class="cap-card__body">Time-series AI models (Quantile, Prophet) learn normal behavior and catch subtle degradation before a threshold alarm fires. One node processes over one million indicators every five minutes.</p>
       </div>
 
       <div class="cap-card">
         <div class="cap-card__number">03</div>
-        <p class="cap-card__title">Investigations &amp; Root-Cause Hypothesis</p>
-        <span class="cap-card__tech">NOC AI agents · Semantic analysis · ITSM ticket creation</span>
-        <p class="cap-card__body">Network Intelligence flags critical observations, auto-generates ITSM tickets with a root-cause hypothesis and remediation plan, and investigates each anomaly to identify what caused it. Each NOC agent is a multi-agent system comprising a reasoning agent, a RAG agent, and a function-calling agent working in concert.</p>
-        <div class="cap-card__example"><strong>Plain language:</strong> When an issue is detected, Network Intelligence doesn't just alert you — it opens a ticket with a draft explanation of why the issue occurred and what steps to take to fix it. The on-call engineer arrives to a pre-investigated incident.</div>
+        <p class="cap-card__title">Investigations &amp; Root Cause</p>
+        <p class="cap-card__body">NOC agents (reasoning, RAG, and function-calling) investigate each critical anomaly, propose a root cause and remediation plan, and file an ITSM ticket with the findings.</p>
       </div>
 
       <div class="cap-card">
         <div class="cap-card__number">04</div>
-        <p class="cap-card__title">Devices Management &amp; Insights</p>
-        <span class="cap-card__tech">IP routers · RAN sites · Device types · Object-level analysis</span>
-        <p class="cap-card__body">Provides a per-device view of all observations — including metrics, alarms, and correlated anomalies — at the object level. Supports different device types (routers, nodes) and allows drilling into specific devices to see the full anomaly history and current health state.</p>
-        <div class="cap-card__example"><strong>Plain language:</strong> Think of this as opening the hood of a specific router or RAN base station and seeing a complete medical history — what went wrong before, what's happening now, and which components are currently showing warning signs.</div>
+        <p class="cap-card__title">Device Insights</p>
+        <p class="cap-card__body">A per-device view of metrics, alarms, and anomaly history for routers and RAN nodes.</p>
       </div>
 
       <div class="cap-card">
         <div class="cap-card__number">05</div>
-        <p class="cap-card__title">Skills — Repeatable Workflow Automation</p>
-        <span class="cap-card__tech">Predefined workflow templates · Chat integration · NOC playbooks</span>
-        <p class="cap-card__body">Skills are predefined, reusable workflows for common NOC tasks — created once and applied repeatedly through the built-in chat assistant. Engineers encode their expert runbooks as Skills, making institutional knowledge available to the AI agents and the entire team, reducing dependency on individual expertise.</p>
-        <div class="cap-card__example"><strong>Plain language:</strong> Instead of every engineer re-inventing the same 10-step investigation process each time a specific type of alarm fires, a Skill encodes that process once. The AI applies it automatically every time.</div>
+        <p class="cap-card__title">Skills</p>
+        <p class="cap-card__body">Reusable workflows that encode expert runbooks once. The chat assistant and AI agents apply them every time.</p>
       </div>
 
       <div class="cap-card">
         <div class="cap-card__number">06</div>
-        <p class="cap-card__title">Grounding Documents (RAG Knowledge Base)</p>
-        <span class="cap-card__tech">RAG · Vector embeddings · MOPs · Config guides · Knowledge base</span>
-        <p class="cap-card__body">Upload Methods of Procedure (MOPs), configuration guides, vendor documentation, and internal knowledge base articles. Network Intelligence chunks, embeds, and stores these documents in a vector database. The RAG agent retrieves the most relevant sections when generating root-cause hypotheses and remediation plans, ensuring responses are grounded in your network's specific context.</p>
-        <div class="cap-card__example"><strong>Plain language:</strong> Every MOP and runbook your team has ever written becomes instantly searchable and automatically cited by the AI when it generates a fix recommendation — no more digging through SharePoint to find the right document under pressure.</div>
+        <p class="cap-card__title">Grounding Documents</p>
+        <p class="cap-card__body">Upload MOPs, configuration guides, and knowledge base articles. They are stored in a vector database so the RAG agent can ground its recommendations in your own procedures.</p>
       </div>
 
       <div class="cap-card">
         <div class="cap-card__number">07</div>
-        <p class="cap-card__title">Chat Assistant with AI Reasoning</p>
-        <span class="cap-card__tech">Chain-of-thought · Quick / Standard / Extended reasoning · Natural language</span>
-        <p class="cap-card__body">An embedded AI-powered chat assistant for natural language queries about network state, anomalies, and investigations. Features a "View reasoning" mode to inspect the chain-of-thought behind every AI response. Configurable reasoning depth (Quick, Standard, Extended) allows operators to balance response speed against analytical depth.</p>
-        <div class="cap-card__example"><strong>Plain language:</strong> Ask "Why is Site 42 degraded?" in plain English and get a structured AI answer — not a raw metric dump. Click "View reasoning" to see exactly how the AI reached its conclusion, ensuring operator trust and accountability.</div>
+        <p class="cap-card__title">Chat Assistant</p>
+        <p class="cap-card__body">Ask questions in plain English, such as &ldquo;Why is Site 42 degraded?&rdquo; &ldquo;View reasoning&rdquo; shows the chain of thought. Quick, Standard, and Extended modes trade speed for depth.</p>
       </div>
 
       <div class="cap-card">
         <div class="cap-card__number">08</div>
-        <p class="cap-card__title">Tool Management &amp; API Integration</p>
-        <span class="cap-card__tech">OpenAPI spec · ITSM · Inventory systems · ServiceNow · Data lakes</span>
-        <p class="cap-card__body">Integrates with external systems using OpenAPI specification, enabling Network Intelligence to pull and push data to ITSM tools (ServiceNow), inventory systems, enterprise information systems (EIS), and data lakes. Automated ticket creation sends the root-cause hypothesis and remediation plan directly into the team's existing workflow.</p>
-        <div class="cap-card__example"><strong>Plain language:</strong> Network Intelligence connects to ServiceNow, your existing ticketing system, and your network inventory database — so when an issue is found, the ticket is already filed with the diagnosis included, without anyone having to switch tools.</div>
+        <p class="cap-card__title">Integrations</p>
+        <p class="cap-card__body">OpenAPI connects ITSM (ServiceNow), inventory systems, and data lakes. MCP servers and connectors bring in external platforms, and the Agent-to-Agent (A2A) protocol links external AI agents.</p>
       </div>
 
       <div class="cap-card">
         <div class="cap-card__number">09</div>
-        <p class="cap-card__title">MCP Server Integration</p>
-        <span class="cap-card__tech">Model Context Protocol · External monitoring platforms · Bi-directional data</span>
-        <p class="cap-card__body">Supports Model Context Protocol (MCP) server integration to connect with external monitoring or management platforms. Network Intelligence receives and analyzes network data flowing from MCP servers, extending its anomaly detection and agentic AI capabilities to any MCP-compatible data source.</p>
-        <div class="cap-card__example"><strong>Plain language:</strong> Already using a network monitoring platform that supports MCP? Plug it directly into Network Intelligence and the AI gains visibility into that platform's data — without replacing your existing tools.</div>
-      </div>
-
-      <div class="cap-card">
-        <div class="cap-card__number">10</div>
-        <p class="cap-card__title">Connectors &amp; External Agent Integration</p>
-        <span class="cap-card__tech">Agent-to-Agent (A2A) protocol · External agents · Connector framework</span>
-        <p class="cap-card__body">Integrates external applications via a Connector framework and supports external AI agents using the Agent-to-Agent (A2A) protocol. This allows Network Intelligence to participate in broader multi-agent AI ecosystems — receiving signals from and delegating actions to external agents as part of automated network operations workflows.</p>
-        <div class="cap-card__example"><strong>Plain language:</strong> Other AI agents in your automation stack can talk directly to Network Intelligence — for example, a capacity planning agent can ask Network Intelligence "is this device about to degrade?" before making a routing decision.</div>
-      </div>
-
-      <div class="cap-card">
-        <div class="cap-card__number">11</div>
-        <p class="cap-card__title">Observation Metrics &amp; Automatic Metric Groups</p>
-        <span class="cap-card__tech">Device · Component · Indicator triplets · Auto-grouping · Metric baselines</span>
-        <p class="cap-card__body">Organises all network data into device-component-indicator triplets, capturing health and status at a fine-grained level. Automatically assigns metrics to metric groups based on object type on first ingestion — no manual configuration required. Supports both metric-based and alarm-based observations with separate views for each.</p>
-        <div class="cap-card__example"><strong>Plain language:</strong> Every data point has three labels: the device it came from, the component (e.g., an interface), and what it measures (e.g., packet loss). This structure lets the AI understand relationships between measurements — not just the measurements themselves.</div>
-      </div>
-
-      <div class="cap-card">
-        <div class="cap-card__number">12</div>
-        <p class="cap-card__title">Two Operating Modes: Autonomous &amp; Assistant</p>
-        <span class="cap-card__tech">Autonomous mode · Assistant mode · Human-in-the-loop · Configurable autonomy</span>
-        <p class="cap-card__body">Network Intelligence supports two operating modes. In <strong>Autonomous mode</strong>, AI agents detect anomalies, generate hypotheses, and execute remediation plans without human intervention — ideal for repetitive, well-understood incident types. In <strong>Assistant mode</strong>, the AI surfaces insights and recommendations but waits for human approval before executing actions, maintaining human oversight over critical changes.</p>
-        <div class="cap-card__example"><strong>Plain language:</strong> For routine issues (e.g., restarting a stuck process), let the AI fix it automatically at 3am without waking anyone. For complex changes to production routing, require a human to approve the plan first.</div>
+        <p class="cap-card__title">Autonomous &amp; Assistant Modes</p>
+        <p class="cap-card__body">In <strong>Autonomous</strong> mode, agents detect and fix routine incidents without human intervention. In <strong>Assistant</strong> mode, the AI recommends and a human approves.</p>
       </div>
 
     </div>
@@ -693,7 +646,7 @@
   <section class="section" id="section-workflows">
     <p class="section-eyebrow">Section 03</p>
     <h2 class="section-title">Main <strong>Workflows</strong> in IBM Network Intelligence</h2>
-    <p class="section-body">The following user flows illustrate how Network Intelligence is set up and how it operates at runtime — from onboarding network data through to automated incident resolution. Each workflow shows both the configuration path and the live operational behaviour.</p>
+    <p class="section-body">How Network Intelligence is set up, and how it runs from data onboarding to incident resolution.</p>
 
     <!-- WORKFLOW 1 -->
     <div class="workflow-section">
@@ -701,13 +654,13 @@
         <span class="workflow-number">01</span>
         <h3 class="workflow-title">Onboarding: Ingesting Network Data</h3>
       </div>
-      <p class="workflow-desc">The foundational workflow — connecting your network data sources to Network Intelligence so the AI models can begin monitoring. Supports both real-time streaming and bulk historical ingestion.</p>
+      <p class="workflow-desc">Connect your data sources, in real time or in bulk, so monitoring can begin.</p>
 
       <div class="flow">
         <div class="flow-step">
           <div class="flow-box flow-box--dark">
             <div class="flow-box__icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M16,4a5,5,0,1,1-5,5,5,5,0,0,1,5-5m0-2a7,7,0,1,0,7,7A7,7,0,0,0,16,2Z"/><path d="M26,30H24V25a5,5,0,0,0-5-5H13a5,5,0,0,0-5,5v5H6V25a7,7,0,0,1,7-7h6a7,7,0,0,1,7,7Z"/><rect fill="none" width="32" height="32"/></svg></div>
-            Admin sets up INM
+            Admin sets up INI
             <div class="flow-box__label">IBM Cloud provisioning</div>
           </div>
         </div>
@@ -788,7 +741,7 @@
         <span class="workflow-number">02</span>
         <h3 class="workflow-title">Continuous Monitoring → Anomaly Detection</h3>
       </div>
-      <p class="workflow-desc">The core runtime loop — how Network Intelligence continuously watches metric streams, detects deviations, and generates initial observations for investigation.</p>
+      <p class="workflow-desc">Network Intelligence watches metric streams, detects deviations, and raises observations.</p>
 
       <div class="flow">
         <div class="flow-step">
@@ -839,7 +792,7 @@
         <span class="workflow-number">03</span>
         <h3 class="workflow-title">Agentic Investigation &amp; Root-Cause Hypothesis</h3>
       </div>
-      <p class="workflow-desc">The most sophisticated workflow — how NOC AI agents investigate a critical anomaly, generate a root-cause hypothesis using semantic context and grounding documents, and produce an actionable remediation plan.</p>
+      <p class="workflow-desc">NOC agents investigate a critical anomaly and produce a root-cause hypothesis and a remediation plan.</p>
 
       <p style="font-size: 17.25px;color:var(--ibm-text-secondary);margin-bottom:var(--ibm-spacing-04);font-weight:600;text-transform:uppercase;letter-spacing:0.32px;">Runtime: AI Investigation Flow</p>
       <div class="flow">
@@ -927,7 +880,7 @@
         <span class="workflow-number">04</span>
         <h3 class="workflow-title">Skills-Driven NOC Playbook Execution</h3>
       </div>
-      <p class="workflow-desc">How a network engineer encodes their expertise as a reusable Skill — then how the AI applies it consistently and at scale across future occurrences of the same incident type.</p>
+      <p class="workflow-desc">An engineer encodes expertise as a reusable Skill, and the AI applies it consistently to future incidents.</p>
 
       <div class="flow">
         <div class="flow-step">
@@ -980,64 +933,50 @@
   <section class="section" id="section-usecases">
     <p class="section-eyebrow">Section 04</p>
     <h2 class="section-title">Real-World <strong>Use Cases &amp; Problems Solved</strong></h2>
-    <p class="section-body">IBM Network Intelligence is deployed wherever multi-domain network operations require more than threshold-based alerting. Here are eight concrete scenarios where the AI-native approach makes the critical difference.</p>
+    <p class="section-body">Six scenarios where AI-native operations outperform threshold-based alerting.</p>
 
     <div class="usecase-grid">
 
       <div class="usecase-card">
         <p class="usecase-card__industry">Telecom / Carrier Operations</p>
-        <h4 class="usecase-card__title">Reducing NOC Alert Fatigue at Scale</h4>
-        <p class="usecase-card__scenario">A tier-1 carrier's NOC receives over 50,000 alerts per day across their IP and RAN networks. Operators spend the majority of their shift acknowledging low-priority alarms, leaving little time for genuine investigation. Network Intelligence's semantic AI filters out false positives, presenting operators with only the high-confidence anomalies that actually require attention — a fraction of the total event volume.</p>
-        <div class="usecase-card__result"><strong>Outcome:</strong> Meaningful reduction in alert noise; NOC operators shift from reactive alarm acknowledgment to proactive network management. MTBI improves as genuine issues are caught earlier.</div>
+        <h4 class="usecase-card__title">Reducing Alert Fatigue</h4>
+        <p class="usecase-card__scenario">A carrier NOC receives over 50,000 alerts a day. Network Intelligence filters out false positives and shows only high-confidence anomalies.</p>
+        <div class="usecase-card__result"><strong>Outcome:</strong> Less noise. Operators move from reacting to alarms to managing the network proactively.</div>
       </div>
 
       <div class="usecase-card">
         <p class="usecase-card__industry">Enterprise IT Operations</p>
-        <h4 class="usecase-card__title">3am Outage — No On-Call Engineer Required</h4>
-        <p class="usecase-card__scenario">A router in a critical enterprise WAN degrades at 3am due to a recurring interface flap. Historically, the on-call engineer would be paged, spend 20 minutes reading logs, then execute a standard restart procedure from the MOP. With Network Intelligence in Autonomous mode, the anomaly is detected, the MOP is retrieved via RAG, and the remediation is executed automatically — the engineer wakes to a closed ticket.</p>
-        <div class="usecase-card__result"><strong>Outcome:</strong> Zero on-call disruption for routine incidents. MTTR reduced from 30+ minutes to under 5 minutes. Repeat incidents of the same type handled without human intervention.</div>
+        <h4 class="usecase-card__title">Overnight Outage, Fixed Automatically</h4>
+        <p class="usecase-card__scenario">A router interface flaps at 3am. In Autonomous mode, the AI retrieves the MOP through RAG and runs the standard restart.</p>
+        <div class="usecase-card__result"><strong>Outcome:</strong> No page for routine incidents. MTTR drops from 30+ minutes to under 5.</div>
       </div>
 
       <div class="usecase-card">
-        <p class="usecase-card__industry">Multi-Vendor Network Environments</p>
-        <h4 class="usecase-card__title">Root Cause Tracing Across Vendor Boundaries</h4>
-        <p class="usecase-card__scenario">An enterprise runs a hybrid network with Cisco routers, Nokia RAN equipment, and a third-party SD-WAN overlay. An application degradation is reported by users — but the root cause spans three different vendor domains. Traditional monitoring tools each see their own piece; Network Intelligence ingests all three data streams, correlates the cross-domain anomalies semantically, and traces the root cause to a BGP route change on the Cisco side affecting Nokia RAN backhaul.</p>
-        <div class="usecase-card__result"><strong>Outcome:</strong> Root cause identified in minutes versus hours. No need for a cross-functional war room or manual log correlation across three vendor dashboards.</div>
+        <p class="usecase-card__industry">Multi-Vendor Networks</p>
+        <h4 class="usecase-card__title">Root Cause Across Vendors</h4>
+        <p class="usecase-card__scenario">An application slows down across Cisco routers, Nokia RAN, and an SD-WAN overlay. Network Intelligence correlates all three data streams and traces the cause to a BGP change on the Cisco side.</p>
+        <div class="usecase-card__result"><strong>Outcome:</strong> Root cause in minutes instead of hours, with no cross-team war room.</div>
       </div>
 
       <div class="usecase-card">
         <p class="usecase-card__industry">Radio Access Network (RAN)</p>
-        <h4 class="usecase-card__title">Early Warning of RAN Degradation Before User Impact</h4>
-        <p class="usecase-card__scenario">A mobile operator's RAN cells in a dense urban area begin showing subtle, gradually worsening signal quality metrics — below threshold alarm levels, invisible to traditional monitoring. Network Intelligence's time-series foundation models detect the anomalous pattern six hours before it would have triggered a threshold alarm, giving engineering teams time to dispatch field maintenance before customers experience dropped calls.</p>
-        <div class="usecase-card__result"><strong>Outcome:</strong> Silent degradation caught before user impact. Proactive maintenance replaces reactive repair. Customer experience protected; SLA penalties avoided.</div>
+        <h4 class="usecase-card__title">Early Warning Before User Impact</h4>
+        <p class="usecase-card__scenario">Signal quality in dense urban cells worsens slowly, staying below alarm thresholds. The AI detects the pattern about six hours early.</p>
+        <div class="usecase-card__result"><strong>Outcome:</strong> Field maintenance happens before customers see dropped calls.</div>
       </div>
 
       <div class="usecase-card">
-        <p class="usecase-card__industry">Knowledge Management &amp; Staff Turnover</p>
-        <h4 class="usecase-card__title">Preserving Expert Knowledge When Senior Engineers Leave</h4>
-        <p class="usecase-card__scenario">A network operations team loses its most experienced engineer to retirement. That engineer's deep knowledge of specific vendor quirks, proprietary workarounds, and undocumented procedures lives in tribal knowledge. Before leaving, the team uploads all known MOPs, runbooks, and troubleshooting guides as Grounding Documents. New engineers ask the chat assistant in plain language and receive answers grounded in the retiring engineer's documented expertise.</p>
-        <div class="usecase-card__result"><strong>Outcome:</strong> Institutional knowledge preserved and made universally accessible. Junior engineers resolve issues that previously required the most senior team member. Onboarding time reduced significantly.</div>
+        <p class="usecase-card__industry">Knowledge Management</p>
+        <h4 class="usecase-card__title">Keeping Expert Knowledge</h4>
+        <p class="usecase-card__scenario">Before a senior engineer retires, the team uploads all MOPs and runbooks as Grounding Documents. Junior engineers get answers from the chat assistant.</p>
+        <div class="usecase-card__result"><strong>Outcome:</strong> Knowledge stays accessible, and new engineers get up to speed faster.</div>
       </div>
 
       <div class="usecase-card">
-        <p class="usecase-card__industry">ITSM &amp; ServiceNow Integration</p>
-        <h4 class="usecase-card__title">Pre-Filled Incident Tickets with AI Diagnosis</h4>
-        <p class="usecase-card__scenario">A managed service provider (MSP) is contractually required to meet a 15-minute initial response SLA on all Priority 1 incidents. Previously, engineers would manually create tickets, add initial notes, and attempt to gather diagnostic data — eating into the SLA window. Network Intelligence auto-creates the ServiceNow ticket at the moment of detection, pre-filled with the root-cause hypothesis, affected devices, and a recommended remediation plan.</p>
-        <div class="usecase-card__result"><strong>Outcome:</strong> P1 SLA compliance rate improves dramatically. Engineers arrive at a pre-investigated incident rather than a blank ticket. Customer reporting quality improved.</div>
-      </div>
-
-      <div class="usecase-card">
-        <p class="usecase-card__industry">AI Safety &amp; Compliance</p>
-        <h4 class="usecase-card__title">Explainable AI for Regulated Industries</h4>
-        <p class="usecase-card__scenario">A financial services firm deploys network operations AI but must meet internal auditability requirements: every automated action must be traceable to a documented decision chain. Network Intelligence's "View reasoning" feature exposes the full chain-of-thought behind every AI recommendation. Built-in prompt guardrails and AI scaffolding ensure the system stays focused on network outcomes — not free-form generation that could produce unreliable results.</p>
-        <div class="usecase-card__result"><strong>Outcome:</strong> AI automation adopted in a regulated environment without compliance concerns. Audit trail maintained for every agent action. Trust in AI recommendations built through transparency.</div>
-      </div>
-
-      <div class="usecase-card">
-        <p class="usecase-card__industry">Cloud &amp; Hybrid Infrastructure</p>
-        <h4 class="usecase-card__title">Unified Observability Across On-Prem and Cloud</h4>
-        <p class="usecase-card__scenario">A global enterprise runs critical workloads on a combination of on-premises IP infrastructure, private cloud, and AWS. Each layer has its own monitoring stack. Network Intelligence ingests data from all three via its flexible data pipeline — regardless of format or cleanliness — and applies unified anomaly detection across the hybrid environment, correlating on-prem router issues with cloud networking events in a single investigation view.</p>
-        <div class="usecase-card__result"><strong>Outcome:</strong> Single pane of glass for hybrid network intelligence. Cross-domain incidents no longer require multiple teams working in isolation. Infrastructure complexity becomes tractable for a smaller operations team.</div>
+        <p class="usecase-card__industry">ITSM &amp; ServiceNow</p>
+        <h4 class="usecase-card__title">Pre-Filled Incident Tickets</h4>
+        <p class="usecase-card__scenario">A managed service provider must respond to P1 incidents within 15 minutes. Network Intelligence creates the ServiceNow ticket at detection, with root cause, affected devices, and a fix plan.</p>
+        <div class="usecase-card__result"><strong>Outcome:</strong> Better SLA compliance. Engineers start with a diagnosis, not a blank ticket.</div>
       </div>
 
     </div>
