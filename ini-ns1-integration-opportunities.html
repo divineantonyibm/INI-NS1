@@ -173,6 +173,12 @@
       min-width: 22px;
       font-weight: 600;
     }
+    .left-nav__link--sub {
+      padding: 7px var(--sp-5) 7px calc(var(--sp-5) + 24px);
+      font-size: 15.6px;
+      color: #a8a8a8;
+    }
+    .left-nav__link--sub .left-nav__link-num { font-size: 12px; min-width: 20px; }
     .left-nav__divider {
       border: none;
       border-top: 1px solid #393939;
@@ -767,78 +773,74 @@
 
     <hr class="left-nav__divider" />
 
-    <p class="left-nav__section-label">Categories</p>
+    <p class="left-nav__section-label">Categories &amp; Use Cases</p>
     <a class="left-nav__link" href="#page-traffic">
       <span class="left-nav__link-num">3</span>Traffic Protection
+    </a>
+    <a class="left-nav__link left-nav__link--sub" href="#uc-01">
+      <span class="left-nav__link-num">01</span>Pre-emptive Failover
+    </a>
+    <a class="left-nav__link left-nav__link--sub" href="#uc-02">
+      <span class="left-nav__link-num">02</span>DDoS Diversion
+    </a>
+    <a class="left-nav__link left-nav__link--sub" href="#uc-03">
+      <span class="left-nav__link-num">03</span>RAN → CDN Re-steering
     </a>
     <a class="left-nav__link" href="#page-intelligence">
       <span class="left-nav__link-num">4</span>Intelligence Sharing
     </a>
+    <a class="left-nav__link left-nav__link--sub" href="#uc-04">
+      <span class="left-nav__link-num">04</span>DNS Telemetry into INI
+    </a>
+    <a class="left-nav__link left-nav__link--sub" href="#uc-05">
+      <span class="left-nav__link-num">05</span>Pulsar + INI Latency
+    </a>
+    <a class="left-nav__link left-nav__link--sub" href="#uc-06">
+      <span class="left-nav__link-num">06</span>Topology Context
+    </a>
     <a class="left-nav__link" href="#page-agentic">
       <span class="left-nav__link-num">5</span>Agentic Automation
+    </a>
+    <a class="left-nav__link left-nav__link--sub" href="#uc-07">
+      <span class="left-nav__link-num">07</span>Autonomous NS1 Updates
+    </a>
+    <a class="left-nav__link left-nav__link--sub" href="#uc-08">
+      <span class="left-nav__link-num">08</span>Human-in-the-Loop
+    </a>
+    <a class="left-nav__link left-nav__link--sub" href="#uc-09">
+      <span class="left-nav__link-num">09</span>Predictive Load Balance
     </a>
     <a class="left-nav__link" href="#page-observability">
       <span class="left-nav__link-num">6</span>Observability
     </a>
+    <a class="left-nav__link left-nav__link--sub" href="#uc-10">
+      <span class="left-nav__link-num">10</span>Unified ITSM Ticket
+    </a>
+    <a class="left-nav__link left-nav__link--sub" href="#uc-11">
+      <span class="left-nav__link-num">11</span>NS1 Change Monitoring
+    </a>
+    <a class="left-nav__link left-nav__link--sub" href="#uc-12">
+      <span class="left-nav__link-num">12</span>NL DNS + Network Query
+    </a>
     <a class="left-nav__link" href="#page-adoption">
       <span class="left-nav__link-num">7</span>Guided AI Adoption
     </a>
-
-    <hr class="left-nav__divider" />
-
-    <p class="left-nav__section-label">Use Cases</p>
-    <a class="left-nav__link" href="#uc-01">
-      <span class="left-nav__link-num">01</span>Pre-emptive Failover
-    </a>
-    <a class="left-nav__link" href="#uc-02">
-      <span class="left-nav__link-num">02</span>DDoS Diversion
-    </a>
-    <a class="left-nav__link" href="#uc-03">
-      <span class="left-nav__link-num">03</span>RAN → CDN Re-steering
-    </a>
-    <a class="left-nav__link" href="#uc-04">
-      <span class="left-nav__link-num">04</span>DNS Telemetry into INI
-    </a>
-    <a class="left-nav__link" href="#uc-05">
-      <span class="left-nav__link-num">05</span>Pulsar + INI Latency
-    </a>
-    <a class="left-nav__link" href="#uc-06">
-      <span class="left-nav__link-num">06</span>Topology Context
-    </a>
-    <a class="left-nav__link" href="#uc-07">
-      <span class="left-nav__link-num">07</span>Autonomous NS1 Updates
-    </a>
-    <a class="left-nav__link" href="#uc-08">
-      <span class="left-nav__link-num">08</span>Human-in-the-Loop
-    </a>
-    <a class="left-nav__link" href="#uc-09">
-      <span class="left-nav__link-num">09</span>Predictive Load Balance
-    </a>
-    <a class="left-nav__link" href="#uc-10">
-      <span class="left-nav__link-num">10</span>Unified ITSM Ticket
-    </a>
-    <a class="left-nav__link" href="#uc-11">
-      <span class="left-nav__link-num">11</span>NS1 Change Monitoring
-    </a>
-    <a class="left-nav__link" href="#uc-12">
-      <span class="left-nav__link-num">12</span>NL DNS + Network Query
-    </a>
-    <a class="left-nav__link" href="#uc-13">
+    <a class="left-nav__link left-nav__link--sub" href="#uc-13">
       <span class="left-nav__link-num">13</span>NS1 Knowledge Assistant
     </a>
-    <a class="left-nav__link" href="#uc-14">
+    <a class="left-nav__link left-nav__link--sub" href="#uc-14">
       <span class="left-nav__link-num">14</span>Config Explainer
     </a>
-    <a class="left-nav__link" href="#uc-15">
+    <a class="left-nav__link left-nav__link--sub" href="#uc-15">
       <span class="left-nav__link-num">15</span>Zone Hygiene Scan
     </a>
-    <a class="left-nav__link" href="#uc-16">
+    <a class="left-nav__link left-nav__link--sub" href="#uc-16">
       <span class="left-nav__link-num">16</span>Dry-run Simulation
     </a>
-    <a class="left-nav__link" href="#uc-17">
+    <a class="left-nav__link left-nav__link--sub" href="#uc-17">
       <span class="left-nav__link-num">17</span>NL → Filter Chain
     </a>
-    <a class="left-nav__link" href="#uc-18">
+    <a class="left-nav__link left-nav__link--sub" href="#uc-18">
       <span class="left-nav__link-num">18</span>MCP for Any AI Tool
     </a>
 
