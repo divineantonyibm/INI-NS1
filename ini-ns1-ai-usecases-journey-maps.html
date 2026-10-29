@@ -73,6 +73,7 @@
 
     .survey-box { background: var(--off-white); border-left: 3px solid var(--ibm-blue); padding: 12px 16px; font-size: 17.5px; color: var(--text-muted); margin-bottom: 20px; }
     .survey-box strong { color: var(--text); }
+    .uc-scenario { font-size: 17px; color: var(--text-muted); line-height: 1.65; margin-bottom: 20px; }
 
     .brief { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 1px; background: var(--divider); border: 1px solid var(--divider); margin-bottom: 24px; }
     .brief__cell { background: #fff; padding: 14px 16px; }
@@ -136,9 +137,33 @@
     .scale.scale--map { margin: -10px 0 24px; }
     .scale .s1::before { background: #da1e28; } .scale .s2::before { background: #ff832b; } .scale .s3::before { background: #c1c7cd; } .scale .s4::before { background: #4589ff; } .scale .s5::before { background: #24a148; }
 
+    /* Contrib row (INI × NS1 contributions) */
+    .contrib-row-title { font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: .5px; color: var(--text-muted); margin-bottom: 10px; }
+    .contrib-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+    @media (max-width: 640px) { .contrib-row { grid-template-columns: 1fr; } }
+    .contrib-cell { padding: 14px 16px; border-top: 2px solid var(--divider); }
+    .contrib-cell--ini { border-top-color: #0043ce; }
+    .contrib-cell--ns1 { border-top-color: #6e32c9; }
+    .contrib-cell__label { font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: .4px; margin-bottom: 5px; }
+    .contrib-cell--ini .contrib-cell__label { color: #0043ce; }
+    .contrib-cell--ns1 .contrib-cell__label { color: #6e32c9; }
+    .contrib-cell__body { font-size: 16px; color: var(--text-muted); line-height: 1.6; }
+    .mechanism-row { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-bottom: 20px; }
+    .mechanism-label { font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: .4px; color: var(--text-muted); margin-right: 4px; }
+    .mech-tag { font-size: 13.5px; padding: 3px 10px; border-radius: 2px; background: var(--off-white); border: 1px solid var(--divider); color: var(--text-muted); }
+
+    /* Tabs */
+    .tabs { margin-top: 20px; }
+    .tabs__bar { display: flex; gap: 0; border-bottom: 2px solid var(--divider); margin-bottom: 0; }
+    .tabs__btn { background: none; border: none; border-bottom: 2px solid transparent; margin-bottom: -2px; padding: 10px 22px; font-family: inherit; font-size: 16px; font-weight: 600; color: var(--text-muted); cursor: pointer; letter-spacing: .01em; transition: color .15s, border-color .15s; }
+    .tabs__btn:hover { color: var(--text); }
+    .tabs__btn.active { color: var(--ibm-blue); border-bottom-color: var(--ibm-blue); }
+    .tabs__panel { display: none; padding-top: 24px; }
+    .tabs__panel.active { display: block; }
+
     .foot { padding: 20px 56px; font-size: 15px; color: var(--text-light); display: flex; justify-content: space-between; }
     @media (max-width: 700px) { .cover, .block, .journey, .foot { padding-left: 20px; padding-right: 20px; } .journey__head { flex-wrap: wrap; } .fit { margin-left: 0; } }
-    @media print { .nav { display: none; } .journey { page-break-before: always; } }
+    @media print { .nav { display: none; } .journey { page-break-before: always; } .tabs__panel { display: block !important; } }
   </style>
 </head>
 <body>
@@ -177,56 +202,90 @@
     <span class="fit fit--core">Core INI Fit</span>
   </div>
 
-  <div class="survey-box"><strong>Survey tested concept:</strong> <em>"Analyze DNS telemetry, such as query volume, response codes, query logs, or traffic-steering results, to identify patterns, anomalies, and potential causes of problems."</em></div>
-
-  <div class="brief">
-    <div class="brief__cell"><p class="brief__label">Persona</p><p class="brief__body"><strong>NetOps / SRE</strong><br>Secondary: Network Engineer. On call for a critical service</p></div>
-    <div class="brief__cell"><p class="brief__label">Trigger</p><p class="brief__body">Localized resolution failures appear for a critical service; the fault could be health-check flapping, CDN edge, rate limiting or an upstream BGP flap.</p></div>
-    <div class="brief__cell"><p class="brief__label">Goal</p><p class="brief__body">Find the real root cause of resolution failures in seconds and avoid chasing the wrong layer.</p></div>
-    <div class="brief__cell"><p class="brief__label">Control mode</p><p class="brief__body">Interactive chat assistant</p></div>
-  </div>
-
-  <div class="jm-scroll"><div class="jm-grid" style="grid-template-columns:150px repeat(6, minmax(190px, 1fr));">
-      <div class="jm-corner"></div><div class="jm-stage"><span class="jm-stage__num">1</span>Detect</div><div class="jm-stage"><span class="jm-stage__num">2</span>Triage</div><div class="jm-stage"><span class="jm-stage__num">3</span>Correlate layers</div><div class="jm-stage"><span class="jm-stage__num">4</span>Inspect reasoning</div><div class="jm-stage"><span class="jm-stage__num">5</span>Remediate / hand off</div><div class="jm-stage"><span class="jm-stage__num">6</span>Close &amp; learn</div>
-      <div class="jm-label">Does</div><div class="jm-cell">Receives one grouped incident rather than thousands of raw error alerts.</div><div class="jm-cell">Opens the incident and reads the impact summary and affected zones.</div><div class="jm-cell">Reviews DNS anomalies alongside BGP flaps and interface counters.</div><div class="jm-cell">Opens the reasoning trace to see the evidence and how the conclusion was reached.</div><div class="jm-cell">Applies a fix or escalates to the owning team with evidence attached.</div><div class="jm-cell">Confirms recovery and records the root cause.</div>
-      <div class="jm-label">Touchpoints</div><div class="jm-cell">INI incident view, paging</div><div class="jm-cell">INI chat, NS1 query metrics</div><div class="jm-cell">Network topology, NS1 telemetry feed</div><div class="jm-cell">Reasoning trace</div><div class="jm-cell">Assistant chat, ticketing</div><div class="jm-cell">INI incident record</div>
-      <div class="jm-label">Thinks</div><div class="jm-cell">"Is this real, and how bad is it?"</div><div class="jm-cell">"Which customers and regions are affected?"</div><div class="jm-cell">"Is it DNS or is it the network under it?"</div><div class="jm-cell">"Do I trust this hypothesis?"</div><div class="jm-cell">"I can hand over a clear diagnosis."</div><div class="jm-cell">"It was found in seconds, not hours."</div>
-      <div class="jm-label">Feels</div><div class="jm-emo" style="grid-column: 2 / span 6;"><div class="emo-chart">
-        <svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-          <line x1="0" y1="50" x2="100" y2="50" class="emo-mid" vector-effect="non-scaling-stroke"/>
-          <polyline points="8.33,70.00 25.00,70.00 41.67,50.00 58.33,30.00 75.00,30.00 91.67,10.00" class="emo-line" vector-effect="non-scaling-stroke"/>
-        </svg>
-        <span class="emo-dot emo-2" style="left:8.33%;top:70.00%" title="Anxious"></span><span class="emo-word" style="left:8.33%;top:70.00%">Anxious</span><span class="emo-dot emo-2" style="left:25.00%;top:70.00%" title="Anxious"></span><span class="emo-word" style="left:25.00%;top:70.00%">Anxious</span><span class="emo-dot emo-3" style="left:41.67%;top:50.00%" title="Neutral"></span><span class="emo-word" style="left:41.67%;top:50.00%">Neutral</span><span class="emo-dot emo-4" style="left:58.33%;top:30.00%" title="Confident"></span><span class="emo-word" style="left:58.33%;top:30.00%">Confident</span><span class="emo-dot emo-4" style="left:75.00%;top:30.00%" title="Confident"></span><span class="emo-word" style="left:75.00%;top:30.00%">Confident</span><span class="emo-dot emo-5" style="left:91.67%;top:10.00%" title="Delighted"></span><span class="emo-word" style="left:91.67%;top:10.00%">Delighted</span>
-      </div></div>
-      <div class="jm-label jm-label--pain">Pain points</div><div class="jm-cell jm-cell--pain">Alert fatigue; NXDOMAIN and SERVFAIL spikes arrive as noise.</div><div class="jm-cell jm-cell--pain">Several tools and dashboards needed to size the problem.</div><div class="jm-cell jm-cell--pain">DNS and underlay are separate silos owned by different teams.</div><div class="jm-cell jm-cell--pain">Unexplained AI conclusions would not be acted on.</div><div class="jm-cell jm-cell--pain">Handoffs lose context between teams.</div><div class="jm-cell jm-cell--pain">Post-incident write-ups are manual.</div>
-      <div class="jm-label jm-label--help">INI × NS1 support</div><div class="jm-cell jm-cell--help">TSPulse detects observations in metric and alarm data; the Symptoms agent turns them into structured symptom records.</div><div class="jm-cell jm-cell--help">Impact summary from NS1 QPS, response-code distribution and Pulsar latency.</div><div class="jm-cell jm-cell--help">Cross-layer correlation with topology context across NS1 and underlay.</div><div class="jm-cell jm-cell--help">Transparent hypothesis backed by reasoning traces, event timeline and RCA reasoning.</div><div class="jm-cell jm-cell--help">Evidence pack is attached to the ticket; a fix can flow into UC 2 for approval.</div><div class="jm-cell jm-cell--help">Investigation summaries are generated automatically.</div>
-    </div></div>
-
-  <div class="scale scale--map"><span class="s1">Frustrated</span><span class="s2">Anxious</span><span class="s3">Neutral</span><span class="s4">Confident</span><span class="s5">Delighted</span></div>
-  <div class="wf">
-    <p class="eyebrow">Workflow</p>
-    <h3 class="wf__title">End-to-end flow by actor</h3>
-    <div class="jm-scroll"><div class="wf-grid" style="grid-template-columns:160px repeat(8, minmax(170px, 1fr));">
-      <div class="wf-corner"></div><div class="wf-head">Step 1</div><div class="wf-head">Step 2</div><div class="wf-head">Step 3</div><div class="wf-head">Step 4</div><div class="wf-head">Step 5</div><div class="wf-head">Step 6</div><div class="wf-head">Step 7</div><div class="wf-head">Step 8</div>
-      <div class="wf-lane wf-lane--u">Practitioner</div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell"><div class="wf-card wf-card--u"><span class="wf-card__num">4</span><p class="wf-card__text">Open the incident and review impact</p></div></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell"><div class="wf-card wf-card--u wf-card--gate"><span class="wf-card__num">6</span><p class="wf-card__text">Inspect the reasoning trace and evidence</p><p class="wf-card__gate"><strong>Decision gate: confident in cause?</strong><br>No: ask follow-up, return to step 5</p></div></div><div class="wf-cell"><div class="wf-card wf-card--u"><span class="wf-card__num">7</span><p class="wf-card__text">Remediate (via UC 2) or escalate with evidence pack</p></div></div><div class="wf-cell wf-cell--empty"></div>
-      <div class="wf-lane wf-lane--i">IBM Network Intelligence</div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell"><div class="wf-card wf-card--i"><span class="wf-card__num">2</span><p class="wf-card__text">Detect observations in metric and alarm data with the TSPulse time-series foundation model</p></div></div><div class="wf-cell"><div class="wf-card wf-card--i"><span class="wf-card__num">3</span><p class="wf-card__text">Symptoms agent records structured symptoms; correlation groups them into one incident</p></div></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell"><div class="wf-card wf-card--i"><span class="wf-card__num">5</span><p class="wf-card__text">Correlate symptoms across devices using topology; investigate root cause</p></div></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell"><div class="wf-card wf-card--i"><span class="wf-card__num">8</span><p class="wf-card__text">Confirm recovery and record root cause and investigation summary</p></div></div>
-      <div class="wf-lane wf-lane--n">NS1 Connect</div><div class="wf-cell"><div class="wf-card wf-card--n"><span class="wf-card__num">1</span><p class="wf-card__text">Provide query metrics, response codes, Pulsar latency and monitor state as telemetry (proposed integration)</p></div></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div>
-    </div></div>
-    <p class="wf__note"><strong>Note:</strong> Runs in Assistant mode: INI explains and recommends; the operator decides.</p>
-  </div>
-
-  <div class="takeaways">
-    <div class="takeaway">
-      <p class="brief__label">Moments of truth</p>
-      <ul><li>One grouped incident replaces an alert storm.</li><li>A cross-layer root cause answers the "DNS or network?" question immediately.</li></ul>
+  <div class="tabs" data-tabs>
+    <div class="tabs__bar">
+      <button class="tabs__btn active" data-tab="summary">Summary</button>
+      <button class="tabs__btn" data-tab="journey">User Journey</button>
+      <button class="tabs__btn" data-tab="workflow">Workflow</button>
     </div>
-    <div class="takeaway">
-      <p class="brief__label">Success measures</p>
-      <ul><li>MTTD / MTTI</li><li>Alerts grouped per incident</li><li>Escalations with correct owner first time</li></ul>
+
+    <!-- Summary tab -->
+    <div class="tabs__panel active" data-panel="summary">
+      <div class="survey-box"><strong>Survey tested concept:</strong> <em>"Analyze DNS telemetry, such as query volume, response codes, query logs, or traffic-steering results, to identify patterns, anomalies, and potential causes of problems."</em></div>
+      <p class="uc-scenario">When a critical service experiences localized resolution failures, operators struggle to determine whether the fault lies in NS1 health-check flapping, CDN edge degradation, authoritative nameserver rate-limiting, or an upstream ISP BGP transit route flap. INI ingests continuous NS1 query telemetry (QPS, response code distributions, Pulsar RUM latency) alongside underlay router interface counters, applying time-series foundation models to pinpoint the root cause immediately.</p>
+      <div class="brief">
+        <div class="brief__cell"><p class="brief__label">Persona</p><p class="brief__body"><strong>NetOps / SRE</strong><br>Secondary: Network Engineer. On call for a critical service</p></div>
+        <div class="brief__cell"><p class="brief__label">Trigger</p><p class="brief__body">Localized resolution failures appear for a critical service; the fault could be health-check flapping, CDN edge, rate limiting or an upstream BGP flap.</p></div>
+        <div class="brief__cell"><p class="brief__label">Goal</p><p class="brief__body">Find the real root cause of resolution failures in seconds and avoid chasing the wrong layer.</p></div>
+        <div class="brief__cell"><p class="brief__label">Control mode</p><p class="brief__body">Interactive chat assistant</p></div>
+      </div>
+      <p class="contrib-row-title">How INI &amp; NS1 contribute</p>
+      <div class="contrib-row">
+        <div class="contrib-cell contrib-cell--ini">
+          <p class="contrib-cell__label">IBM Network Intelligence</p>
+          <p class="contrib-cell__body">Applies Quantile and Prophet foundation models to detect anomalous baseline shifts; correlates DNS anomalies with BGP routing flaps and interface congestion; auto-generates root-cause hypotheses.</p>
+        </div>
+        <div class="contrib-cell contrib-cell--ns1">
+          <p class="contrib-cell__label">IBM NS1 Connect</p>
+          <p class="contrib-cell__body">Streams real-time query metrics, Pulsar active/passive latency feeds, Filter Chain execution logs, and health monitor state transitions via MCP telemetry connectors.</p>
+        </div>
+      </div>
+      <div class="mechanism-row">
+        <span class="mechanism-label">Mechanisms</span>
+        <span class="mech-tag">Time-Series AI</span>
+        <span class="mech-tag">MCP Telemetry Ingest</span>
+        <span class="mech-tag">Semantic Correlation</span>
+        <span class="mech-tag">Pulsar RUM</span>
+        <span class="mech-tag">watsonx Foundation Models</span>
+      </div>
+      <div class="takeaways">
+        <div class="takeaway">
+          <p class="brief__label">Moments of truth</p>
+          <ul><li>One grouped incident replaces an alert storm.</li><li>A cross-layer root cause answers the "DNS or network?" question immediately.</li></ul>
+        </div>
+        <div class="takeaway">
+          <p class="brief__label">Success measures</p>
+          <ul><li>MTTD / MTTI</li><li>Alerts grouped per incident</li><li>Escalations with correct owner first time</li></ul>
+        </div>
+        <div class="takeaway takeaway--impact">
+          <p class="brief__label">Expected impact</p>
+          <p>Expected: faster detection and root-cause identification with fewer duplicate alerts (targets to be validated).</p>
+        </div>
+      </div>
     </div>
-    <div class="takeaway takeaway--impact">
-      <p class="brief__label">Expected impact</p>
-      <p>Expected: faster detection and root-cause identification with fewer duplicate alerts (targets to be validated).</p>
+
+    <!-- User Journey tab -->
+    <div class="tabs__panel" data-panel="journey">
+      <div class="jm-scroll"><div class="jm-grid" style="grid-template-columns:150px repeat(6, minmax(190px, 1fr));">
+          <div class="jm-corner"></div><div class="jm-stage"><span class="jm-stage__num">1</span>Detect</div><div class="jm-stage"><span class="jm-stage__num">2</span>Triage</div><div class="jm-stage"><span class="jm-stage__num">3</span>Correlate layers</div><div class="jm-stage"><span class="jm-stage__num">4</span>Inspect reasoning</div><div class="jm-stage"><span class="jm-stage__num">5</span>Remediate / hand off</div><div class="jm-stage"><span class="jm-stage__num">6</span>Close &amp; learn</div>
+          <div class="jm-label">Does</div><div class="jm-cell">Receives one grouped incident rather than thousands of raw error alerts.</div><div class="jm-cell">Opens the incident and reads the impact summary and affected zones.</div><div class="jm-cell">Reviews DNS anomalies alongside BGP flaps and interface counters.</div><div class="jm-cell">Opens the reasoning trace to see the evidence and how the conclusion was reached.</div><div class="jm-cell">Applies a fix or escalates to the owning team with evidence attached.</div><div class="jm-cell">Confirms recovery and records the root cause.</div>
+          <div class="jm-label">Touchpoints</div><div class="jm-cell">INI incident view, paging</div><div class="jm-cell">INI chat, NS1 query metrics</div><div class="jm-cell">Network topology, NS1 telemetry feed</div><div class="jm-cell">Reasoning trace</div><div class="jm-cell">Assistant chat, ticketing</div><div class="jm-cell">INI incident record</div>
+          <div class="jm-label">Thinks</div><div class="jm-cell">"Is this real, and how bad is it?"</div><div class="jm-cell">"Which customers and regions are affected?"</div><div class="jm-cell">"Is it DNS or is it the network under it?"</div><div class="jm-cell">"Do I trust this hypothesis?"</div><div class="jm-cell">"I can hand over a clear diagnosis."</div><div class="jm-cell">"It was found in seconds, not hours."</div>
+          <div class="jm-label">Feels</div><div class="jm-emo" style="grid-column: 2 / span 6;"><div class="emo-chart">
+            <svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+              <line x1="0" y1="50" x2="100" y2="50" class="emo-mid" vector-effect="non-scaling-stroke"/>
+              <polyline points="8.33,70.00 25.00,70.00 41.67,50.00 58.33,30.00 75.00,30.00 91.67,10.00" class="emo-line" vector-effect="non-scaling-stroke"/>
+            </svg>
+            <span class="emo-dot emo-2" style="left:8.33%;top:70.00%" title="Anxious"></span><span class="emo-word" style="left:8.33%;top:70.00%">Anxious</span><span class="emo-dot emo-2" style="left:25.00%;top:70.00%" title="Anxious"></span><span class="emo-word" style="left:25.00%;top:70.00%">Anxious</span><span class="emo-dot emo-3" style="left:41.67%;top:50.00%" title="Neutral"></span><span class="emo-word" style="left:41.67%;top:50.00%">Neutral</span><span class="emo-dot emo-4" style="left:58.33%;top:30.00%" title="Confident"></span><span class="emo-word" style="left:58.33%;top:30.00%">Confident</span><span class="emo-dot emo-4" style="left:75.00%;top:30.00%" title="Confident"></span><span class="emo-word" style="left:75.00%;top:30.00%">Confident</span><span class="emo-dot emo-5" style="left:91.67%;top:10.00%" title="Delighted"></span><span class="emo-word" style="left:91.67%;top:10.00%">Delighted</span>
+          </div></div>
+          <div class="jm-label jm-label--pain">Pain points</div><div class="jm-cell jm-cell--pain">Alert fatigue; NXDOMAIN and SERVFAIL spikes arrive as noise.</div><div class="jm-cell jm-cell--pain">Several tools and dashboards needed to size the problem.</div><div class="jm-cell jm-cell--pain">DNS and underlay are separate silos owned by different teams.</div><div class="jm-cell jm-cell--pain">Unexplained AI conclusions would not be acted on.</div><div class="jm-cell jm-cell--pain">Handoffs lose context between teams.</div><div class="jm-cell jm-cell--pain">Post-incident write-ups are manual.</div>
+          <div class="jm-label jm-label--help">INI × NS1 support</div><div class="jm-cell jm-cell--help">TSPulse detects observations in metric and alarm data; the Symptoms agent turns them into structured symptom records.</div><div class="jm-cell jm-cell--help">Impact summary from NS1 QPS, response-code distribution and Pulsar latency.</div><div class="jm-cell jm-cell--help">Cross-layer correlation with topology context across NS1 and underlay.</div><div class="jm-cell jm-cell--help">Transparent hypothesis backed by reasoning traces, event timeline and RCA reasoning.</div><div class="jm-cell jm-cell--help">Evidence pack is attached to the ticket; a fix can flow into UC 2 for approval.</div><div class="jm-cell jm-cell--help">Investigation summaries are generated automatically.</div>
+        </div></div>
+      <div class="scale scale--map"><span class="s1">Frustrated</span><span class="s2">Anxious</span><span class="s3">Neutral</span><span class="s4">Confident</span><span class="s5">Delighted</span></div>
+    </div>
+
+    <!-- Workflow tab -->
+    <div class="tabs__panel" data-panel="workflow">
+      <div class="wf">
+        <h3 class="wf__title">End-to-end flow by actor</h3>
+        <div class="jm-scroll"><div class="wf-grid" style="grid-template-columns:160px repeat(8, minmax(170px, 1fr));">
+          <div class="wf-corner"></div><div class="wf-head">Step 1</div><div class="wf-head">Step 2</div><div class="wf-head">Step 3</div><div class="wf-head">Step 4</div><div class="wf-head">Step 5</div><div class="wf-head">Step 6</div><div class="wf-head">Step 7</div><div class="wf-head">Step 8</div>
+          <div class="wf-lane wf-lane--u">Practitioner</div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell"><div class="wf-card wf-card--u"><span class="wf-card__num">4</span><p class="wf-card__text">Open the incident and review impact</p></div></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell"><div class="wf-card wf-card--u wf-card--gate"><span class="wf-card__num">6</span><p class="wf-card__text">Inspect the reasoning trace and evidence</p><p class="wf-card__gate"><strong>Decision gate: confident in cause?</strong><br>No: ask follow-up, return to step 5</p></div></div><div class="wf-cell"><div class="wf-card wf-card--u"><span class="wf-card__num">7</span><p class="wf-card__text">Remediate (via UC 2) or escalate with evidence pack</p></div></div><div class="wf-cell wf-cell--empty"></div>
+          <div class="wf-lane wf-lane--i">IBM Network Intelligence</div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell"><div class="wf-card wf-card--i"><span class="wf-card__num">2</span><p class="wf-card__text">Detect observations in metric and alarm data with the TSPulse time-series foundation model</p></div></div><div class="wf-cell"><div class="wf-card wf-card--i"><span class="wf-card__num">3</span><p class="wf-card__text">Symptoms agent records structured symptoms; correlation groups them into one incident</p></div></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell"><div class="wf-card wf-card--i"><span class="wf-card__num">5</span><p class="wf-card__text">Correlate symptoms across devices using topology; investigate root cause</p></div></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell"><div class="wf-card wf-card--i"><span class="wf-card__num">8</span><p class="wf-card__text">Confirm recovery and record root cause and investigation summary</p></div></div>
+          <div class="wf-lane wf-lane--n">NS1 Connect</div><div class="wf-cell"><div class="wf-card wf-card--n"><span class="wf-card__num">1</span><p class="wf-card__text">Provide query metrics, response codes, Pulsar latency and monitor state as telemetry (proposed integration)</p></div></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div>
+        </div></div>
+        <p class="wf__note"><strong>Note:</strong> Runs in Assistant mode: INI explains and recommends; the operator decides.</p>
+      </div>
     </div>
   </div>
 </section>
@@ -242,56 +301,90 @@
     <span class="fit fit--core">Core INI Fit</span>
   </div>
 
-  <div class="survey-box"><strong>Survey tested concept:</strong> <em>"Create a proposed plan for DNS changes, allow you to review and approve it, and then make the approved changes on your behalf."</em></div>
-
-  <div class="brief">
-    <div class="brief__cell"><p class="brief__label">Persona</p><p class="brief__body"><strong>Infrastructure Architect</strong><br>Secondary: SecOps / NOC. Approves and audits production edits</p></div>
-    <div class="brief__cell"><p class="brief__label">Trigger</p><p class="brief__body">An overloaded EU data centre needs traffic moved to US East and APAC while regional data-compliance rules still hold.</p></div>
-    <div class="brief__cell"><p class="brief__label">Goal</p><p class="brief__body">Execute a multi-zone emergency migration, for example shedding 40% of EU traffic, without manual record edits.</p></div>
-    <div class="brief__cell"><p class="brief__label">Control mode</p><p class="brief__body">Human-in-the-loop approval</p></div>
-  </div>
-
-  <div class="jm-scroll"><div class="jm-grid" style="grid-template-columns:150px repeat(6, minmax(190px, 1fr));">
-      <div class="jm-corner"></div><div class="jm-stage"><span class="jm-stage__num">1</span>Express intent</div><div class="jm-stage"><span class="jm-stage__num">2</span>Review draft plan</div><div class="jm-stage"><span class="jm-stage__num">3</span>Policy check</div><div class="jm-stage"><span class="jm-stage__num">4</span>Approve</div><div class="jm-stage"><span class="jm-stage__num">5</span>Execute</div><div class="jm-stage"><span class="jm-stage__num">6</span>Verify &amp; audit</div>
-      <div class="jm-label">Does</div><div class="jm-cell">Describes the migration goal in the INI Chat Assistant or links the incident ticket.</div><div class="jm-cell">Reads the proposed changes, ordering and rollback script.</div><div class="jm-cell">Sees results of change-policy and compliance checks.</div><div class="jm-cell">Approves the plan (human-in-the-loop gate); SecOps co-signs if required.</div><div class="jm-cell">INI applies the change through NS1 Connect.</div><div class="jm-cell">Watches live telemetry; if errors rise, the agent pauses and asks for approval to roll back.</div>
-      <div class="jm-label">Touchpoints</div><div class="jm-cell">INI Chat Assistant, ticket</div><div class="jm-cell">Plan view, reasoning trace</div><div class="jm-cell">RAG agent, Grounding documents</div><div class="jm-cell">Approval prompt in chat</div><div class="jm-cell">Agent tools, NS1 API</div><div class="jm-cell">Telemetry, audit log</div>
-      <div class="jm-label">Thinks</div><div class="jm-cell">"I should not have to hand-edit records under pressure."</div><div class="jm-cell">"Is every step understood and reversible?"</div><div class="jm-cell">"Does this comply with our change policies and data rules?"</div><div class="jm-cell">"I am accountable, so I need to be sure."</div><div class="jm-cell">"Watch it land."</div><div class="jm-cell">"Done safely, and fully recorded."</div>
-      <div class="jm-label">Feels</div><div class="jm-emo" style="grid-column: 2 / span 6;"><div class="emo-chart">
-        <svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-          <line x1="0" y1="50" x2="100" y2="50" class="emo-mid" vector-effect="non-scaling-stroke"/>
-          <polyline points="8.33,70.00 25.00,50.00 41.67,30.00 58.33,50.00 75.00,50.00 91.67,10.00" class="emo-line" vector-effect="non-scaling-stroke"/>
-        </svg>
-        <span class="emo-dot emo-2" style="left:8.33%;top:70.00%" title="Anxious"></span><span class="emo-word" style="left:8.33%;top:70.00%">Anxious</span><span class="emo-dot emo-3" style="left:25.00%;top:50.00%" title="Neutral"></span><span class="emo-word" style="left:25.00%;top:50.00%">Neutral</span><span class="emo-dot emo-4" style="left:41.67%;top:30.00%" title="Confident"></span><span class="emo-word" style="left:41.67%;top:30.00%">Confident</span><span class="emo-dot emo-3" style="left:58.33%;top:50.00%" title="Neutral"></span><span class="emo-word" style="left:58.33%;top:50.00%">Neutral</span><span class="emo-dot emo-3" style="left:75.00%;top:50.00%" title="Neutral"></span><span class="emo-word" style="left:75.00%;top:50.00%">Neutral</span><span class="emo-dot emo-5" style="left:91.67%;top:10.00%" title="Delighted"></span><span class="emo-word" style="left:91.67%;top:10.00%">Delighted</span>
-      </div></div>
-      <div class="jm-label jm-label--pain">Pain points</div><div class="jm-cell jm-cell--pain">Emergency edits across zones invite syntax errors and drift.</div><div class="jm-cell jm-cell--pain">Large plans are slow to read when time matters.</div><div class="jm-cell jm-cell--pain">Policies live in documents nobody has time to cross-check.</div><div class="jm-cell jm-cell--pain">Approval without evidence is a leap of faith.</div><div class="jm-cell jm-cell--pain">Anxiety during propagation.</div><div class="jm-cell jm-cell--pain">Audit evidence is normally assembled by hand afterwards.</div>
-      <div class="jm-label jm-label--help">INI × NS1 support</div><div class="jm-cell jm-cell--help">The agent reasons step by step from the goal to a traffic-shifting plan.</div><div class="jm-cell jm-cell--help">Plan is structured, with exact NS1 API payloads and a rollback plan.</div><div class="jm-cell jm-cell--help">RAG agent verifies the plan against uploaded runbooks and policies, with citations.</div><div class="jm-cell jm-cell--help">Approver sees the agent's reasoning trace and proposed action, plus simulation results (UC 4) where available.</div><div class="jm-cell jm-cell--help">Filter Chain and record updates are applied through the NS1 API.</div><div class="jm-cell jm-cell--help">Reasoning traces and event timeline give a clear audit trail for each automated decision.</div>
-    </div></div>
-
-  <div class="scale scale--map"><span class="s1">Frustrated</span><span class="s2">Anxious</span><span class="s3">Neutral</span><span class="s4">Confident</span><span class="s5">Delighted</span></div>
-  <div class="wf">
-    <p class="eyebrow">Workflow</p>
-    <h3 class="wf__title">End-to-end flow by actor</h3>
-    <div class="jm-scroll"><div class="wf-grid" style="grid-template-columns:160px repeat(8, minmax(170px, 1fr));">
-      <div class="wf-corner"></div><div class="wf-head">Step 1</div><div class="wf-head">Step 2</div><div class="wf-head">Step 3</div><div class="wf-head">Step 4</div><div class="wf-head">Step 5</div><div class="wf-head">Step 6</div><div class="wf-head">Step 7</div><div class="wf-head">Step 8</div>
-      <div class="wf-lane wf-lane--u">Practitioner</div><div class="wf-cell"><div class="wf-card wf-card--u"><span class="wf-card__num">1</span><p class="wf-card__text">Express intent or link the incident ticket</p></div></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell"><div class="wf-card wf-card--u wf-card--gate"><span class="wf-card__num">5</span><p class="wf-card__text">Review reasoning, simulation and blast radius; approve</p><p class="wf-card__gate"><strong>Decision gate: approved?</strong><br>Reject: return to step 2</p></div></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div>
-      <div class="wf-lane wf-lane--i">IBM Network Intelligence</div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell"><div class="wf-card wf-card--i"><span class="wf-card__num">2</span><p class="wf-card__text">Agent reasons step by step from the goal and drafts a plan</p></div></div><div class="wf-cell"><div class="wf-card wf-card--i"><span class="wf-card__num">3</span><p class="wf-card__text">RAG agent (delegated subagent) checks the plan against uploaded policies and runbooks</p></div></div><div class="wf-cell"><div class="wf-card wf-card--i"><span class="wf-card__num">4</span><p class="wf-card__text">Agent prepares the NS1 change payloads and a rollback plan using its tools</p></div></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell"><div class="wf-card wf-card--i wf-card--gate"><span class="wf-card__num">7</span><p class="wf-card__text">Monitor live telemetry after the change</p><p class="wf-card__gate"><strong>Decision gate: errors rising?</strong><br>Yes: agent pauses and asks approval to roll back</p></div></div><div class="wf-cell"><div class="wf-card wf-card--i"><span class="wf-card__num">8</span><p class="wf-card__text">Record reasoning traces and event timeline as the audit trail</p></div></div>
-      <div class="wf-lane wf-lane--n">NS1 Connect</div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell"><div class="wf-card wf-card--n"><span class="wf-card__num">6</span><p class="wf-card__text">Apply the approved Filter Chain and record updates through the NS1 API</p></div></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div>
-    </div></div>
-    <p class="wf__note"><strong>Note:</strong> The agent pauses for approval before acting and resumes or takes an alternative approach based on the response. A future autonomous mode for pre-certified runbooks is a proposal to validate.</p>
-  </div>
-
-  <div class="takeaways">
-    <div class="takeaway">
-      <p class="brief__label">Moments of truth</p>
-      <ul><li>The approver sees the reasoning trace, proposed action and rollback plan together before saying yes.</li><li>A clear rollback plan, with approval to use it, removes fear of executing.</li></ul>
+  <div class="tabs" data-tabs>
+    <div class="tabs__bar">
+      <button class="tabs__btn active" data-tab="summary">Summary</button>
+      <button class="tabs__btn" data-tab="journey">User Journey</button>
+      <button class="tabs__btn" data-tab="workflow">Workflow</button>
     </div>
-    <div class="takeaway">
-      <p class="brief__label">Success measures</p>
-      <ul><li>Change lead time</li><li>Rollbacks triggered vs. incidents avoided</li><li>Changes with complete audit trail</li></ul>
+
+    <!-- Summary tab -->
+    <div class="tabs__panel active" data-panel="summary">
+      <div class="survey-box"><strong>Survey tested concept:</strong> <em>"Create a proposed plan for DNS changes, allow you to review and approve it, and then make the approved changes on your behalf."</em></div>
+      <p class="uc-scenario">An enterprise needs to execute a complex emergency traffic migration — shedding 40% of traffic from an overloaded EU data center to US East and APAC while maintaining regional data compliance. Rather than manually editing records across multiple zones and risking misconfiguration, the engineer describes the intent in INI's Chat Assistant. INI's multi-agent system drafts the change, validates it against runbooks, generates exact NS1 API calls, and awaits approval.</p>
+      <div class="brief">
+        <div class="brief__cell"><p class="brief__label">Persona</p><p class="brief__body"><strong>Infrastructure Architect</strong><br>Secondary: SecOps / NOC. Approves and audits production edits</p></div>
+        <div class="brief__cell"><p class="brief__label">Trigger</p><p class="brief__body">An overloaded EU data centre needs traffic moved to US East and APAC while regional data-compliance rules still hold.</p></div>
+        <div class="brief__cell"><p class="brief__label">Goal</p><p class="brief__body">Execute a multi-zone emergency migration, for example shedding 40% of EU traffic, without manual record edits.</p></div>
+        <div class="brief__cell"><p class="brief__label">Control mode</p><p class="brief__body">Human-in-the-loop approval</p></div>
+      </div>
+      <p class="contrib-row-title">How INI &amp; NS1 contribute</p>
+      <div class="contrib-row">
+        <div class="contrib-cell contrib-cell--ini">
+          <p class="contrib-cell__label">IBM Network Intelligence</p>
+          <p class="contrib-cell__body">Reasoning Agent devises step-by-step traffic shifting plan; RAG Agent checks enterprise change policies; Function-Calling Agent constructs atomic NS1 API mutation payloads and rollback scripts.</p>
+        </div>
+        <div class="contrib-cell contrib-cell--ns1">
+          <p class="contrib-cell__label">IBM NS1 Connect</p>
+          <p class="contrib-cell__body">Executes dynamic Filter Chain weight updates, record modifications, and Pulsar steering overrides; provides instant sub-second propagation across all global PoPs.</p>
+        </div>
+      </div>
+      <div class="mechanism-row">
+        <span class="mechanism-label">Mechanisms</span>
+        <span class="mech-tag">NOC AI Multi-Agent</span>
+        <span class="mech-tag">RAG Policy Verification</span>
+        <span class="mech-tag">Function-Calling API</span>
+        <span class="mech-tag">Atomic Rollback</span>
+        <span class="mech-tag">Human-in-the-Loop</span>
+      </div>
+      <div class="takeaways">
+        <div class="takeaway">
+          <p class="brief__label">Moments of truth</p>
+          <ul><li>The approver sees the reasoning trace, proposed action and rollback plan together before saying yes.</li><li>A clear rollback plan, with approval to use it, removes fear of executing.</li></ul>
+        </div>
+        <div class="takeaway">
+          <p class="brief__label">Success measures</p>
+          <ul><li>Change lead time</li><li>Rollbacks triggered vs. incidents avoided</li><li>Changes with complete audit trail</li></ul>
+        </div>
+        <div class="takeaway takeaway--impact">
+          <p class="brief__label">Expected impact</p>
+          <p>Expected: faster, less error-prone changes with a full audit trail (targets to be validated).</p>
+        </div>
+      </div>
     </div>
-    <div class="takeaway takeaway--impact">
-      <p class="brief__label">Expected impact</p>
-      <p>Expected: faster, less error-prone changes with a full audit trail (targets to be validated).</p>
+
+    <!-- User Journey tab -->
+    <div class="tabs__panel" data-panel="journey">
+      <div class="jm-scroll"><div class="jm-grid" style="grid-template-columns:150px repeat(6, minmax(190px, 1fr));">
+          <div class="jm-corner"></div><div class="jm-stage"><span class="jm-stage__num">1</span>Express intent</div><div class="jm-stage"><span class="jm-stage__num">2</span>Review draft plan</div><div class="jm-stage"><span class="jm-stage__num">3</span>Policy check</div><div class="jm-stage"><span class="jm-stage__num">4</span>Approve</div><div class="jm-stage"><span class="jm-stage__num">5</span>Execute</div><div class="jm-stage"><span class="jm-stage__num">6</span>Verify &amp; audit</div>
+          <div class="jm-label">Does</div><div class="jm-cell">Describes the migration goal in the INI Chat Assistant or links the incident ticket.</div><div class="jm-cell">Reads the proposed changes, ordering and rollback script.</div><div class="jm-cell">Sees results of change-policy and compliance checks.</div><div class="jm-cell">Approves the plan (human-in-the-loop gate); SecOps co-signs if required.</div><div class="jm-cell">INI applies the change through NS1 Connect.</div><div class="jm-cell">Watches live telemetry; if errors rise, the agent pauses and asks for approval to roll back.</div>
+          <div class="jm-label">Touchpoints</div><div class="jm-cell">INI Chat Assistant, ticket</div><div class="jm-cell">Plan view, reasoning trace</div><div class="jm-cell">RAG agent, Grounding documents</div><div class="jm-cell">Approval prompt in chat</div><div class="jm-cell">Agent tools, NS1 API</div><div class="jm-cell">Telemetry, audit log</div>
+          <div class="jm-label">Thinks</div><div class="jm-cell">"I should not have to hand-edit records under pressure."</div><div class="jm-cell">"Is every step understood and reversible?"</div><div class="jm-cell">"Does this comply with our change policies and data rules?"</div><div class="jm-cell">"I am accountable, so I need to be sure."</div><div class="jm-cell">"Watch it land."</div><div class="jm-cell">"Done safely, and fully recorded."</div>
+          <div class="jm-label">Feels</div><div class="jm-emo" style="grid-column: 2 / span 6;"><div class="emo-chart">
+            <svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+              <line x1="0" y1="50" x2="100" y2="50" class="emo-mid" vector-effect="non-scaling-stroke"/>
+              <polyline points="8.33,70.00 25.00,50.00 41.67,30.00 58.33,50.00 75.00,50.00 91.67,10.00" class="emo-line" vector-effect="non-scaling-stroke"/>
+            </svg>
+            <span class="emo-dot emo-2" style="left:8.33%;top:70.00%" title="Anxious"></span><span class="emo-word" style="left:8.33%;top:70.00%">Anxious</span><span class="emo-dot emo-3" style="left:25.00%;top:50.00%" title="Neutral"></span><span class="emo-word" style="left:25.00%;top:50.00%">Neutral</span><span class="emo-dot emo-4" style="left:41.67%;top:30.00%" title="Confident"></span><span class="emo-word" style="left:41.67%;top:30.00%">Confident</span><span class="emo-dot emo-3" style="left:58.33%;top:50.00%" title="Neutral"></span><span class="emo-word" style="left:58.33%;top:50.00%">Neutral</span><span class="emo-dot emo-3" style="left:75.00%;top:50.00%" title="Neutral"></span><span class="emo-word" style="left:75.00%;top:50.00%">Neutral</span><span class="emo-dot emo-5" style="left:91.67%;top:10.00%" title="Delighted"></span><span class="emo-word" style="left:91.67%;top:10.00%">Delighted</span>
+          </div></div>
+          <div class="jm-label jm-label--pain">Pain points</div><div class="jm-cell jm-cell--pain">Emergency edits across zones invite syntax errors and drift.</div><div class="jm-cell jm-cell--pain">Large plans are slow to read when time matters.</div><div class="jm-cell jm-cell--pain">Policies live in documents nobody has time to cross-check.</div><div class="jm-cell jm-cell--pain">Approval without evidence is a leap of faith.</div><div class="jm-cell jm-cell--pain">Anxiety during propagation.</div><div class="jm-cell jm-cell--pain">Audit evidence is normally assembled by hand afterwards.</div>
+          <div class="jm-label jm-label--help">INI × NS1 support</div><div class="jm-cell jm-cell--help">The agent reasons step by step from the goal to a traffic-shifting plan.</div><div class="jm-cell jm-cell--help">Plan is structured, with exact NS1 API payloads and a rollback plan.</div><div class="jm-cell jm-cell--help">RAG agent verifies the plan against uploaded runbooks and policies, with citations.</div><div class="jm-cell jm-cell--help">Approver sees the agent's reasoning trace and proposed action, plus simulation results (UC 4) where available.</div><div class="jm-cell jm-cell--help">Filter Chain and record updates are applied through the NS1 API.</div><div class="jm-cell jm-cell--help">Reasoning traces and event timeline give a clear audit trail for each automated decision.</div>
+        </div></div>
+      <div class="scale scale--map"><span class="s1">Frustrated</span><span class="s2">Anxious</span><span class="s3">Neutral</span><span class="s4">Confident</span><span class="s5">Delighted</span></div>
+    </div>
+
+    <!-- Workflow tab -->
+    <div class="tabs__panel" data-panel="workflow">
+      <div class="wf">
+        <h3 class="wf__title">End-to-end flow by actor</h3>
+        <div class="jm-scroll"><div class="wf-grid" style="grid-template-columns:160px repeat(8, minmax(170px, 1fr));">
+          <div class="wf-corner"></div><div class="wf-head">Step 1</div><div class="wf-head">Step 2</div><div class="wf-head">Step 3</div><div class="wf-head">Step 4</div><div class="wf-head">Step 5</div><div class="wf-head">Step 6</div><div class="wf-head">Step 7</div><div class="wf-head">Step 8</div>
+          <div class="wf-lane wf-lane--u">Practitioner</div><div class="wf-cell"><div class="wf-card wf-card--u"><span class="wf-card__num">1</span><p class="wf-card__text">Express intent or link the incident ticket</p></div></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell"><div class="wf-card wf-card--u wf-card--gate"><span class="wf-card__num">5</span><p class="wf-card__text">Review reasoning, simulation and blast radius; approve</p><p class="wf-card__gate"><strong>Decision gate: approved?</strong><br>Reject: return to step 2</p></div></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div>
+          <div class="wf-lane wf-lane--i">IBM Network Intelligence</div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell"><div class="wf-card wf-card--i"><span class="wf-card__num">2</span><p class="wf-card__text">Agent reasons step by step from the goal and drafts a plan</p></div></div><div class="wf-cell"><div class="wf-card wf-card--i"><span class="wf-card__num">3</span><p class="wf-card__text">RAG agent (delegated subagent) checks the plan against uploaded policies and runbooks</p></div></div><div class="wf-cell"><div class="wf-card wf-card--i"><span class="wf-card__num">4</span><p class="wf-card__text">Agent prepares the NS1 change payloads and a rollback plan using its tools</p></div></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell"><div class="wf-card wf-card--i wf-card--gate"><span class="wf-card__num">7</span><p class="wf-card__text">Monitor live telemetry after the change</p><p class="wf-card__gate"><strong>Decision gate: errors rising?</strong><br>Yes: agent pauses and asks approval to roll back</p></div></div><div class="wf-cell"><div class="wf-card wf-card--i"><span class="wf-card__num">8</span><p class="wf-card__text">Record reasoning traces and event timeline as the audit trail</p></div></div>
+          <div class="wf-lane wf-lane--n">NS1 Connect</div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell"><div class="wf-card wf-card--n"><span class="wf-card__num">6</span><p class="wf-card__text">Apply the approved Filter Chain and record updates through the NS1 API</p></div></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div>
+        </div></div>
+        <p class="wf__note"><strong>Note:</strong> The agent pauses for approval before acting and resumes or takes an alternative approach based on the response. A future autonomous mode for pre-certified runbooks is a proposal to validate.</p>
+      </div>
     </div>
   </div>
 </section>
@@ -307,56 +400,89 @@
     <span class="fit fit--high">High INI Fit</span>
   </div>
 
-  <div class="survey-box"><strong>Survey tested concept:</strong> <em>"Help you design advanced traffic steering configurations by explaining available options and helping determine how traffic should be routed based on your intended outcome."</em></div>
-
-  <div class="brief">
-    <div class="brief__cell"><p class="brief__label">Persona</p><p class="brief__body"><strong>Infrastructure Architect</strong><br>Secondary: DevOps Engineer. Designs multi-CDN and hybrid-cloud steering</p></div>
-    <div class="brief__cell"><p class="brief__label">Trigger</p><p class="brief__body">A new multi-CDN or multi-region rollout needs a steering policy that satisfies performance, cost and GDPR constraints.</p></div>
-    <div class="brief__cell"><p class="brief__label">Goal</p><p class="brief__body">Turn a business routing goal into a Filter Chain that balances latency, transit cost, data sovereignty and origin capacity.</p></div>
-    <div class="brief__cell"><p class="brief__label">Control mode</p><p class="brief__body">Interactive chat assistant</p></div>
-  </div>
-
-  <div class="jm-scroll"><div class="jm-grid" style="grid-template-columns:150px repeat(6, minmax(190px, 1fr));">
-      <div class="jm-corner"></div><div class="jm-stage"><span class="jm-stage__num">1</span>Define outcome</div><div class="jm-stage"><span class="jm-stage__num">2</span>Explore options</div><div class="jm-stage"><span class="jm-stage__num">3</span>Review draft chain</div><div class="jm-stage"><span class="jm-stage__num">4</span>Check bounds</div><div class="jm-stage"><span class="jm-stage__num">5</span>Save as reusable design</div><div class="jm-stage"><span class="jm-stage__num">6</span>Apply &amp; refine</div>
-      <div class="jm-label">Does</div><div class="jm-cell">States the goal in plain language: lowest latency in-region, cap transit spend, keep EU data in the EU.</div><div class="jm-cell">Asks which filters exist and how they interact.</div><div class="jm-cell">Reads the recommended order, for example UP/DOWN, SHED_LOAD, GEODNS, PULSAR, SELECT_FIRST_N.</div><div class="jm-cell">Reviews warnings about blackholing, circular fallbacks and single-region overload.</div><div class="jm-cell">Accepts the design and saves the pattern for reuse (proposed).</div><div class="jm-cell">Applies the config (via UC 4 and UC 2) and tunes using Pulsar results.</div>
-      <div class="jm-label">Touchpoints</div><div class="jm-cell">INI Chat Assistant</div><div class="jm-cell">Assistant chat, NS1 docs (RAG)</div><div class="jm-cell">Filter Chain preview, Pulsar RUM feeds</div><div class="jm-cell">Validation panel, reasoning trace</div><div class="jm-cell">Saved designs library (proposed)</div><div class="jm-cell">NS1 Connect, Pulsar</div>
-      <div class="jm-label">Thinks</div><div class="jm-cell">"I know the outcome but not the exact filter combination."</div><div class="jm-cell">"What are my options, and what does each one cost me?"</div><div class="jm-cell">"Does this fit my real traffic and my contracts?"</div><div class="jm-cell">"What could this get wrong?"</div><div class="jm-cell">"My team should not have to redesign this each time."</div><div class="jm-cell">"Latency is down and the bill is under control."</div>
-      <div class="jm-label">Feels</div><div class="jm-emo" style="grid-column: 2 / span 6;"><div class="emo-chart">
-        <svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-          <line x1="0" y1="50" x2="100" y2="50" class="emo-mid" vector-effect="non-scaling-stroke"/>
-          <polyline points="8.33,50.00 25.00,50.00 41.67,30.00 58.33,70.00 75.00,30.00 91.67,10.00" class="emo-line" vector-effect="non-scaling-stroke"/>
-        </svg>
-        <span class="emo-dot emo-3" style="left:8.33%;top:50.00%" title="Neutral"></span><span class="emo-word" style="left:8.33%;top:50.00%">Neutral</span><span class="emo-dot emo-3" style="left:25.00%;top:50.00%" title="Neutral"></span><span class="emo-word" style="left:25.00%;top:50.00%">Neutral</span><span class="emo-dot emo-4" style="left:41.67%;top:30.00%" title="Confident"></span><span class="emo-word" style="left:41.67%;top:30.00%">Confident</span><span class="emo-dot emo-2" style="left:58.33%;top:70.00%" title="Anxious"></span><span class="emo-word" style="left:58.33%;top:70.00%">Anxious</span><span class="emo-dot emo-4" style="left:75.00%;top:30.00%" title="Confident"></span><span class="emo-word" style="left:75.00%;top:30.00%">Confident</span><span class="emo-dot emo-5" style="left:91.67%;top:10.00%" title="Delighted"></span><span class="emo-word" style="left:91.67%;top:10.00%">Delighted</span>
-      </div></div>
-      <div class="jm-label jm-label--pain">Pain points</div><div class="jm-cell jm-cell--pain">Business goals do not map directly to Filter Chain terms.</div><div class="jm-cell jm-cell--pain">Many filters and ordering rules; trial and error is slow.</div><div class="jm-cell jm-cell--pain">Cannot tell whether the proposal fits actual egress costs and capacity.</div><div class="jm-cell jm-cell--pain">Edge cases are easy to miss until an incident exposes them.</div><div class="jm-cell jm-cell--pain">Patterns live in individual heads, so squads drift apart.</div><div class="jm-cell jm-cell--pain">Ongoing tuning needs fresh data.</div>
-      <div class="jm-label jm-label--help">INI × NS1 support</div><div class="jm-cell jm-cell--help">INI decomposes the intent into constraints: latency, cost, geography, capacity.</div><div class="jm-cell jm-cell--help">Plain-language explanation of filters with examples grounded in the live NS1 schema.</div><div class="jm-cell jm-cell--help">Recommendation draws on telemetry and the constraints the practitioner supplies (proposed).</div><div class="jm-cell jm-cell--help">Risks such as blackholing or overload are flagged (proposed) and each warning is explained.</div><div class="jm-cell jm-cell--help">Reusable saved designs (proposed) standardize steering across squads.</div><div class="jm-cell jm-cell--help">Telemetry feedback suggests weight and order adjustments over time.</div>
-    </div></div>
-
-  <div class="scale scale--map"><span class="s1">Frustrated</span><span class="s2">Anxious</span><span class="s3">Neutral</span><span class="s4">Confident</span><span class="s5">Delighted</span></div>
-  <div class="wf">
-    <p class="eyebrow">Workflow</p>
-    <h3 class="wf__title">End-to-end flow by actor</h3>
-    <div class="jm-scroll"><div class="wf-grid" style="grid-template-columns:160px repeat(8, minmax(170px, 1fr));">
-      <div class="wf-corner"></div><div class="wf-head">Step 1</div><div class="wf-head">Step 2</div><div class="wf-head">Step 3</div><div class="wf-head">Step 4</div><div class="wf-head">Step 5</div><div class="wf-head">Step 6</div><div class="wf-head">Step 7</div><div class="wf-head">Step 8</div>
-      <div class="wf-lane wf-lane--u">Practitioner</div><div class="wf-cell"><div class="wf-card wf-card--u"><span class="wf-card__num">1</span><p class="wf-card__text">State the routing outcome: latency, cost, sovereignty</p></div></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell"><div class="wf-card wf-card--u wf-card--gate"><span class="wf-card__num">6</span><p class="wf-card__text">Review explanation, accept or refine</p><p class="wf-card__gate"><strong>Decision gate: accept draft?</strong><br>Refine: return to step 2</p></div></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div>
-      <div class="wf-lane wf-lane--i">IBM Network Intelligence</div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell"><div class="wf-card wf-card--i"><span class="wf-card__num">2</span><p class="wf-card__text">Decompose intent into constraints</p></div></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell"><div class="wf-card wf-card--i"><span class="wf-card__num">4</span><p class="wf-card__text">Draft Filter Chain order from telemetry, egress cost and capacity</p></div></div><div class="wf-cell"><div class="wf-card wf-card--i wf-card--gate"><span class="wf-card__num">5</span><p class="wf-card__text">Check for risks: blackhole, circular fallback, single-region overload (proposed)</p><p class="wf-card__gate"><strong>Decision gate: bounds pass?</strong><br>No: return to step 4</p></div></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell"><div class="wf-card wf-card--i"><span class="wf-card__num">7</span><p class="wf-card__text">Save the pattern as a reusable design (proposed)</p></div></div><div class="wf-cell wf-cell--empty"></div>
-      <div class="wf-lane wf-lane--n">NS1 Connect</div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell"><div class="wf-card wf-card--n"><span class="wf-card__num">3</span><p class="wf-card__text">Provide filter options and Pulsar RUM data (proposed integration)</p></div></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell"><div class="wf-card wf-card--n"><span class="wf-card__num">8</span><p class="wf-card__text">Apply via UC 4 validation and UC 2 execution; tune from Pulsar results</p></div></div>
-    </div></div>
-    <p class="wf__note"><strong>Note:</strong> Saved designs are shared, so the next design starts from an approved pattern.</p>
-  </div>
-
-  <div class="takeaways">
-    <div class="takeaway">
-      <p class="brief__label">Moments of truth</p>
-      <ul><li>Seeing the draft chain justified by real telemetry rather than generic advice.</li><li>Saving a design turns one design into a team standard.</li></ul>
+  <div class="tabs" data-tabs>
+    <div class="tabs__bar">
+      <button class="tabs__btn active" data-tab="summary">Summary</button>
+      <button class="tabs__btn" data-tab="journey">User Journey</button>
+      <button class="tabs__btn" data-tab="workflow">Workflow</button>
     </div>
-    <div class="takeaway">
-      <p class="brief__label">Success measures</p>
-      <ul><li>Design time from goal to approved chain</li><li>Latency change after rollout</li><li>Saved designs reused across squads</li></ul>
+
+    <!-- Summary tab -->
+    <div class="tabs__panel active" data-panel="summary">
+      <div class="survey-box"><strong>Survey tested concept:</strong> <em>"Help you design advanced traffic steering configurations by explaining available options and helping determine how traffic should be routed based on your intended outcome."</em></div>
+      <p class="uc-scenario">Architects configuring multi-CDN and hybrid-cloud steering must balance latency performance, committed transit billing commitments, data sovereignty laws (GDPR), and origin capacity limits. INI's AI analyzes historical network telemetry and cloud egress rates to recommend the optimal Filter Chain ordering (e.g., UP/DOWN → SHED_LOAD → GEODNS → PULSAR → SELECT_FIRST_N) and encodes standard policies as reusable Skills.</p>
+      <div class="brief">
+        <div class="brief__cell"><p class="brief__label">Persona</p><p class="brief__body"><strong>Infrastructure Architect</strong><br>Secondary: DevOps Engineer. Designs multi-CDN and hybrid-cloud steering</p></div>
+        <div class="brief__cell"><p class="brief__label">Trigger</p><p class="brief__body">A new multi-CDN or multi-region rollout needs a steering policy that satisfies performance, cost and GDPR constraints.</p></div>
+        <div class="brief__cell"><p class="brief__label">Goal</p><p class="brief__body">Turn a business routing goal into a Filter Chain that balances latency, transit cost, data sovereignty and origin capacity.</p></div>
+        <div class="brief__cell"><p class="brief__label">Control mode</p><p class="brief__body">Interactive chat assistant</p></div>
+      </div>
+      <p class="contrib-row-title">How INI &amp; NS1 contribute</p>
+      <div class="contrib-row">
+        <div class="contrib-cell contrib-cell--ini">
+          <p class="contrib-cell__label">IBM Network Intelligence</p>
+          <p class="contrib-cell__body">Evaluates multi-cloud egress costs, transit latency curves, and application capacity models; recommends optimal Filter Chain algorithms and saves patterns as reusable INI Skills.</p>
+        </div>
+        <div class="contrib-cell contrib-cell--ns1">
+          <p class="contrib-cell__label">IBM NS1 Connect</p>
+          <p class="contrib-cell__body">Provides patented modular Filter Chain engine, Pulsar real-user monitoring (RUM) telemetry feeds, and real-time DNS decisioning at global edge points.</p>
+        </div>
+      </div>
+      <div class="mechanism-row">
+        <span class="mechanism-label">Mechanisms</span>
+        <span class="mech-tag">Filter Chain Optimization</span>
+        <span class="mech-tag">Pulsar RUM Feeds</span>
+        <span class="mech-tag">Reusable Skills</span>
+        <span class="mech-tag">Intent Decomposition</span>
+      </div>
+      <div class="takeaways">
+        <div class="takeaway">
+          <p class="brief__label">Moments of truth</p>
+          <ul><li>Seeing the draft chain justified by real telemetry rather than generic advice.</li><li>Saving a design turns one design into a team standard.</li></ul>
+        </div>
+        <div class="takeaway">
+          <p class="brief__label">Success measures</p>
+          <ul><li>Design time from goal to approved chain</li><li>Latency change after rollout</li><li>Saved designs reused across squads</li></ul>
+        </div>
+        <div class="takeaway takeaway--impact">
+          <p class="brief__label">Expected impact</p>
+          <p>Expected: lower latency, controlled transit cost and consistent steering patterns across squads (targets to be validated).</p>
+        </div>
+      </div>
     </div>
-    <div class="takeaway takeaway--impact">
-      <p class="brief__label">Expected impact</p>
-      <p>Expected: lower latency, controlled transit cost and consistent steering patterns across squads (targets to be validated).</p>
+
+    <!-- User Journey tab -->
+    <div class="tabs__panel" data-panel="journey">
+      <div class="jm-scroll"><div class="jm-grid" style="grid-template-columns:150px repeat(6, minmax(190px, 1fr));">
+          <div class="jm-corner"></div><div class="jm-stage"><span class="jm-stage__num">1</span>Define outcome</div><div class="jm-stage"><span class="jm-stage__num">2</span>Explore options</div><div class="jm-stage"><span class="jm-stage__num">3</span>Review draft chain</div><div class="jm-stage"><span class="jm-stage__num">4</span>Check bounds</div><div class="jm-stage"><span class="jm-stage__num">5</span>Save as reusable design</div><div class="jm-stage"><span class="jm-stage__num">6</span>Apply &amp; refine</div>
+          <div class="jm-label">Does</div><div class="jm-cell">States the goal in plain language: lowest latency in-region, cap transit spend, keep EU data in the EU.</div><div class="jm-cell">Asks which filters exist and how they interact.</div><div class="jm-cell">Reads the recommended order, for example UP/DOWN, SHED_LOAD, GEODNS, PULSAR, SELECT_FIRST_N.</div><div class="jm-cell">Reviews warnings about blackholing, circular fallbacks and single-region overload.</div><div class="jm-cell">Accepts the design and saves the pattern for reuse (proposed).</div><div class="jm-cell">Applies the config (via UC 4 and UC 2) and tunes using Pulsar results.</div>
+          <div class="jm-label">Touchpoints</div><div class="jm-cell">INI Chat Assistant</div><div class="jm-cell">Assistant chat, NS1 docs (RAG)</div><div class="jm-cell">Filter Chain preview, Pulsar RUM feeds</div><div class="jm-cell">Validation panel, reasoning trace</div><div class="jm-cell">Saved designs library (proposed)</div><div class="jm-cell">NS1 Connect, Pulsar</div>
+          <div class="jm-label">Thinks</div><div class="jm-cell">"I know the outcome but not the exact filter combination."</div><div class="jm-cell">"What are my options, and what does each one cost me?"</div><div class="jm-cell">"Does this fit my real traffic and my contracts?"</div><div class="jm-cell">"What could this get wrong?"</div><div class="jm-cell">"My team should not have to redesign this each time."</div><div class="jm-cell">"Latency is down and the bill is under control."</div>
+          <div class="jm-label">Feels</div><div class="jm-emo" style="grid-column: 2 / span 6;"><div class="emo-chart">
+            <svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+              <line x1="0" y1="50" x2="100" y2="50" class="emo-mid" vector-effect="non-scaling-stroke"/>
+              <polyline points="8.33,50.00 25.00,50.00 41.67,30.00 58.33,70.00 75.00,30.00 91.67,10.00" class="emo-line" vector-effect="non-scaling-stroke"/>
+            </svg>
+            <span class="emo-dot emo-3" style="left:8.33%;top:50.00%" title="Neutral"></span><span class="emo-word" style="left:8.33%;top:50.00%">Neutral</span><span class="emo-dot emo-3" style="left:25.00%;top:50.00%" title="Neutral"></span><span class="emo-word" style="left:25.00%;top:50.00%">Neutral</span><span class="emo-dot emo-4" style="left:41.67%;top:30.00%" title="Confident"></span><span class="emo-word" style="left:41.67%;top:30.00%">Confident</span><span class="emo-dot emo-2" style="left:58.33%;top:70.00%" title="Anxious"></span><span class="emo-word" style="left:58.33%;top:70.00%">Anxious</span><span class="emo-dot emo-4" style="left:75.00%;top:30.00%" title="Confident"></span><span class="emo-word" style="left:75.00%;top:30.00%">Confident</span><span class="emo-dot emo-5" style="left:91.67%;top:10.00%" title="Delighted"></span><span class="emo-word" style="left:91.67%;top:10.00%">Delighted</span>
+          </div></div>
+          <div class="jm-label jm-label--pain">Pain points</div><div class="jm-cell jm-cell--pain">Business goals do not map directly to Filter Chain terms.</div><div class="jm-cell jm-cell--pain">Many filters and ordering rules; trial and error is slow.</div><div class="jm-cell jm-cell--pain">Cannot tell whether the proposal fits actual egress costs and capacity.</div><div class="jm-cell jm-cell--pain">Edge cases are easy to miss until an incident exposes them.</div><div class="jm-cell jm-cell--pain">Patterns live in individual heads, so squads drift apart.</div><div class="jm-cell jm-cell--pain">Ongoing tuning needs fresh data.</div>
+          <div class="jm-label jm-label--help">INI × NS1 support</div><div class="jm-cell jm-cell--help">INI decomposes the intent into constraints: latency, cost, geography, capacity.</div><div class="jm-cell jm-cell--help">Plain-language explanation of filters with examples grounded in the live NS1 schema.</div><div class="jm-cell jm-cell--help">Recommendation draws on telemetry and the constraints the practitioner supplies (proposed).</div><div class="jm-cell jm-cell--help">Risks such as blackholing or overload are flagged (proposed) and each warning is explained.</div><div class="jm-cell jm-cell--help">Reusable saved designs (proposed) standardize steering across squads.</div><div class="jm-cell jm-cell--help">Telemetry feedback suggests weight and order adjustments over time.</div>
+        </div></div>
+      <div class="scale scale--map"><span class="s1">Frustrated</span><span class="s2">Anxious</span><span class="s3">Neutral</span><span class="s4">Confident</span><span class="s5">Delighted</span></div>
+    </div>
+
+    <!-- Workflow tab -->
+    <div class="tabs__panel" data-panel="workflow">
+      <div class="wf">
+        <h3 class="wf__title">End-to-end flow by actor</h3>
+        <div class="jm-scroll"><div class="wf-grid" style="grid-template-columns:160px repeat(8, minmax(170px, 1fr));">
+          <div class="wf-corner"></div><div class="wf-head">Step 1</div><div class="wf-head">Step 2</div><div class="wf-head">Step 3</div><div class="wf-head">Step 4</div><div class="wf-head">Step 5</div><div class="wf-head">Step 6</div><div class="wf-head">Step 7</div><div class="wf-head">Step 8</div>
+          <div class="wf-lane wf-lane--u">Practitioner</div><div class="wf-cell"><div class="wf-card wf-card--u"><span class="wf-card__num">1</span><p class="wf-card__text">State the routing outcome: latency, cost, sovereignty</p></div></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell"><div class="wf-card wf-card--u wf-card--gate"><span class="wf-card__num">6</span><p class="wf-card__text">Review explanation, accept or refine</p><p class="wf-card__gate"><strong>Decision gate: accept draft?</strong><br>Refine: return to step 2</p></div></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div>
+          <div class="wf-lane wf-lane--i">IBM Network Intelligence</div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell"><div class="wf-card wf-card--i"><span class="wf-card__num">2</span><p class="wf-card__text">Decompose intent into constraints</p></div></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell"><div class="wf-card wf-card--i"><span class="wf-card__num">4</span><p class="wf-card__text">Draft Filter Chain order from telemetry, egress cost and capacity</p></div></div><div class="wf-cell"><div class="wf-card wf-card--i wf-card--gate"><span class="wf-card__num">5</span><p class="wf-card__text">Check for risks: blackhole, circular fallback, single-region overload (proposed)</p><p class="wf-card__gate"><strong>Decision gate: bounds pass?</strong><br>No: return to step 4</p></div></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell"><div class="wf-card wf-card--i"><span class="wf-card__num">7</span><p class="wf-card__text">Save the pattern as a reusable design (proposed)</p></div></div><div class="wf-cell wf-cell--empty"></div>
+          <div class="wf-lane wf-lane--n">NS1 Connect</div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell"><div class="wf-card wf-card--n"><span class="wf-card__num">3</span><p class="wf-card__text">Provide filter options and Pulsar RUM data (proposed integration)</p></div></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell"><div class="wf-card wf-card--n"><span class="wf-card__num">8</span><p class="wf-card__text">Apply via UC 4 validation and UC 2 execution; tune from Pulsar results</p></div></div>
+        </div></div>
+        <p class="wf__note"><strong>Note:</strong> Saved designs are shared, so the next design starts from an approved pattern.</p>
+      </div>
     </div>
   </div>
 </section>
@@ -372,56 +498,90 @@
     <span class="fit fit--high">High INI Fit</span>
   </div>
 
-  <div class="survey-box"><strong>Survey tested concept:</strong> <em>"Review or simulate a proposed DNS configuration before it is deployed to identify potential problems and show how the configuration is expected to behave."</em></div>
-
-  <div class="brief">
-    <div class="brief__cell"><p class="brief__label">Persona</p><p class="brief__body"><strong>Network Engineer</strong><br>Secondary: SecOps. Owns a flagship service and its change approvals</p></div>
-    <div class="brief__cell"><p class="brief__label">Trigger</p><p class="brief__body">A weight shift on legacy origins could overload a smaller secondary data centre if a TTL or chain logic bug slips through.</p></div>
-    <div class="brief__cell"><p class="brief__label">Goal</p><p class="brief__body">Prove a routing change is safe before it reaches production, with evidence a change board will accept.</p></div>
-    <div class="brief__cell"><p class="brief__label">Control mode</p><p class="brief__body">Pre-flight simulation (proposed)</p></div>
-  </div>
-
-  <div class="jm-scroll"><div class="jm-grid" style="grid-template-columns:150px repeat(6, minmax(190px, 1fr));">
-      <div class="jm-corner"></div><div class="jm-stage"><span class="jm-stage__num">1</span>Prepare change</div><div class="jm-stage"><span class="jm-stage__num">2</span>Run simulation</div><div class="jm-stage"><span class="jm-stage__num">3</span>Review blast radius</div><div class="jm-stage"><span class="jm-stage__num">4</span>Inspect reasoning</div><div class="jm-stage"><span class="jm-stage__num">5</span>Fix &amp; re-test</div><div class="jm-stage"><span class="jm-stage__num">6</span>Gate &amp; deploy</div>
-      <div class="jm-label">Does</div><div class="jm-cell">Drafts the new weights and Filter Chain in a branch or ticket.</div><div class="jm-cell">Requests a replay of the previous 24 hours of query telemetry against the proposal.</div><div class="jm-cell">Reads the predicted traffic heatmap and blast-radius score.</div><div class="jm-cell">Opens the reasoning trace to see how the score was reached.</div><div class="jm-cell">Adjusts weights or fallbacks and re-runs until under threshold.</div><div class="jm-cell">Pipeline gate passes (under an agreed unhandled-traffic limit); CAB receives the report.</div>
-      <div class="jm-label">Touchpoints</div><div class="jm-cell">NS1 Connect, change ticket</div><div class="jm-cell">INI simulation, NS1 config evaluation (proposed)</div><div class="jm-cell">Heatmap, risk report</div><div class="jm-cell">Reasoning trace</div><div class="jm-cell">Chat assistant, simulation</div><div class="jm-cell">CI/CD gate, CAB report</div>
-      <div class="jm-label">Thinks</div><div class="jm-cell">"I think this is right, but I cannot be sure."</div><div class="jm-cell">"Show me what really happens."</div><div class="jm-cell">"Which sites get hit, and by how much?"</div><div class="jm-cell">"Can I defend this number to the CAB?"</div><div class="jm-cell">"Quick loop, I can iterate safely."</div><div class="jm-cell">"Nobody has to guess."</div>
-      <div class="jm-label">Feels</div><div class="jm-emo" style="grid-column: 2 / span 6;"><div class="emo-chart">
-        <svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-          <line x1="0" y1="50" x2="100" y2="50" class="emo-mid" vector-effect="non-scaling-stroke"/>
-          <polyline points="8.33,70.00 25.00,50.00 41.67,70.00 58.33,30.00 75.00,30.00 91.67,10.00" class="emo-line" vector-effect="non-scaling-stroke"/>
-        </svg>
-        <span class="emo-dot emo-2" style="left:8.33%;top:70.00%" title="Anxious"></span><span class="emo-word" style="left:8.33%;top:70.00%">Anxious</span><span class="emo-dot emo-3" style="left:25.00%;top:50.00%" title="Neutral"></span><span class="emo-word" style="left:25.00%;top:50.00%">Neutral</span><span class="emo-dot emo-2" style="left:41.67%;top:70.00%" title="Anxious"></span><span class="emo-word" style="left:41.67%;top:70.00%">Anxious</span><span class="emo-dot emo-4" style="left:58.33%;top:30.00%" title="Confident"></span><span class="emo-word" style="left:58.33%;top:30.00%">Confident</span><span class="emo-dot emo-4" style="left:75.00%;top:30.00%" title="Confident"></span><span class="emo-word" style="left:75.00%;top:30.00%">Confident</span><span class="emo-dot emo-5" style="left:91.67%;top:10.00%" title="Delighted"></span><span class="emo-word" style="left:91.67%;top:10.00%">Delighted</span>
-      </div></div>
-      <div class="jm-label jm-label--pain">Pain points</div><div class="jm-cell jm-cell--pain">No safe way to test against real traffic; reviews rely on eyeballing config.</div><div class="jm-cell jm-cell--pain">Waiting for results with no sense of how long or how reliable they are.</div><div class="jm-cell jm-cell--pain">Raw numbers without context are hard to interpret.</div><div class="jm-cell jm-cell--pain">Black-box scores are not trusted by approvers.</div><div class="jm-cell jm-cell--pain">Slow iteration would push teams to skip validation.</div><div class="jm-cell jm-cell--pain">Manual gate evidence is time consuming to assemble.</div>
-      <div class="jm-label jm-label--help">INI × NS1 support</div><div class="jm-cell jm-cell--help">Proposed config is submitted to INI for pre-flight review.</div><div class="jm-cell jm-cell--help">Predictive replay of recent query telemetry against the proposed config (proposed capability).</div><div class="jm-cell jm-cell--help">Risk report highlights overloaded origins and TTL collisions in plain language.</div><div class="jm-cell jm-cell--help">Explainable audit trail with assumptions and inputs.</div><div class="jm-cell jm-cell--help">INI suggests specific fixes; each re-run is fast and logged.</div><div class="jm-cell jm-cell--help">Auto-generated change evidence; the gate blocks deployment above the threshold.</div>
-    </div></div>
-
-  <div class="scale scale--map"><span class="s1">Frustrated</span><span class="s2">Anxious</span><span class="s3">Neutral</span><span class="s4">Confident</span><span class="s5">Delighted</span></div>
-  <div class="wf">
-    <p class="eyebrow">Workflow</p>
-    <h3 class="wf__title">End-to-end flow by actor</h3>
-    <div class="jm-scroll"><div class="wf-grid" style="grid-template-columns:160px repeat(8, minmax(170px, 1fr));">
-      <div class="wf-corner"></div><div class="wf-head">Step 1</div><div class="wf-head">Step 2</div><div class="wf-head">Step 3</div><div class="wf-head">Step 4</div><div class="wf-head">Step 5</div><div class="wf-head">Step 6</div><div class="wf-head">Step 7</div><div class="wf-head">Step 8</div>
-      <div class="wf-lane wf-lane--u">Practitioner</div><div class="wf-cell"><div class="wf-card wf-card--u"><span class="wf-card__num">1</span><p class="wf-card__text">Submit proposed weights and Filter Chain</p></div></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell"><div class="wf-card wf-card--u"><span class="wf-card__num">5</span><p class="wf-card__text">Inspect the reasoning trace and assumptions</p></div></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell"><div class="wf-card wf-card--u"><span class="wf-card__num">7</span><p class="wf-card__text">Attach evidence report for the change advisory board</p></div></div><div class="wf-cell wf-cell--empty"></div>
-      <div class="wf-lane wf-lane--i">IBM Network Intelligence</div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell"><div class="wf-card wf-card--i"><span class="wf-card__num">3</span><p class="wf-card__text">Replay the last 24 hours of query telemetry</p></div></div><div class="wf-cell"><div class="wf-card wf-card--i"><span class="wf-card__num">4</span><p class="wf-card__text">Compute heatmap and blast-radius score</p></div></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell"><div class="wf-card wf-card--i wf-card--gate"><span class="wf-card__num">6</span><p class="wf-card__text">Compare score to an agreed unhandled-traffic limit</p><p class="wf-card__gate"><strong>Decision gate: under threshold?</strong><br>No: suggest fixes, return to step 1</p></div></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div>
-      <div class="wf-lane wf-lane--n">NS1 Connect</div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell"><div class="wf-card wf-card--n"><span class="wf-card__num">2</span><p class="wf-card__text">Provide a way to evaluate the proposed configuration without deploying it (proposed)</p></div></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell"><div class="wf-card wf-card--n"><span class="wf-card__num">8</span><p class="wf-card__text">Deploy through the CI/CD gate</p></div></div>
-    </div></div>
-    <p class="wf__note"><strong>Note:</strong> The pipeline gate blocks deployment automatically whenever the simulated score is above the limit.</p>
-  </div>
-
-  <div class="takeaways">
-    <div class="takeaway">
-      <p class="brief__label">Moments of truth</p>
-      <ul><li>The blast-radius score turns an opinion into evidence.</li><li>A pipeline gate that blocks risky changes automatically builds long-term trust.</li></ul>
+  <div class="tabs" data-tabs>
+    <div class="tabs__bar">
+      <button class="tabs__btn active" data-tab="summary">Summary</button>
+      <button class="tabs__btn" data-tab="journey">User Journey</button>
+      <button class="tabs__btn" data-tab="workflow">Workflow</button>
     </div>
-    <div class="takeaway">
-      <p class="brief__label">Success measures</p>
-      <ul><li>Changes caught by simulation before release</li><li>Iterations to reach a passing score</li><li>Config-caused incidents</li></ul>
+
+    <!-- Summary tab -->
+    <div class="tabs__panel active" data-panel="summary">
+      <div class="survey-box"><strong>Survey tested concept:</strong> <em>"Review or simulate a proposed DNS configuration before it is deployed to identify potential problems and show how the configuration is expected to behave."</em></div>
+      <p class="uc-scenario">A DevOps squad modifies DNS routing for a flagship service, shifting weights on legacy origins. Without validation, an unintended TTL caching issue or Filter Chain logic bug could overwhelm a smaller secondary datacenter. INI runs a simulation replaying the previous 24 hours of real query telemetry against the proposed NS1 Filter Chain configuration, generating a predictive traffic heatmap and blast-radius score.</p>
+      <div class="brief">
+        <div class="brief__cell"><p class="brief__label">Persona</p><p class="brief__body"><strong>Network Engineer</strong><br>Secondary: SecOps. Owns a flagship service and its change approvals</p></div>
+        <div class="brief__cell"><p class="brief__label">Trigger</p><p class="brief__body">A weight shift on legacy origins could overload a smaller secondary data centre if a TTL or chain logic bug slips through.</p></div>
+        <div class="brief__cell"><p class="brief__label">Goal</p><p class="brief__body">Prove a routing change is safe before it reaches production, with evidence a change board will accept.</p></div>
+        <div class="brief__cell"><p class="brief__label">Control mode</p><p class="brief__body">Pre-flight simulation (proposed)</p></div>
+      </div>
+      <p class="contrib-row-title">How INI &amp; NS1 contribute</p>
+      <div class="contrib-row">
+        <div class="contrib-cell contrib-cell--ini">
+          <p class="contrib-cell__label">IBM Network Intelligence</p>
+          <p class="contrib-cell__body">Replays historical telemetry through predictive foundation models; analyzes downstream network capacity; generates explainable risk reports via <em>View reasoning</em>.</p>
+        </div>
+        <div class="contrib-cell contrib-cell--ns1">
+          <p class="contrib-cell__label">IBM NS1 Connect</p>
+          <p class="contrib-cell__body">Provides dry-run evaluation endpoints, virtual Filter Chain execution sandboxes, and zone validation schemas to verify syntax and semantics.</p>
+        </div>
+      </div>
+      <div class="mechanism-row">
+        <span class="mechanism-label">Mechanisms</span>
+        <span class="mech-tag">Digital Twin Simulation</span>
+        <span class="mech-tag">Predictive Replay</span>
+        <span class="mech-tag">Blast Radius Scoring</span>
+        <span class="mech-tag">Explainable AI</span>
+        <span class="mech-tag">CI/CD Gate Integration</span>
+      </div>
+      <div class="takeaways">
+        <div class="takeaway">
+          <p class="brief__label">Moments of truth</p>
+          <ul><li>The blast-radius score turns an opinion into evidence.</li><li>A pipeline gate that blocks risky changes automatically builds long-term trust.</li></ul>
+        </div>
+        <div class="takeaway">
+          <p class="brief__label">Success measures</p>
+          <ul><li>Changes caught by simulation before release</li><li>Iterations to reach a passing score</li><li>Config-caused incidents</li></ul>
+        </div>
+        <div class="takeaway takeaway--impact">
+          <p class="brief__label">Expected impact</p>
+          <p>Expected: fewer configuration-caused outages and quantifiable risk evidence for change boards (to be validated).</p>
+        </div>
+      </div>
     </div>
-    <div class="takeaway takeaway--impact">
-      <p class="brief__label">Expected impact</p>
-      <p>Expected: fewer configuration-caused outages and quantifiable risk evidence for change boards (to be validated).</p>
+
+    <!-- User Journey tab -->
+    <div class="tabs__panel" data-panel="journey">
+      <div class="jm-scroll"><div class="jm-grid" style="grid-template-columns:150px repeat(6, minmax(190px, 1fr));">
+          <div class="jm-corner"></div><div class="jm-stage"><span class="jm-stage__num">1</span>Prepare change</div><div class="jm-stage"><span class="jm-stage__num">2</span>Run simulation</div><div class="jm-stage"><span class="jm-stage__num">3</span>Review blast radius</div><div class="jm-stage"><span class="jm-stage__num">4</span>Inspect reasoning</div><div class="jm-stage"><span class="jm-stage__num">5</span>Fix &amp; re-test</div><div class="jm-stage"><span class="jm-stage__num">6</span>Gate &amp; deploy</div>
+          <div class="jm-label">Does</div><div class="jm-cell">Drafts the new weights and Filter Chain in a branch or ticket.</div><div class="jm-cell">Requests a replay of the previous 24 hours of query telemetry against the proposal.</div><div class="jm-cell">Reads the predicted traffic heatmap and blast-radius score.</div><div class="jm-cell">Opens the reasoning trace to see how the score was reached.</div><div class="jm-cell">Adjusts weights or fallbacks and re-runs until under threshold.</div><div class="jm-cell">Pipeline gate passes (under an agreed unhandled-traffic limit); CAB receives the report.</div>
+          <div class="jm-label">Touchpoints</div><div class="jm-cell">NS1 Connect, change ticket</div><div class="jm-cell">INI simulation, NS1 config evaluation (proposed)</div><div class="jm-cell">Heatmap, risk report</div><div class="jm-cell">Reasoning trace</div><div class="jm-cell">Chat assistant, simulation</div><div class="jm-cell">CI/CD gate, CAB report</div>
+          <div class="jm-label">Thinks</div><div class="jm-cell">"I think this is right, but I cannot be sure."</div><div class="jm-cell">"Show me what really happens."</div><div class="jm-cell">"Which sites get hit, and by how much?"</div><div class="jm-cell">"Can I defend this number to the CAB?"</div><div class="jm-cell">"Quick loop, I can iterate safely."</div><div class="jm-cell">"Nobody has to guess."</div>
+          <div class="jm-label">Feels</div><div class="jm-emo" style="grid-column: 2 / span 6;"><div class="emo-chart">
+            <svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+              <line x1="0" y1="50" x2="100" y2="50" class="emo-mid" vector-effect="non-scaling-stroke"/>
+              <polyline points="8.33,70.00 25.00,50.00 41.67,70.00 58.33,30.00 75.00,30.00 91.67,10.00" class="emo-line" vector-effect="non-scaling-stroke"/>
+            </svg>
+            <span class="emo-dot emo-2" style="left:8.33%;top:70.00%" title="Anxious"></span><span class="emo-word" style="left:8.33%;top:70.00%">Anxious</span><span class="emo-dot emo-3" style="left:25.00%;top:50.00%" title="Neutral"></span><span class="emo-word" style="left:25.00%;top:50.00%">Neutral</span><span class="emo-dot emo-2" style="left:41.67%;top:70.00%" title="Anxious"></span><span class="emo-word" style="left:41.67%;top:70.00%">Anxious</span><span class="emo-dot emo-4" style="left:58.33%;top:30.00%" title="Confident"></span><span class="emo-word" style="left:58.33%;top:30.00%">Confident</span><span class="emo-dot emo-4" style="left:75.00%;top:30.00%" title="Confident"></span><span class="emo-word" style="left:75.00%;top:30.00%">Confident</span><span class="emo-dot emo-5" style="left:91.67%;top:10.00%" title="Delighted"></span><span class="emo-word" style="left:91.67%;top:10.00%">Delighted</span>
+          </div></div>
+          <div class="jm-label jm-label--pain">Pain points</div><div class="jm-cell jm-cell--pain">No safe way to test against real traffic; reviews rely on eyeballing config.</div><div class="jm-cell jm-cell--pain">Waiting for results with no sense of how long or how reliable they are.</div><div class="jm-cell jm-cell--pain">Raw numbers without context are hard to interpret.</div><div class="jm-cell jm-cell--pain">Black-box scores are not trusted by approvers.</div><div class="jm-cell jm-cell--pain">Slow iteration would push teams to skip validation.</div><div class="jm-cell jm-cell--pain">Manual gate evidence is time consuming to assemble.</div>
+          <div class="jm-label jm-label--help">INI × NS1 support</div><div class="jm-cell jm-cell--help">Proposed config is submitted to INI for pre-flight review.</div><div class="jm-cell jm-cell--help">Predictive replay of recent query telemetry against the proposed config (proposed capability).</div><div class="jm-cell jm-cell--help">Risk report highlights overloaded origins and TTL collisions in plain language.</div><div class="jm-cell jm-cell--help">Explainable audit trail with assumptions and inputs.</div><div class="jm-cell jm-cell--help">INI suggests specific fixes; each re-run is fast and logged.</div><div class="jm-cell jm-cell--help">Auto-generated change evidence; the gate blocks deployment above the threshold.</div>
+        </div></div>
+      <div class="scale scale--map"><span class="s1">Frustrated</span><span class="s2">Anxious</span><span class="s3">Neutral</span><span class="s4">Confident</span><span class="s5">Delighted</span></div>
+    </div>
+
+    <!-- Workflow tab -->
+    <div class="tabs__panel" data-panel="workflow">
+      <div class="wf">
+        <h3 class="wf__title">End-to-end flow by actor</h3>
+        <div class="jm-scroll"><div class="wf-grid" style="grid-template-columns:160px repeat(8, minmax(170px, 1fr));">
+          <div class="wf-corner"></div><div class="wf-head">Step 1</div><div class="wf-head">Step 2</div><div class="wf-head">Step 3</div><div class="wf-head">Step 4</div><div class="wf-head">Step 5</div><div class="wf-head">Step 6</div><div class="wf-head">Step 7</div><div class="wf-head">Step 8</div>
+          <div class="wf-lane wf-lane--u">Practitioner</div><div class="wf-cell"><div class="wf-card wf-card--u"><span class="wf-card__num">1</span><p class="wf-card__text">Submit proposed weights and Filter Chain</p></div></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell"><div class="wf-card wf-card--u"><span class="wf-card__num">5</span><p class="wf-card__text">Inspect the reasoning trace and assumptions</p></div></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell"><div class="wf-card wf-card--u"><span class="wf-card__num">7</span><p class="wf-card__text">Attach evidence report for the change advisory board</p></div></div><div class="wf-cell wf-cell--empty"></div>
+          <div class="wf-lane wf-lane--i">IBM Network Intelligence</div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell"><div class="wf-card wf-card--i"><span class="wf-card__num">3</span><p class="wf-card__text">Replay the last 24 hours of query telemetry</p></div></div><div class="wf-cell"><div class="wf-card wf-card--i"><span class="wf-card__num">4</span><p class="wf-card__text">Compute heatmap and blast-radius score</p></div></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell"><div class="wf-card wf-card--i wf-card--gate"><span class="wf-card__num">6</span><p class="wf-card__text">Compare score to an agreed unhandled-traffic limit</p><p class="wf-card__gate"><strong>Decision gate: under threshold?</strong><br>No: suggest fixes, return to step 1</p></div></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div>
+          <div class="wf-lane wf-lane--n">NS1 Connect</div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell"><div class="wf-card wf-card--n"><span class="wf-card__num">2</span><p class="wf-card__text">Provide a way to evaluate the proposed configuration without deploying it (proposed)</p></div></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell"><div class="wf-card wf-card--n"><span class="wf-card__num">8</span><p class="wf-card__text">Deploy through the CI/CD gate</p></div></div>
+        </div></div>
+        <p class="wf__note"><strong>Note:</strong> The pipeline gate blocks deployment automatically whenever the simulated score is above the limit.</p>
+      </div>
     </div>
   </div>
 </section>
@@ -435,6 +595,7 @@
 
 <script>
   (function () {
+    /* --- Nav scroll highlight --- */
     var links = document.querySelectorAll('.nav__link');
     var sections = [];
     links.forEach(function (l) {
@@ -452,6 +613,19 @@
     }
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
+
+    /* --- Tabs --- */
+    document.querySelectorAll('[data-tabs]').forEach(function (tabsEl) {
+      tabsEl.querySelector('.tabs__bar').addEventListener('click', function (e) {
+        var btn = e.target.closest('.tabs__btn');
+        if (!btn) return;
+        var target = btn.getAttribute('data-tab');
+        tabsEl.querySelectorAll('.tabs__btn').forEach(function (b) { b.classList.remove('active'); });
+        tabsEl.querySelectorAll('.tabs__panel').forEach(function (p) { p.classList.remove('active'); });
+        btn.classList.add('active');
+        tabsEl.querySelector('[data-panel="' + target + '"]').classList.add('active');
+      });
+    });
   })();
 </script>
 
