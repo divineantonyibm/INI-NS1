@@ -71,8 +71,7 @@
     .fit--high { background: #edf5ff; color: #0043ce; }
     .fit--moderate { background: #f4f4f4; color: #525252; }
 
-    .survey-box { background: var(--off-white); border-left: 3px solid var(--ibm-blue); padding: 12px 16px; font-size: 17.5px; color: var(--text-muted); margin-bottom: 20px; }
-    .survey-box strong { color: var(--text); }
+    .uc-scenario-title { font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: .5px; color: var(--text-muted); margin-bottom: 6px; }
     .uc-scenario { font-size: 17px; color: var(--text-muted); line-height: 1.65; margin-bottom: 20px; }
 
     .brief { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 1px; background: var(--divider); border: 1px solid var(--divider); margin-bottom: 24px; }
@@ -199,7 +198,6 @@
       <h2 class="journey__title">Interpret DNS Telemetry &amp; Troubleshoot Issues</h2>
       <p class="journey__sub">Cross-layer DNS &amp; underlay telemetry correlation</p>
     </div>
-    <span class="fit fit--core">Core INI Fit</span>
   </div>
 
   <div class="tabs" data-tabs>
@@ -211,7 +209,7 @@
 
     <!-- Summary tab -->
     <div class="tabs__panel active" data-panel="summary">
-      <div class="survey-box"><strong>Survey tested concept:</strong> <em>"Analyze DNS telemetry, such as query volume, response codes, query logs, or traffic-steering results, to identify patterns, anomalies, and potential causes of problems."</em></div>
+      <p class="uc-scenario-title">Scenario</p>
       <p class="uc-scenario">When a critical service experiences localized resolution failures, operators struggle to determine whether the fault lies in NS1 health-check flapping, CDN edge degradation, authoritative nameserver rate-limiting, or an upstream ISP BGP transit route flap. INI ingests continuous NS1 query telemetry (QPS, response code distributions, Pulsar RUM latency) alongside underlay router interface counters, applying time-series foundation models to pinpoint the root cause immediately.</p>
       <div class="brief">
         <div class="brief__cell"><p class="brief__label">Persona</p><p class="brief__body"><strong>NetOps / SRE</strong><br>Secondary: Network Engineer. On call for a critical service</p></div>
@@ -298,7 +296,6 @@
       <h2 class="journey__title">Plan and Execute DNS Changes</h2>
       <p class="journey__sub">Intent-to-execution DNS orchestration with multi-agent NOC</p>
     </div>
-    <span class="fit fit--core">Core INI Fit</span>
   </div>
 
   <div class="tabs" data-tabs>
@@ -310,7 +307,7 @@
 
     <!-- Summary tab -->
     <div class="tabs__panel active" data-panel="summary">
-      <div class="survey-box"><strong>Survey tested concept:</strong> <em>"Create a proposed plan for DNS changes, allow you to review and approve it, and then make the approved changes on your behalf."</em></div>
+      <p class="uc-scenario-title">Scenario</p>
       <p class="uc-scenario">An enterprise needs to execute a complex emergency traffic migration — shedding 40% of traffic from an overloaded EU data center to US East and APAC while maintaining regional data compliance. Rather than manually editing records across multiple zones and risking misconfiguration, the engineer describes the intent in INI's Chat Assistant. INI's multi-agent system drafts the change, validates it against runbooks, generates exact NS1 API calls, and awaits approval.</p>
       <div class="brief">
         <div class="brief__cell"><p class="brief__label">Persona</p><p class="brief__body"><strong>Infrastructure Architect</strong><br>Secondary: SecOps / NOC. Approves and audits production edits</p></div>
@@ -397,7 +394,6 @@
       <h2 class="journey__title">Build Advanced Traffic Steering</h2>
       <p class="journey__sub">Telemetry-guided Filter Chain &amp; Pulsar policy synthesis</p>
     </div>
-    <span class="fit fit--high">High INI Fit</span>
   </div>
 
   <div class="tabs" data-tabs>
@@ -409,7 +405,7 @@
 
     <!-- Summary tab -->
     <div class="tabs__panel active" data-panel="summary">
-      <div class="survey-box"><strong>Survey tested concept:</strong> <em>"Help you design advanced traffic steering configurations by explaining available options and helping determine how traffic should be routed based on your intended outcome."</em></div>
+      <p class="uc-scenario-title">Scenario</p>
       <p class="uc-scenario">Architects configuring multi-CDN and hybrid-cloud steering must balance latency performance, committed transit billing commitments, data sovereignty laws (GDPR), and origin capacity limits. INI's AI analyzes historical network telemetry and cloud egress rates to recommend the optimal Filter Chain ordering (e.g., UP/DOWN → SHED_LOAD → GEODNS → PULSAR → SELECT_FIRST_N) and encodes standard policies as reusable Skills.</p>
       <div class="brief">
         <div class="brief__cell"><p class="brief__label">Persona</p><p class="brief__body"><strong>Infrastructure Architect</strong><br>Secondary: DevOps Engineer. Designs multi-CDN and hybrid-cloud steering</p></div>
@@ -495,7 +491,6 @@
       <h2 class="journey__title">Validate Configurations Before Deployment</h2>
       <p class="journey__sub">Pre-deployment DNS simulation &amp; blast-radius verification</p>
     </div>
-    <span class="fit fit--high">High INI Fit</span>
   </div>
 
   <div class="tabs" data-tabs>
@@ -507,7 +502,7 @@
 
     <!-- Summary tab -->
     <div class="tabs__panel active" data-panel="summary">
-      <div class="survey-box"><strong>Survey tested concept:</strong> <em>"Review or simulate a proposed DNS configuration before it is deployed to identify potential problems and show how the configuration is expected to behave."</em></div>
+      <p class="uc-scenario-title">Scenario</p>
       <p class="uc-scenario">A DevOps squad modifies DNS routing for a flagship service, shifting weights on legacy origins. Without validation, an unintended TTL caching issue or Filter Chain logic bug could overwhelm a smaller secondary datacenter. INI runs a simulation replaying the previous 24 hours of real query telemetry against the proposed NS1 Filter Chain configuration, generating a predictive traffic heatmap and blast-radius score.</p>
       <div class="brief">
         <div class="brief__cell"><p class="brief__label">Persona</p><p class="brief__body"><strong>Network Engineer</strong><br>Secondary: SecOps. Owns a flagship service and its change approvals</p></div>
