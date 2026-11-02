@@ -46,8 +46,7 @@ export function generateIndexHtml(rootDir = process.cwd()) {
     'INI-understanding-document.html',
     'ns1-understanding-document.html',
     'ini-ns1-integration-opportunities.html',
-    'ini-ns1-ai-usecases-journey-maps.html',
-    'ini-ns1-ai-usecases-presentation.html'
+    'ini-ns1-ai-usecases-journey-maps.html'
   ];
   const rank = (f) => { const i = ORDER.indexOf(f.filename); return i === -1 ? ORDER.length : i; };
   files.sort((a, b) => rank(a) - rank(b) || a.title.localeCompare(b.title));
