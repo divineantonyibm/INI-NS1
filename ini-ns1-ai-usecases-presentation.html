@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NS1 + INI — AI Use Cases</title>
+  <meta name="description" content="Presentation view of four AI use cases combining IBM Network Intelligence and IBM NS1 Connect." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --ink: #0a0a0a; --ink-2: #1c1c1c; --muted: #5f5f5f; --line: #e4e4e0;
+      --paper: #ffffff; --soft: #f3f3f0; --yellow: #ffd60a; --yellow-dk: #e6bf00;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif; font-size: 18px; line-height: 1.55; color: var(--ink); background: var(--paper); -webkit-font-smoothing: antialiased; }
+
+    .ast { width: 1em; height: 1em; display: inline-block; vertical-align: -0.12em; flex: none; }
+
+    /* Top bar */
+    .top { position: sticky; top: 0; z-index: 10; background: rgba(255,255,255,.94); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+    .top__inner { max-width: 1360px; margin: 0 auto; padding: 14px 48px; display: grid; grid-template-columns: auto 1fr; gap: 28px; align-items: center; }
+    .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 17px; letter-spacing: -.01em; white-space: nowrap; }
+    .brand__mark { width: 30px; height: 30px; border-radius: 50%; background: var(--yellow); display: grid; place-items: center; font-size: 17px; }
+    .pills { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+    .pill { display: flex; align-items: center; gap: 10px; text-align: left; font-family: inherit; font-size: 14.5px; font-weight: 600; line-height: 1.25; color: var(--ink); background: var(--paper); border: 1.5px solid var(--ink); border-radius: 999px; padding: 8px 18px 8px 8px; cursor: pointer; transition: background .15s, color .15s; }
+    .pill:hover { background: var(--soft); }
+    .pill:focus-visible { outline: 3px solid var(--yellow); outline-offset: 2px; }
+    .pill__n { flex: none; min-width: 34px; height: 34px; border-radius: 999px; background: var(--soft); display: grid; place-items: center; font-size: 13px; font-weight: 700; }
+    .pill.active { background: var(--ink); color: #fff; }
+    .pill.active .pill__n { background: var(--yellow); color: var(--ink); }
+
+    /* Slide */
+    .panel { display: none; }
+    .panel.active { display: block; }
+    .slide { max-width: 1360px; margin: 0 auto; padding: 44px 48px 24px; }
+
+    /* Hero */
+    .hero { margin-bottom: 40px; }
+    .hero__text { display: flex; flex-direction: column; justify-content: center; padding: 8px 0; }
+    .badge { align-self: flex-start; display: inline-flex; align-items: center; gap: 8px; background: var(--yellow); color: var(--ink); font-size: 13.5px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; border-radius: 999px; padding: 7px 16px 7px 12px; margin-bottom: 26px; }
+    .hero__title { font-size: clamp(38px, 4.6vw, 70px); font-weight: 600; line-height: 1.03; letter-spacing: -.035em; margin-bottom: 30px; }
+    .label { display: flex; align-items: center; gap: 10px; font-size: 13.5px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--ink); margin-bottom: 12px; }
+    .label .ast { font-size: 17px; }
+    .hero__text p.body { font-size: 20px; line-height: 1.6; color: var(--ink-2); max-width: 900px; }
+
+
+    /* Section title */
+    .section { margin-bottom: 40px; }
+
+    /* Persona & goal */
+    .duo { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .card { border-radius: 28px; padding: 30px 34px 34px; }
+    .card--soft { background: var(--soft); }
+    .card--yellow { background: var(--yellow); }
+    .card--line { border: 1.5px solid var(--ink); background: var(--paper); }
+    .card--ink { background: var(--ink); color: #fff; }
+    .card__big { font-size: 26px; font-weight: 600; letter-spacing: -.02em; line-height: 1.25; margin-bottom: 8px; }
+    .card__sub { font-size: 16px; color: var(--muted); }
+    .card--yellow .card__sub { color: #3a3200; }
+    .card p { font-size: 18px; line-height: 1.6; }
+    .chip { display: inline-flex; align-items: center; gap: 8px; font-size: 12.5px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; border-radius: 999px; padding: 6px 14px 6px 10px; margin-bottom: 18px; }
+    .card--soft .chip, .card--yellow .chip { background: var(--ink); color: #fff; }
+    .card--line .chip { background: var(--soft); color: var(--ink); }
+    .card--ink .chip { background: var(--yellow); color: var(--ink); }
+    .card--ink p { color: #e8e8e8; }
+
+    /* Outcome */
+    .outcome { background: var(--ink); color: #fff; border-radius: 32px; padding: 40px 44px 42px; display: grid; grid-template-columns: 1.2fr 1fr; gap: 48px; position: relative; overflow: hidden; }
+    .outcome .label { color: #fff; }
+    .outcome .label .ast { color: var(--yellow); }
+    .outcome ul { list-style: none; }
+    .outcome li { display: flex; gap: 14px; font-size: 22px; line-height: 1.45; letter-spacing: -.01em; margin-bottom: 14px; }
+    .outcome li .ast { color: var(--yellow); font-size: 20px; margin-top: 6px; }
+    .tbv { display: inline-flex; align-items: center; gap: 10px; font-size: 14.5px; color: #bdbdbd; margin-top: 8px; }
+    .tbv::before { content: ''; width: 9px; height: 9px; border-radius: 50%; background: var(--yellow); }
+    .measures { border-left: 1px solid #3a3a3a; padding-left: 44px; }
+    .measures__list { display: flex; flex-wrap: wrap; gap: 10px; }
+    .measure { border: 1.5px solid #5a5a5a; border-radius: 999px; padding: 9px 18px; font-size: 16px; line-height: 1.3; color: #f2f2f2; }
+
+    .foot { max-width: 1360px; margin: 0 auto; padding: 22px 48px 36px; display: flex; justify-content: space-between; gap: 20px; font-size: 14px; color: var(--muted); }
+    .foot span { display: inline-flex; align-items: center; gap: 8px; }
+
+    @media (max-width: 1100px) {
+      .top__inner { grid-template-columns: 1fr; gap: 12px; }
+      .pills { grid-template-columns: 1fr 1fr; }
+      }
+    @media (max-width: 760px) {
+      .top__inner, .slide, .foot { padding-left: 20px; padding-right: 20px; }
+      .pills, .duo, .outcome { grid-template-columns: 1fr; }
+      .measures { border-left: none; padding-left: 0; border-top: 1px solid #3a3a3a; padding-top: 28px; }
+      .outcome { padding: 28px 24px; gap: 28px; }
+      .foot { flex-direction: column; }
+    }
+    @media print { .top { position: static; } .pills { display: none; } .panel { display: block !important; page-break-after: always; } }
+  </style>
+</head>
+<body>
+
+<!-- Shared graphics -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="ast" viewBox="0 0 24 24"><g stroke="currentColor" stroke-width="3.2" stroke-linecap="round"><path d="M12 3v18"/><path d="M4.2 7.5l15.6 9"/><path d="M19.8 7.5l-15.6 9"/></g></symbol>
+  </defs>
+</svg>
+
+<header class="top">
+  <div class="top__inner">
+    <div class="brand"><span class="brand__mark"><svg class="ast"><use href="#ast"/></svg></span>INI × NS1</div>
+    <div class="pills" role="tablist" aria-label="Use cases">
+      <button class="pill active" role="tab" id="tab-uc1" aria-selected="true" aria-controls="uc1" data-tab="uc1"><span class="pill__n">01</span>Interpret DNS Telemetry &amp; Troubleshoot Issues</button>
+      <button class="pill" role="tab" id="tab-uc2" aria-selected="false" aria-controls="uc2" data-tab="uc2"><span class="pill__n">02</span>Plan and Execute DNS Changes</button>
+      <button class="pill" role="tab" id="tab-uc3" aria-selected="false" aria-controls="uc3" data-tab="uc3"><span class="pill__n">03</span>Build Advanced Traffic Steering</button>
+      <button class="pill" role="tab" id="tab-uc4" aria-selected="false" aria-controls="uc4" data-tab="uc4"><span class="pill__n">04</span>Validate Configurations Before Deployment</button>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- UC1 -->
+<section class="panel active" id="uc1" role="tabpanel" aria-labelledby="tab-uc1">
+  <div class="slide">
+    <div class="hero">
+      <div class="hero__text">
+        <span class="badge"><svg class="ast"><use href="#ast"/></svg>Use case 01</span>
+        <h1 class="hero__title">Interpret DNS Telemetry &amp; Troubleshoot Issues</h1>
+        <p class="label"><svg class="ast"><use href="#ast"/></svg>Scenario</p>
+        <p class="body">A critical service starts failing to resolve for some users in one region. The operator has to work out which layer is at fault: NS1 health-check flapping, CDN edge degradation, nameserver rate limiting, or an upstream ISP BGP route flap. DNS and the underlay network are usually monitored in separate tools, so this takes a lot of manual cross-checking.</p>
+      </div>
+    </div>
+
+    <div class="section">
+      <p class="label"><svg class="ast"><use href="#ast"/></svg>Persona and goal</p>
+      <div class="duo">
+        <div class="card card--soft">
+          <span class="chip"><svg class="ast"><use href="#ast"/></svg>Persona</span>
+          <p class="card__big">NetOps / SRE, on call for the service</p>
+          <p class="card__sub">Secondary: network engineer</p>
+        </div>
+        <div class="card card--yellow">
+          <span class="chip"><svg class="ast"><use href="#ast"/></svg>Goal</span>
+          <p class="card__big">Find the real root cause in seconds, and avoid chasing the wrong layer.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <p class="label"><svg class="ast"><use href="#ast"/></svg>Contribution of NS1 and INI</p>
+      <div class="duo">
+        <div class="card card--line">
+          <span class="chip"><svg class="ast"><use href="#ast"/></svg>IBM NS1 Connect</span>
+          <p>Streams real-time query metrics, Pulsar latency feeds, Filter Chain execution logs and health monitor state changes to INI through MCP telemetry connectors.</p>
+        </div>
+        <div class="card card--ink">
+          <span class="chip"><svg class="ast"><use href="#ast"/></svg>IBM Network Intelligence</span>
+          <p>Uses time-series foundation models (Quantile, Prophet) to detect shifts from baseline. Correlates DNS anomalies with BGP flaps and interface congestion, and generates root-cause hypotheses.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="outcome">
+        <div>
+          <p class="label"><svg class="ast"><use href="#ast"/></svg>Expected outcome</p>
+          <ul>
+            <li><svg class="ast"><use href="#ast"/></svg><span>Faster detection and root-cause identification.</span></li>
+            <li><svg class="ast"><use href="#ast"/></svg><span>Fewer duplicate alerts, because related symptoms are grouped into one incident.</span></li>
+          </ul>
+          <p class="tbv">Targets still to be validated</p>
+        </div>
+        <div class="measures">
+          <p class="label"><svg class="ast"><use href="#ast"/></svg>Measured by</p>
+          <div class="measures__list">
+            <span class="measure">Time to detect and identify</span>
+            <span class="measure">Alerts grouped per incident</span>
+            <span class="measure">Escalations reaching the right owner first time</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- UC2 -->
+<section class="panel" id="uc2" role="tabpanel" aria-labelledby="tab-uc2">
+  <div class="slide">
+    <div class="hero">
+      <div class="hero__text">
+        <span class="badge"><svg class="ast"><use href="#ast"/></svg>Use case 02</span>
+        <h1 class="hero__title">Plan and Execute DNS Changes</h1>
+        <p class="label"><svg class="ast"><use href="#ast"/></svg>Scenario</p>
+        <p class="body">An overloaded EU data center needs about 40% of its traffic moved to US East and APAC, and regional data-compliance rules still apply. Editing records by hand across several zones under pressure risks misconfiguration.</p>
+      </div>
+    </div>
+
+    <div class="section">
+      <p class="label"><svg class="ast"><use href="#ast"/></svg>Persona and goal</p>
+      <div class="duo">
+        <div class="card card--soft">
+          <span class="chip"><svg class="ast"><use href="#ast"/></svg>Persona</span>
+          <p class="card__big">Infrastructure architect, who approves and audits production changes</p>
+          <p class="card__sub">Secondary: SecOps / NOC</p>
+        </div>
+        <div class="card card--yellow">
+          <span class="chip"><svg class="ast"><use href="#ast"/></svg>Goal</span>
+          <p class="card__big">Carry out a multi-zone emergency migration without manual record edits.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <p class="label"><svg class="ast"><use href="#ast"/></svg>Contribution of NS1 and INI</p>
+      <div class="duo">
+        <div class="card card--line">
+          <span class="chip"><svg class="ast"><use href="#ast"/></svg>IBM NS1 Connect</span>
+          <p>Applies the approved Filter Chain weight updates, record changes and Pulsar steering overrides. Changes propagate across all global PoPs in under a second.</p>
+        </div>
+        <div class="card card--ink">
+          <span class="chip"><svg class="ast"><use href="#ast"/></svg>IBM Network Intelligence</span>
+          <p>Takes the engineer's intent from the Chat Assistant and drafts the plan with a multi-agent system. The Reasoning Agent builds the traffic-shifting plan, the RAG Agent checks it against change policies and runbooks, and the Function-Calling Agent produces the NS1 API payloads and rollback scripts. A person approves before anything runs.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="outcome">
+        <div>
+          <p class="label"><svg class="ast"><use href="#ast"/></svg>Expected outcome</p>
+          <ul>
+            <li><svg class="ast"><use href="#ast"/></svg><span>Faster, less error-prone changes with a full audit trail.</span></li>
+          </ul>
+          <p class="tbv">Targets still to be validated</p>
+        </div>
+        <div class="measures">
+          <p class="label"><svg class="ast"><use href="#ast"/></svg>Measured by</p>
+          <div class="measures__list">
+            <span class="measure">Change lead time</span>
+            <span class="measure">Rollbacks triggered versus incidents avoided</span>
+            <span class="measure">Share of changes with a complete audit trail</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- UC3 -->
+<section class="panel" id="uc3" role="tabpanel" aria-labelledby="tab-uc3">
+  <div class="slide">
+    <div class="hero">
+      <div class="hero__text">
+        <span class="badge"><svg class="ast"><use href="#ast"/></svg>Use case 03</span>
+        <h1 class="hero__title">Build Advanced Traffic Steering</h1>
+        <p class="label"><svg class="ast"><use href="#ast"/></svg>Scenario</p>
+        <p class="body">Architects setting up multi-CDN and hybrid-cloud steering have to balance several constraints at once: latency, committed transit billing, data sovereignty (GDPR) and origin capacity. Turning a business goal into the right Filter Chain is mostly trial and error.</p>
+      </div>
+    </div>
+
+    <div class="section">
+      <p class="label"><svg class="ast"><use href="#ast"/></svg>Persona and goal</p>
+      <div class="duo">
+        <div class="card card--soft">
+          <span class="chip"><svg class="ast"><use href="#ast"/></svg>Persona</span>
+          <p class="card__big">Infrastructure architect</p>
+          <p class="card__sub">Secondary: DevOps engineer</p>
+        </div>
+        <div class="card card--yellow">
+          <span class="chip"><svg class="ast"><use href="#ast"/></svg>Goal</span>
+          <p class="card__big">Turn a business routing goal into a Filter Chain that balances latency, transit cost, data sovereignty and origin capacity.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <p class="label"><svg class="ast"><use href="#ast"/></svg>Contribution of NS1 and INI</p>
+      <div class="duo">
+        <div class="card card--line">
+          <span class="chip"><svg class="ast"><use href="#ast"/></svg>IBM NS1 Connect</span>
+          <p>Provides the modular Filter Chain engine, Pulsar real-user monitoring feeds and real-time DNS decisioning at the global edge.</p>
+        </div>
+        <div class="card card--ink">
+          <span class="chip"><svg class="ast"><use href="#ast"/></svg>IBM Network Intelligence</span>
+          <p>Analyzes historical telemetry, egress costs, latency curves and capacity models, then recommends the Filter Chain order, for example UP/DOWN → SHED_LOAD → GEODNS → PULSAR → SELECT_FIRST_N. Saves proven patterns as reusable INI Skills.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="outcome">
+        <div>
+          <p class="label"><svg class="ast"><use href="#ast"/></svg>Expected outcome</p>
+          <ul>
+            <li><svg class="ast"><use href="#ast"/></svg><span>Lower latency and controlled transit cost.</span></li>
+            <li><svg class="ast"><use href="#ast"/></svg><span>Steering patterns that are consistent across squads.</span></li>
+          </ul>
+          <p class="tbv">Targets still to be validated</p>
+        </div>
+        <div class="measures">
+          <p class="label"><svg class="ast"><use href="#ast"/></svg>Measured by</p>
+          <div class="measures__list">
+            <span class="measure">Design time from goal to approved chain</span>
+            <span class="measure">Latency change after rollout</span>
+            <span class="measure">Saved designs reused across squads</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- UC4 -->
+<section class="panel" id="uc4" role="tabpanel" aria-labelledby="tab-uc4">
+  <div class="slide">
+    <div class="hero">
+      <div class="hero__text">
+        <span class="badge"><svg class="ast"><use href="#ast"/></svg>Use case 04</span>
+        <h1 class="hero__title">Validate Configurations Before Deployment</h1>
+        <p class="label"><svg class="ast"><use href="#ast"/></svg>Scenario</p>
+        <p class="body">A DevOps squad shifts weights on legacy origins for a flagship service. Without validation, a TTL caching issue or a Filter Chain logic bug could overwhelm a smaller secondary data center.</p>
+      </div>
+    </div>
+
+    <div class="section">
+      <p class="label"><svg class="ast"><use href="#ast"/></svg>Persona and goal</p>
+      <div class="duo">
+        <div class="card card--soft">
+          <span class="chip"><svg class="ast"><use href="#ast"/></svg>Persona</span>
+          <p class="card__big">Network engineer who owns the service and its change approvals</p>
+          <p class="card__sub">Secondary: SecOps</p>
+        </div>
+        <div class="card card--yellow">
+          <span class="chip"><svg class="ast"><use href="#ast"/></svg>Goal</span>
+          <p class="card__big">Show that a routing change is safe before it reaches production, with evidence a change board will accept.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <p class="label"><svg class="ast"><use href="#ast"/></svg>Contribution of NS1 and INI</p>
+      <div class="duo">
+        <div class="card card--line">
+          <span class="chip"><svg class="ast"><use href="#ast"/></svg>IBM NS1 Connect</span>
+          <p>Provides dry-run evaluation endpoints, virtual Filter Chain execution sandboxes and zone validation schemas to check syntax and semantics.</p>
+        </div>
+        <div class="card card--ink">
+          <span class="chip"><svg class="ast"><use href="#ast"/></svg>IBM Network Intelligence</span>
+          <p>Replays the previous 24 hours of real query telemetry against the proposed configuration using predictive models. Analyzes downstream capacity and produces a traffic heatmap, a blast-radius score and an explainable risk report.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="outcome">
+        <div>
+          <p class="label"><svg class="ast"><use href="#ast"/></svg>Expected outcome</p>
+          <ul>
+            <li><svg class="ast"><use href="#ast"/></svg><span>Fewer outages caused by configuration changes.</span></li>
+            <li><svg class="ast"><use href="#ast"/></svg><span>Quantified risk evidence for change boards, with a pipeline gate that blocks changes above the agreed threshold.</span></li>
+          </ul>
+          <p class="tbv">Targets still to be validated</p>
+        </div>
+        <div class="measures">
+          <p class="label"><svg class="ast"><use href="#ast"/></svg>Measured by</p>
+          <div class="measures__list">
+            <span class="measure">Changes caught in simulation before release</span>
+            <span class="measure">Iterations to reach a passing score</span>
+            <span class="measure">Config-caused incidents</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot">
+  <span><svg class="ast"><use href="#ast"/></svg>INI + NS1 — AI use cases</span>
+  <span>Use the tabs or the left and right arrow keys. Some capabilities are proposed and not yet built.</span>
+</footer>
+
+<script>
+  (function () {
+    var tabs = Array.prototype.slice.call(document.querySelectorAll('.pill'));
+    var panels = Array.prototype.slice.call(document.querySelectorAll('.panel'));
+
+    function show(id, focus) {
+      tabs.forEach(function (t) {
+        var on = t.getAttribute('data-tab') === id;
+        t.classList.toggle('active', on);
+        t.setAttribute('aria-selected', on ? 'true' : 'false');
+        if (on && focus) t.focus();
+      });
+      panels.forEach(function (p) { p.classList.toggle('active', p.id === id); });
+      window.scrollTo(0, 0);
+      if (history.replaceState) history.replaceState(null, '', '#' + id);
+    }
+
+    tabs.forEach(function (t) {
+      t.addEventListener('click', function () { show(t.getAttribute('data-tab')); });
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+      var i = tabs.findIndex(function (t) { return t.classList.contains('active'); });
+      var n = e.key === 'ArrowRight' ? Math.min(i + 1, tabs.length - 1) : Math.max(i - 1, 0);
+      if (n !== i) show(tabs[n].getAttribute('data-tab'), true);
+    });
+
+    var start = location.hash.replace('#', '');
+    if (panels.some(function (p) { return p.id === start; })) show(start);
+  })();
+</script>
+
+</body>
+</html>
