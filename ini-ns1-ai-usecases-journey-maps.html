@@ -151,6 +151,31 @@
     .mechanism-label { font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: .4px; color: var(--text-muted); margin-right: 4px; }
     .mech-tag { font-size: 13.5px; padding: 3px 10px; border-radius: 2px; background: var(--off-white); border: 1px solid var(--divider); color: var(--text-muted); }
 
+
+    /* As-is workflow (from NS1 understanding document) */
+    .asis__intro { font-size: 17px; color: var(--text-muted); max-width: 820px; margin-bottom: 22px; }
+    .asis__title { font-size: 21.5px; font-weight: 600; margin-bottom: 4px; }
+    .asis__desc { font-size: 16px; color: var(--text-muted); max-width: 820px; margin-bottom: 12px; }
+    .asis__label { font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: .5px; color: var(--text-muted); margin: 14px 0 8px; }
+    .asis-flow { display: flex; flex-wrap: wrap; align-items: stretch; gap: 0; background: #f4f4f4; border: 1px solid var(--divider); padding: 24px 20px; margin-bottom: 24px; overflow-x: auto; }
+    .asis-step { display: flex; align-items: center; }
+    .asis-box { position: relative; width: 138px; min-height: 84px; background: #fff; border: 1px solid var(--divider); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 10px 10px 10px; font-size: 15px; font-weight: 600; line-height: 1.35; color: #161616; }
+    .asis-box__num { position: absolute; top: -9px; left: -9px; width: 20px; height: 20px; border-radius: 50%; background: #161616; color: #fff; font-size: 12px; display: flex; align-items: center; justify-content: center; }
+    .asis-box__sub { font-size: 13.5px; font-weight: 400; opacity: .8; margin-top: 3px; }
+    .asis-box--dark { background: #161616; color: #fff; border-color: #161616; }
+    .asis-box--dark .asis-box__num { background: #fff; color: #161616; }
+    .asis-box--blue { background: #0f62fe; color: #fff; border-color: #0f62fe; }
+    .asis-box--green { background: #defbe6; color: #044317; border-color: #24a148; }
+    .asis-box--red { background: #fff1f1; color: #da1e28; border-color: #da1e28; }
+    .asis-arrow { font-size: 22px; color: #8d8d8d; padding: 0 8px; flex-shrink: 0; }
+    .asis__src { font-size: 14.5px; color: var(--text-light); margin-top: 4px; margin-bottom: 20px; }
+    .asis__note { font-size: 16px; color: var(--text-muted); margin-top: 4px; }
+    .asis-box--manual { background: #fffbe6; border: 1px dashed #b28600; color: #161616; }
+    .asis__legend { font-size: 14.5px; color: var(--text-light); margin: 0 0 14px; }
+    .asis__legend::before { content: ''; display: inline-block; width: 14px; height: 10px; border: 1px dashed #b28600; background: #fffbe6; margin-right: 6px; vertical-align: middle; }
+    .asis__src a { color: var(--ibm-blue-dk); text-decoration: none; }
+    .asis__src a:hover { text-decoration: underline; }
+
     /* Tabs */
     .tabs { margin-top: 20px; }
     .tabs__bar { display: flex; gap: 0; border-bottom: 2px solid var(--divider); margin-bottom: 0; }
@@ -185,7 +210,7 @@
 <header class="cover" id="top">
   <p class="cover__label">IBM Network Intelligence + NS1 Connect</p>
   <h1 class="cover__title"> AI Use Cases</h1>
-  <p class="cover__sub">A stage-by-stage view of how each practitioner moves from trigger to outcome: what they do, where they struggle, how they feel, and where IBM Network Intelligence and NS1 Connect step in. Derived from the use cases in <a href="./ini-ns1-integration-opportunities.html" style="color:var(--ibm-blue-dk);">INI + NS1 — Integration Opportunities</a>.</p>
+ 
   
 </header>
 
@@ -204,8 +229,9 @@
   <div class="tabs" data-tabs>
     <div class="tabs__bar">
       <button class="tabs__btn active" data-tab="summary">Summary</button>
-      <button class="tabs__btn" data-tab="journey">User Journey</button>
-      <button class="tabs__btn" data-tab="workflow">Workflow</button>
+      <button class="tabs__btn" data-tab="asis">As is workflow</button>
+      <button class="tabs__btn" data-tab="workflow">Proposed workflow</button>
+      <button class="tabs__btn" data-tab="journey">Proposed user journey map</button>
     </div>
 
     <!-- Summary tab -->
@@ -249,6 +275,20 @@
           <p>Expected: faster, less error-prone changes with a full audit trail (targets to be validated).</p>
         </div>
       </div>
+    </div>
+
+    <!-- As-is workflow tab -->
+    <div class="tabs__panel" data-panel="asis">
+      <p class="asis__intro">How this use case is done in NS1 Connect today, before INI. Checked against the IBM NS1 Connect documentation.</p>
+      <h3 class="asis__title">Manual and scripted DNS changes in NS1 Connect</h3>
+      <p class="asis__desc">The engineer works out each change, then applies it through the portal, the API or Terraform. The plan itself lives outside NS1 Connect.</p>
+      <p class="asis__legend">Manual step done by the practitioner</p>
+      <p class="asis__label">Portal or API path</p>
+      <div class="asis-flow"><div class="asis-step"><div class="asis-box asis-box--manual"><span class="asis-box__num">1</span>Plan the traffic shift<span class="asis-box__sub">Worked out outside NS1</span></div><span class="asis-arrow">→</span></div><div class="asis-step"><div class="asis-box"><span class="asis-box__num">2</span>Open each record<span class="asis-box__sub">DNS &gt; Zones &gt; record</span></div><span class="asis-arrow">→</span></div><div class="asis-step"><div class="asis-box asis-box--manual"><span class="asis-box__num">3</span>Edit answer metadata and Filter Chain<span class="asis-box__sub">Weights, up/down, geo</span></div><span class="asis-arrow">→</span></div><div class="asis-step"><div class="asis-box asis-box--manual"><span class="asis-box__num">4</span>Save the record<span class="asis-box__sub">Repeat per record and zone</span></div><span class="asis-arrow">→</span></div><div class="asis-step"><div class="asis-box asis-box--manual"><span class="asis-box__num">5</span>Test the response<span class="asis-box__sub">dig against an NS1 nameserver</span></div><span class="asis-arrow">→</span></div><div class="asis-step"><div class="asis-box"><span class="asis-box__num">6</span>Watch traffic<span class="asis-box__sub">QPS and traffic distribution reports</span></div><span class="asis-arrow">→</span></div><div class="asis-step"><div class="asis-box asis-box--green"><span class="asis-box__num">7</span>Review the activity log<span class="asis-box__sub">User or API key, UI or API</span></div></div></div>
+      <p class="asis__label">Infrastructure-as-code path</p>
+      <div class="asis-flow"><div class="asis-step"><div class="asis-box asis-box--dark"><span class="asis-box__num">1</span>Developer writes Terraform<span class="asis-box__sub">ns1_zone and ns1_record resources</span></div><span class="asis-arrow">→</span></div><div class="asis-step"><div class="asis-box"><span class="asis-box__num">2</span>Pipeline runs Terraform<span class="asis-box__sub">Provider uses an NS1 API key</span></div><span class="asis-arrow">→</span></div><div class="asis-step"><div class="asis-box asis-box--blue"><span class="asis-box__num">3</span>NS1 API called<span class="asis-box__sub">Rate limit set in the provider</span></div><span class="asis-arrow">→</span></div><div class="asis-step"><div class="asis-box"><span class="asis-box__num">4</span>Zone and record updated<span class="asis-box__sub">Real-time DNS changes</span></div><span class="asis-arrow">→</span></div><div class="asis-step"><div class="asis-box asis-box--green"><span class="asis-box__num">5</span>Change appears in the activity log</div></div></div>
+      <p class="asis__note"><strong>Note:</strong> No approval, policy check or rollback step is described in the NS1 documentation reviewed. Teams handle those in their own change process.</p>
+      <p class="asis__src">Sources: <a href="https://www.ibm.com/docs/en/ns1-connect?topic=chain-creating-filter" target="_blank" rel="noopener">Creating a Filter Chain</a> · <a href="https://www.ibm.com/docs/en/ns1-connect?topic=toolkits-terraform-toolkit-ns1-connect" target="_blank" rel="noopener">Terraform toolkit</a> · <a href="https://www.ibm.com/docs/en/ns1-connect?topic=reports-activity-log" target="_blank" rel="noopener">Activity log</a> · <a href="https://www.ibm.com/docs/en/ns1-connect?topic=observability-reports" target="_blank" rel="noopener">Observability and reports</a>.</p>
     </div>
 
     <!-- User Journey tab -->
@@ -300,8 +340,9 @@
   <div class="tabs" data-tabs>
     <div class="tabs__bar">
       <button class="tabs__btn active" data-tab="summary">Summary</button>
-      <button class="tabs__btn" data-tab="journey">User Journey</button>
-      <button class="tabs__btn" data-tab="workflow">Workflow</button>
+      <button class="tabs__btn" data-tab="asis">As is workflow</button>
+      <button class="tabs__btn" data-tab="workflow">Proposed workflow</button>
+      <button class="tabs__btn" data-tab="journey">Proposed user journey map</button>
     </div>
 
     <!-- Summary tab -->
@@ -346,6 +387,22 @@
       </div>
     </div>
 
+    <!-- As-is workflow tab -->
+    <div class="tabs__panel" data-panel="asis">
+      <p class="asis__intro">How this use case is done in NS1 Connect today, before INI. Checked against the IBM NS1 Connect documentation.</p>
+      <h3 class="asis__title">Designing a Filter Chain and Pulsar steering in NS1 Connect</h3>
+      <p class="asis__desc">The architect picks and orders the filters, sets answer metadata and connects monitors or Pulsar jobs. Filters run from top to bottom, so order is a design decision made by hand.</p>
+      <p class="asis__legend">Manual step done by the practitioner</p>
+      <p class="asis__label">Filter Chain configuration</p>
+      <div class="asis-flow"><div class="asis-step"><div class="asis-box"><span class="asis-box__num">1</span>Add a record with several answers<span class="asis-box__sub">One answer per endpoint</span></div><span class="asis-arrow">→</span></div><div class="asis-step"><div class="asis-box asis-box--manual"><span class="asis-box__num">2</span>Set answer metadata<span class="asis-box__sub">Geo, weight, priority, load</span></div><span class="asis-arrow">→</span></div><div class="asis-step"><div class="asis-box"><span class="asis-box__num">3</span>Connect data sources<span class="asis-box__sub">Monitors, data feeds or Pulsar jobs update metadata</span></div><span class="asis-arrow">→</span></div><div class="asis-step"><div class="asis-box asis-box--blue"><span class="asis-box__num">4</span>Create the Filter Chain<span class="asis-box__sub">Add filters, order matters</span></div><span class="asis-arrow">→</span></div><div class="asis-step"><div class="asis-box asis-box--manual"><span class="asis-box__num">5</span>Test with dig<span class="asis-box__sub">+subnet (ECS) simulates locations</span></div><span class="asis-arrow">→</span></div><div class="asis-step"><div class="asis-box asis-box--manual"><span class="asis-box__num">6</span>Monitor and adjust<span class="asis-box__sub">Query reports, traffic distribution map</span></div></div></div>
+      <p class="asis__label">Pulsar setup (private RUM data)</p>
+      <div class="asis-flow"><div class="asis-step"><div class="asis-box"><span class="asis-box__num">1</span>Prepare an asset on each endpoint<span class="asis-box__sub">So it can be measured</span></div><span class="asis-arrow">→</span></div><div class="asis-step"><div class="asis-box asis-box--dark"><span class="asis-box__num">2</span>Create a Pulsar application<span class="asis-box__sub">App ID is generated</span></div><span class="asis-arrow">→</span></div><div class="asis-step"><div class="asis-box"><span class="asis-box__num">3</span>Create jobs in the application<span class="asis-box__sub">One per CDN or endpoint</span></div><span class="asis-arrow">→</span></div><div class="asis-step"><div class="asis-box"><span class="asis-box__num">4</span>Embed the JavaScript tag<span class="asis-box__sub">On your web properties</span></div><span class="asis-arrow">→</span></div><div class="asis-step"><div class="asis-box"><span class="asis-box__num">5</span>Connect each job to a DNS answer<span class="asis-box__sub">Updates Pulsar data metadata</span></div><span class="asis-arrow">→</span></div><div class="asis-step"><div class="asis-box asis-box--blue"><span class="asis-box__num">6</span>Add a Pulsar filter to the chain<span class="asis-box__sub">Performance or Availability Sort, Stabilize, Threshold</span></div><span class="asis-arrow">→</span></div><div class="asis-step"><div class="asis-box asis-box--green"><span class="asis-box__num">7</span>RUM steering live</div></div></div>
+      <p class="asis__label">Runtime: per-user routing</p>
+      <div class="asis-flow"><div class="asis-step"><div class="asis-box asis-box--dark"><span class="asis-box__num">1</span>User queries the record<span class="asis-box__sub">Example: user in Tokyo</span></div><span class="asis-arrow">→</span></div><div class="asis-step"><div class="asis-box asis-box--blue"><span class="asis-box__num">2</span>NS1 runs the Filter Chain<span class="asis-box__sub">Example: Up, Pulsar Performance Sort, Select First N</span></div><span class="asis-arrow">→</span></div><div class="asis-step"><div class="asis-box"><span class="asis-box__num">3</span>Pulsar data in answer metadata<span class="asis-box__sub">Latency measured as time to last byte</span></div><span class="asis-arrow">→</span></div><div class="asis-step"><div class="asis-box asis-box--green"><span class="asis-box__num">4</span>Best-performing answer returned<span class="asis-box__sub">Example: CDN A</span></div><span class="asis-arrow">→</span></div><div class="asis-step"><div class="asis-box asis-box--green"><span class="asis-box__num">5</span>User connects to that CDN</div></div></div>
+      <p class="asis__note"><strong>Note:</strong> Pulsar is an add-on. Community RUM data needs no JavaScript tag, only the Pulsar filters. Latency figures in the runtime flow are examples.</p>
+      <p class="asis__src">Sources: <a href="https://www.ibm.com/docs/en/ns1-connect?topic=started-getting-ns1-connect" target="_blank" rel="noopener">Getting started</a> · <a href="https://www.ibm.com/docs/en/ns1-connect?topic=chain-creating-filter" target="_blank" rel="noopener">Creating a Filter Chain</a> · <a href="https://www.ibm.com/docs/en/ns1-connect?topic=started-pulsar-rum-based-traffic-steering" target="_blank" rel="noopener">Pulsar RUM-based traffic steering</a> · <a href="https://www.ibm.com/docs/en/ns1-connect?topic=prdc-configuring-rum-data-collection-by-using-javascript-tag" target="_blank" rel="noopener">JavaScript tag setup</a> · <a href="https://www.ibm.com/docs/en/ns1-connect?topic=pc-connecting-pulsar-real-user-monitoring-job-dns-answer" target="_blank" rel="noopener">Connecting a Pulsar job to an answer</a>.</p>
+    </div>
+
     <!-- User Journey tab -->
     <div class="tabs__panel" data-panel="journey">
       <div class="jm-scroll"><div class="jm-grid" style="grid-template-columns:150px repeat(6, minmax(190px, 1fr));">
@@ -374,7 +431,7 @@
           <div class="wf-corner"></div><div class="wf-head">Step 1</div><div class="wf-head">Step 2</div><div class="wf-head">Step 3</div><div class="wf-head">Step 4</div><div class="wf-head">Step 5</div><div class="wf-head">Step 6</div><div class="wf-head">Step 7</div><div class="wf-head">Step 8</div>
           <div class="wf-lane wf-lane--u">Practitioner</div><div class="wf-cell"><div class="wf-card wf-card--u"><span class="wf-card__num">1</span><p class="wf-card__text">State the routing outcome: latency, cost, sovereignty</p></div></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell"><div class="wf-card wf-card--u wf-card--gate"><span class="wf-card__num">6</span><p class="wf-card__text">Review explanation, accept or refine</p><p class="wf-card__gate"><strong>Decision gate: accept draft?</strong><br>Refine: return to step 2</p></div></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div>
           <div class="wf-lane wf-lane--i">IBM Network Intelligence</div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell"><div class="wf-card wf-card--i"><span class="wf-card__num">2</span><p class="wf-card__text">Decompose intent into constraints</p></div></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell"><div class="wf-card wf-card--i"><span class="wf-card__num">4</span><p class="wf-card__text">Draft Filter Chain order from telemetry, egress cost and capacity</p></div></div><div class="wf-cell"><div class="wf-card wf-card--i wf-card--gate"><span class="wf-card__num">5</span><p class="wf-card__text">Check for risks: blackhole, circular fallback, single-region overload (proposed)</p><p class="wf-card__gate"><strong>Decision gate: bounds pass?</strong><br>No: return to step 4</p></div></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell"><div class="wf-card wf-card--i"><span class="wf-card__num">7</span><p class="wf-card__text">Save the pattern as a reusable design (proposed)</p></div></div><div class="wf-cell wf-cell--empty"></div>
-          <div class="wf-lane wf-lane--n">NS1 Connect</div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell"><div class="wf-card wf-card--n"><span class="wf-card__num">3</span><p class="wf-card__text">Provide filter options and Pulsar RUM data (proposed integration)</p></div></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell"><div class="wf-card wf-card--n"><span class="wf-card__num">8</span><p class="wf-card__text">Apply via UC 4 validation and UC 2 execution; tune from Pulsar results</p></div></div>
+          <div class="wf-lane wf-lane--n">NS1 Connect</div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell"><div class="wf-card wf-card--n"><span class="wf-card__num">3</span><p class="wf-card__text">Provide filter options and Pulsar RUM data (proposed integration)</p></div></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell"><div class="wf-card wf-card--n"><span class="wf-card__num">8</span><p class="wf-card__text">Apply via UC 03 validation and UC 01 execution; tune from Pulsar results</p></div></div>
         </div></div>
         <p class="wf__note"><strong>Note:</strong> Saved designs are shared, so the next design starts from an approved pattern.</p>
       </div>
@@ -395,8 +452,9 @@
   <div class="tabs" data-tabs>
     <div class="tabs__bar">
       <button class="tabs__btn active" data-tab="summary">Summary</button>
-      <button class="tabs__btn" data-tab="journey">User Journey</button>
-      <button class="tabs__btn" data-tab="workflow">Workflow</button>
+      <button class="tabs__btn" data-tab="asis">As is workflow</button>
+      <button class="tabs__btn" data-tab="workflow">Proposed workflow</button>
+      <button class="tabs__btn" data-tab="journey">Proposed user journey map</button>
     </div>
 
     <!-- Summary tab -->
@@ -440,6 +498,18 @@
           <p>Expected: fewer configuration-caused outages and quantifiable risk evidence for change boards (to be validated).</p>
         </div>
       </div>
+    </div>
+
+    <!-- As-is workflow tab -->
+    <div class="tabs__panel" data-panel="asis">
+      <p class="asis__intro">How this use case is done in NS1 Connect today, before INI. Checked against the IBM NS1 Connect documentation.</p>
+      <h3 class="asis__title">Testing a change in NS1 Connect</h3>
+      <p class="asis__desc">The change is authored, saved to the record and then checked by querying that record. The documented check is a dig query against an NS1 nameserver.</p>
+      <p class="asis__legend">Manual step done by the practitioner</p>
+      <p class="asis__label">Author, save and check</p>
+      <div class="asis-flow"><div class="asis-step"><div class="asis-box asis-box--manual"><span class="asis-box__num">1</span>Author the change<span class="asis-box__sub">Portal, API or Terraform</span></div><span class="asis-arrow">→</span></div><div class="asis-step"><div class="asis-box asis-box--manual"><span class="asis-box__num">2</span>Check syntax<span class="asis-box__sub">Zone files only: named-checkzone before import</span></div><span class="asis-arrow">→</span></div><div class="asis-step"><div class="asis-box"><span class="asis-box__num">3</span>Save to the record<span class="asis-box__sub">Filter Chain and metadata in place</span></div><span class="asis-arrow">→</span></div><div class="asis-step"><div class="asis-box asis-box--manual"><span class="asis-box__num">4</span>Query with dig<span class="asis-box__sub">Against an NS1 nameserver for the zone</span></div><span class="asis-arrow">→</span></div><div class="asis-step"><div class="asis-box asis-box--manual"><span class="asis-box__num">5</span>Simulate locations<span class="asis-box__sub">+subnet (ECS) for geo or performance filters</span></div><span class="asis-arrow">→</span></div><div class="asis-step"><div class="asis-box asis-box--manual"><span class="asis-box__num">6</span>Compare with expected answers<span class="asis-box__sub">Judged by the engineer</span></div><span class="asis-arrow">→</span></div><div class="asis-step"><div class="asis-box asis-box--green"><span class="asis-box__num">7</span>Watch live traffic<span class="asis-box__sub">QPS and traffic distribution reports</span></div></div></div>
+      <p class="asis__note"><strong>Note:</strong> The documented test checks one query at a time against the saved record. The documentation reviewed does not describe replaying traffic, capacity or blast-radius scoring, or a pipeline gate. Terraform's own plan output shows configuration differences, not traffic impact.</p>
+      <p class="asis__src">Sources: <a href="https://www.ibm.com/docs/en/ns1-connect?topic=fc-testing-filter-chain-processing-by-using-dig-command" target="_blank" rel="noopener">Testing Filter Chain processing with dig</a> · <a href="https://www.ibm.com/docs/en/ns1-connect?topic=zones-importing-zone-file" target="_blank" rel="noopener">Importing a zone file</a> · <a href="https://www.ibm.com/docs/en/ns1-connect?topic=chain-creating-filter" target="_blank" rel="noopener">Creating a Filter Chain</a> · <a href="https://www.ibm.com/docs/en/ns1-connect?topic=observability-reports" target="_blank" rel="noopener">Observability and reports</a>.</p>
     </div>
 
     <!-- User Journey tab -->
@@ -491,8 +561,9 @@
   <div class="tabs" data-tabs>
     <div class="tabs__bar">
       <button class="tabs__btn active" data-tab="summary">Summary</button>
-      <button class="tabs__btn" data-tab="journey">User Journey</button>
-      <button class="tabs__btn" data-tab="workflow">Workflow</button>
+      <button class="tabs__btn" data-tab="asis">As is workflow</button>
+      <button class="tabs__btn" data-tab="workflow">Proposed workflow</button>
+      <button class="tabs__btn" data-tab="journey">Proposed user journey map</button>
     </div>
 
     <!-- Summary tab -->
@@ -536,6 +607,18 @@
           <p>Expected: faster detection and root-cause identification with fewer duplicate alerts (targets to be validated).</p>
         </div>
       </div>
+    </div>
+
+    <!-- As-is workflow tab -->
+    <div class="tabs__panel" data-panel="asis">
+      <p class="asis__intro">How this use case is done in NS1 Connect today, before INI. Checked against the IBM NS1 Connect documentation.</p>
+      <h3 class="asis__title">Troubleshooting resolution failures in NS1 Connect</h3>
+      <p class="asis__desc">NS1 Connect shows its own side: monitor status, query reports, DNS Insights if on the plan, the activity log and live record responses. The engineer moves between these views by hand.</p>
+      <p class="asis__legend">Manual step done by the practitioner</p>
+      <p class="asis__label">Investigation flow</p>
+      <div class="asis-flow"><div class="asis-step"><div class="asis-box asis-box--red"><span class="asis-box__num">1</span>Alert arrives<span class="asis-box__sub">Notifier list: email, Slack, PagerDuty, webhook</span></div><span class="asis-arrow">→</span></div><div class="asis-step"><div class="asis-box"><span class="asis-box__num">2</span>Check the monitor<span class="asis-box__sub">Uptime and event history</span></div><span class="asis-arrow">→</span></div><div class="asis-step"><div class="asis-box"><span class="asis-box__num">3</span>Check traffic reports<span class="asis-box__sub">QPS and traffic distribution</span></div><span class="asis-arrow">→</span></div><div class="asis-step"><div class="asis-box"><span class="asis-box__num">4</span>Open DNS Insights<span class="asis-box__sub">NXDOMAIN, geography, resolvers, anomalies (if on plan)</span></div><span class="asis-arrow">→</span></div><div class="asis-step"><div class="asis-box"><span class="asis-box__num">5</span>Review the activity log<span class="asis-box__sub">Recent changes by user or API key</span></div><span class="asis-arrow">→</span></div><div class="asis-step"><div class="asis-box asis-box--manual"><span class="asis-box__num">6</span>Query the record<span class="asis-box__sub">dig, with +subnet to test the Filter Chain</span></div><span class="asis-arrow">→</span></div><div class="asis-step"><div class="asis-box asis-box--manual"><span class="asis-box__num">7</span>Look outside NS1<span class="asis-box__sub">BGP, ISP and interface data in other tools</span></div><span class="asis-arrow">→</span></div><div class="asis-step"><div class="asis-box asis-box--green"><span class="asis-box__num">8</span>Fix or escalate</div></div></div>
+      <p class="asis__note"><strong>Note:</strong> Correlating DNS symptoms with BGP or interface data is not described in the NS1 documentation reviewed. DNS Insights can feed Prometheus and OpenTelemetry tools, so teams can build that view themselves.</p>
+      <p class="asis__src">Sources: <a href="https://www.ibm.com/docs/en/ns1-connect?topic=jobs-configuring-automatic-updates-monitoring-alerts" target="_blank" rel="noopener">Monitoring alerts</a> · <a href="https://www.ibm.com/docs/en/ns1-connect?topic=observability-reports" target="_blank" rel="noopener">Observability and reports</a> · <a href="https://www.ibm.com/docs/en/ns1-connect?topic=reports-activity-log" target="_blank" rel="noopener">Activity log</a> · <a href="https://www.ibm.com/docs/en/ns1-connect?topic=fc-testing-filter-chain-processing-by-using-dig-command" target="_blank" rel="noopener">Testing with dig</a>.</p>
     </div>
 
     <!-- User Journey tab -->

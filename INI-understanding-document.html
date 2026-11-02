@@ -458,8 +458,8 @@
     <p class="section-eyebrow">Section 01</p>
     <h2 class="section-title">What is <strong>IBM Network Intelligence</strong>?</h2>
     <p class="section-body">
-      IBM® Network Intelligence (INI) is an AI-native SaaS platform on IBM Cloud. It turns multi-vendor, multi-domain network data into actionable intelligence: it detects anomalies, proposes root causes, and drives remediation through AI agents.<br><br>
-      Built on <strong>watsonx</strong>, it uses time-series AI models and Network Operations Center (NOC) agents to analyze IP and Radio Access Network (RAN) telemetry. One node handles <strong>over one million indicators every five minutes</strong>, and you scale by adding nodes.
+      IBM® Network Intelligence (INI) is an AI-native platform, delivered as SaaS on IBM Cloud or on-premises on Red Hat OpenShift. It turns multi-vendor network data into actionable intelligence: it detects anomalies, proposes root causes, and drives remediation through AI agents.<br><br>
+      Built on <strong>watsonx</strong>, it uses time-series AI models and Network Operations Center (NOC) agents to analyze Internet Protocol (IP) domain telemetry (metrics and alarms). One node handles <strong>over one million indicators every five minutes</strong>, and you scale by adding nodes.
     </p>
 
     <div class="callout">
@@ -529,7 +529,7 @@
         <tr>
           <td>IT / Network Architects</td>
           <td>Multi-domain visibility</td>
-          <td>One ingestion layer for IP and RAN; OpenAPI, MCP, and connectors reach other sources</td>
+          <td>One ingestion layer for IP-domain metrics and alarms; OpenAPI, MCP, and connectors reach other sources</td>
         </tr>
         <tr>
           <td>Operations Leaders</td>
@@ -592,7 +592,7 @@
       <div class="cap-card">
         <div class="cap-card__number">02</div>
         <p class="cap-card__title">Anomaly Detection</p>
-        <p class="cap-card__body">Time-series AI models (Quantile, Prophet) learn normal behavior and catch subtle degradation before a threshold alarm fires. One node processes over one million indicators every five minutes.</p>
+        <p class="cap-card__body">Time-series AI models (IBM Time Series Pulse and INI statistical models, assigned per metric) learn normal behavior and catch subtle degradation before a threshold alarm fires. One node processes over one million indicators every five minutes.</p>
       </div>
 
       <div class="cap-card">
@@ -604,12 +604,12 @@
       <div class="cap-card">
         <div class="cap-card__number">04</div>
         <p class="cap-card__title">Device Insights</p>
-        <p class="cap-card__body">A per-device view of metrics, alarms, and anomaly history for routers and RAN nodes.</p>
+        <p class="cap-card__body">A per-device view of metrics, alarms, and anomaly history for routers and other IP network devices.</p>
       </div>
 
       <div class="cap-card">
         <div class="cap-card__number">05</div>
-        <p class="cap-card__title">Skills</p>
+        <p class="cap-card__title">Agent Behavior (Skills)</p>
         <p class="cap-card__body">Reusable workflows that encode expert runbooks once. The chat assistant and AI agents apply them every time.</p>
       </div>
 
@@ -628,13 +628,13 @@
       <div class="cap-card">
         <div class="cap-card__number">08</div>
         <p class="cap-card__title">Integrations</p>
-        <p class="cap-card__body">OpenAPI connects ITSM (ServiceNow), inventory systems, and data lakes. MCP servers and connectors bring in external platforms, and the Agent-to-Agent (A2A) protocol links external AI agents.</p>
+        <p class="cap-card__body">OpenAPI connects ITSM (ServiceNow), inventory systems, and data lakes. MCP servers and connectors bring in external platforms, and the Agent-to-Agent (A2A) protocol links external AI agents (SaaS deployments only).</p>
       </div>
 
       <div class="cap-card">
         <div class="cap-card__number">09</div>
-        <p class="cap-card__title">Autonomous &amp; Assistant Modes</p>
-        <p class="cap-card__body">In <strong>Autonomous</strong> mode, agents detect and fix routine incidents without human intervention. In <strong>Assistant</strong> mode, the AI recommends and a human approves.</p>
+        <p class="cap-card__title">Assistant &amp; Agentic Modes</p>
+        <p class="cap-card__body">In <strong>Agentic</strong> mode, agents run the investigation and can automate routine remediation through an autonomous operations lifecycle (pattern review, decision to automate, audits). In <strong>Assistant</strong> mode, the ticket is assigned to a NOC specialist who validates the hypothesis, approves the suggested remediation, and updates the ticket. The QA team then reviews the updated ticket and implements the remediation.</p>
       </div>
 
     </div>
@@ -677,7 +677,7 @@
           <div class="flow-box">
             <div class="flow-box__icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M16,2A14,14,0,1,0,30,16,14.0158,14.0158,0,0,0,16,2Zm5,3.1055a12.0136,12.0136,0,0,1,2.9158,1.8994L23.5034,8H21ZM13.3784,27.7026A11.9761,11.9761,0,0,1,8.1157,6.9761L9.4648,9h3.3423l-1.5,4H7.2793L5.8967,17.1475,8.4648,21h5l1.4319,2.1475ZM16,28c-.2034,0-.4016-.02-.6025-.03l1.3967-4.19a1.9876,1.9876,0,0,0-.2334-1.7412l-1.4319-2.1475A1.9962,1.9962,0,0,0,13.4648,19h-3.93L8.1033,16.8525,8.7207,15H11v2h2V14.1812l2.9363-7.83-1.8726-.7022L13.5571,7H10.5352L9.728,5.7891A11.7941,11.7941,0,0,1,19,4.395V8a2.0025,2.0025,0,0,0,2,2h2.5857A1.9865,1.9865,0,0,0,25,9.4141l.1406-.1407.2818-.68A11.9813,11.9813,0,0,1,27.3,12H22.5986a1.9927,1.9927,0,0,0-1.9719,1.665L20.03,17.1064a1.99,1.99,0,0,0,.991,2.086l2.1647,1.4638,1.4585,3.646A11.9577,11.9577,0,0,1,16,28Zm8.8145-8.6563L22.1,17.5088l-.1-.06L22.5986,14h5.2207a11.743,11.743,0,0,1-1.7441,8.4951Z"/><rect fill="none" width="32" height="32"/></svg></div>
             Register devices
-            <div class="flow-box__label">IP routers · RAN nodes</div>
+            <div class="flow-box__label">IP routers · network devices</div>
           </div>
         </div>
         <div class="flow-arrow">→</div>
@@ -756,7 +756,7 @@
           <div class="flow-box flow-box--blue">
             <div class="flow-box__icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect x="18" y="10" width="2" height="2"/><rect x="12" y="10" width="2" height="2"/><path d="M26,20H21V18h1a2.0023,2.0023,0,0,0,2-2V12h2V10H24V8a2.0023,2.0023,0,0,0-2-2H20V2H18V6H14V2H12V6H10A2.0023,2.0023,0,0,0,8,8v2H6v2H8v4a2.0023,2.0023,0,0,0,2,2h1v2H6a2.0023,2.0023,0,0,0-2,2v8H6V22H26v8h2V22A2.0023,2.0023,0,0,0,26,20ZM10,8H22v8H10Zm3,10h6v2H13Z"/><rect fill="none" width="32" height="32"/></svg></div>
             Time-series AI models
-            <div class="flow-box__label">Quantile · Prophet</div>
+            <div class="flow-box__label">Time Series Pulse · statistical</div>
           </div>
         </div>
         <div class="flow-arrow">→</div>
@@ -838,7 +838,7 @@
       </div>
 
       <!-- Remediation decision flow -->
-      <p style="font-size: 17.25px;color:var(--ibm-text-secondary);margin-bottom:var(--ibm-spacing-04);font-weight:600;text-transform:uppercase;letter-spacing:0.32px;">Remediation: Autonomous or Human-in-the-Loop</p>
+      <p style="font-size: 17.25px;color:var(--ibm-text-secondary);margin-bottom:var(--ibm-spacing-04);font-weight:600;text-transform:uppercase;letter-spacing:0.32px;">Remediation: Agentic Mode</p>
       <div class="flow">
         <div class="flow-step">
           <div class="flow-box">
@@ -852,7 +852,7 @@
           <div class="flow-box">
             <div class="flow-box__icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M21.71,11.71l-1.42-1.42-4.29,4.3-4.29-4.3-1.42,1.42,4.3,4.29-4.3,4.29,1.42,1.42,4.29-4.3,4.29,4.3,1.42-1.42-4.3-4.29,4.3-4.29ZM30.71,15.29l-6.3-6.29,3.08-3.07c.16.05.33.07.51.07,1.1,0,2-.9,2-2s-.9-2-2-2-2,.9-2,2c0,.18.02.35.07.51l-3.07,3.08-6.29-6.3c-.39-.39-1.03-.39-1.42,0l-6.29,6.3-3.07-3.08c.05-.16.07-.33.07-.51,0-1.1-.9-2-2-2s-2,.9-2,2,.9,2,2,2c.18,0,.35-.02.51-.07l3.08,3.07L1.29,15.29c-.39.39-.39,1.03,0,1.42l6.3,6.29-3.08,3.07c-.16-.05-.33-.07-.51-.07-1.1,0-2,.9-2,2s.9,2,2,2,2-.9,2-2c0-.18-.02-.35-.07-.51l3.07-3.08,6.29,6.3c.2.19.45.29.71.29s.51-.1.71-.29l6.29-6.3,3.07,3.08c-.05.16-.07.33-.07.51,0,1.1.9,2,2,2s2-.9,2-2-.9-2-2-2c-.18,0-.35.02-.51.07l-3.08-3.07,6.3-6.29c.39-.39.39-1.03,0-1.42ZM16,28.59L3.41,16,16,3.41l12.59,12.59-12.59,12.59Z"/><rect fill="none" width="32" height="32"/></svg></div>
             Operating mode check
-            <div class="flow-box__label">Autonomous or Assistant?</div>
+            <div class="flow-box__label">Agentic or Assistant?</div>
           </div>
         </div>
         <div class="flow-arrow">→</div>
@@ -860,7 +860,7 @@
           <div class="flow-box flow-box--blue">
             <div class="flow-box__icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M27,16.76c0-.25,0-.5,0-.76s0-.51,0-.77l1.92-1.68A2,2,0,0,0,29.3,11L26.94,7a2,2,0,0,0-1.73-1,2,2,0,0,0-.64.1l-2.43.82a11.35,11.35,0,0,0-1.31-.75l-.51-2.52a2,2,0,0,0-2-1.61H13.64a2,2,0,0,0-2,1.61l-.51,2.52a11.48,11.48,0,0,0-1.32.75L7.43,6.06A2,2,0,0,0,6.79,6,2,2,0,0,0,5.06,7L2.7,11a2,2,0,0,0,.41,2.51L5,15.24c0,.25,0,.5,0,.76s0,.51,0,.77L3.11,18.45A2,2,0,0,0,2.7,21L5.06,25a2,2,0,0,0,1.73,1,2,2,0,0,0,.64-.1l2.43-.82a11.35,11.35,0,0,0,1.31.75l.51,2.52a2,2,0,0,0,2,1.61h4.72a2,2,0,0,0,2-1.61l.51-2.52a11.48,11.48,0,0,0,1.32-.75l2.42.82a2,2,0,0,0,.64.1,2,2,0,0,0,1.73-1L29.3,21a2,2,0,0,0-.41-2.51ZM25.21,24l-3.43-1.16a8.86,8.86,0,0,1-2.71,1.57L18.36,28H13.64l-.71-3.55a9.36,9.36,0,0,1-2.7-1.57L6.79,24,4.43,20l2.72-2.4a8.9,8.9,0,0,1,0-3.13L4.43,12,6.79,8l3.43,1.16a8.86,8.86,0,0,1,2.71-1.57L13.64,4h4.72l.71,3.55a9.36,9.36,0,0,1,2.7,1.57L25.21,8,27.57,12l-2.72,2.4a8.9,8.9,0,0,1,0,3.13L27.57,20Z"/><path d="M16,22a6,6,0,1,1,6-6A5.94,5.94,0,0,1,16,22Zm0-10a3.91,3.91,0,0,0-4,4,3.91,3.91,0,0,0,4,4,3.91,3.91,0,0,0,4-4A3.91,3.91,0,0,0,16,12Z"/><rect fill="none" width="32" height="32"/></svg></div>
             Function-calling agent
-            <div class="flow-box__label">Executes tool calls</div>
+            <div class="flow-box__label">Agentic mode: executes tool calls</div>
           </div>
         </div>
         <div class="flow-arrow">→</div>
@@ -869,6 +869,62 @@
             <div class="flow-box__icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M16,2A14,14,0,1,0,30,16,14,14,0,0,0,16,2ZM14,21.5908l-5-5L10.5906,15,14,18.4092,21.41,11l1.5957,1.5859Z"/><rect fill="none" width="32" height="32"/></svg></div>
             Issue resolved
             <div class="flow-box__label">Ticket closed</div>
+          </div>
+        </div>
+      </div>
+      <!-- Assistant mode workflow -->
+      <p style="font-size: 17.25px;color:var(--ibm-text-secondary);margin-bottom:var(--ibm-spacing-04);font-weight:600;text-transform:uppercase;letter-spacing:0.32px;">Assistant Mode Workflow</p>
+      <p class="workflow-desc">The ticket is assigned to a NOC specialist, who validates the hypothesis, approves the anomaly analysis and suggested remediation, and updates the ticket with remediation instructions. The QA team reviews the updated ticket and implements the remediation.</p>
+      <div class="flow">
+        <div class="flow-step">
+          <div class="flow-box flow-box--dark">
+            Continuous monitoring
+          </div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="flow-box flow-box--blue">
+            Anomaly detection
+          </div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="flow-box flow-box--blue">
+            Hypothesis generation
+          </div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="flow-box">
+            ITSM ticket creation
+          </div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="flow-box flow-box--purple">
+            NOC engineer review
+            <div class="flow-box__label">Validates hypothesis, approves remediation</div>
+          </div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="flow-box">
+            ITSM change ticket filed
+            <div class="flow-box__label">Remediation instructions added</div>
+          </div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="flow-box flow-box--purple">
+            Ticket review
+            <div class="flow-box__label">QA team</div>
+          </div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="flow-box flow-box--green">
+            Remediation execution
+            <div class="flow-box__label">QA team implements; monitoring continues</div>
           </div>
         </div>
       </div>
@@ -933,36 +989,36 @@
   <section class="section" id="section-usecases">
     <p class="section-eyebrow">Section 04</p>
     <h2 class="section-title">Real-World <strong>Use Cases &amp; Problems Solved</strong></h2>
-    <p class="section-body">Six scenarios where AI-native operations outperform threshold-based alerting.</p>
+    <p class="section-body">Six scenarios where AI-native operations outperform threshold-based alerting. The figures and vendor names are illustrative examples, not documented product benchmarks.</p>
 
     <div class="usecase-grid">
 
       <div class="usecase-card">
         <p class="usecase-card__industry">Telecom / Carrier Operations</p>
         <h4 class="usecase-card__title">Reducing Alert Fatigue</h4>
-        <p class="usecase-card__scenario">A carrier NOC receives over 50,000 alerts a day. Network Intelligence filters out false positives and shows only high-confidence anomalies.</p>
+        <p class="usecase-card__scenario">In this example, a carrier NOC receives over 50,000 alerts a day. Network Intelligence filters out false positives and shows only high-confidence anomalies.</p>
         <div class="usecase-card__result"><strong>Outcome:</strong> Less noise. Operators move from reacting to alarms to managing the network proactively.</div>
       </div>
 
       <div class="usecase-card">
         <p class="usecase-card__industry">Enterprise IT Operations</p>
         <h4 class="usecase-card__title">Overnight Outage, Fixed Automatically</h4>
-        <p class="usecase-card__scenario">A router interface flaps at 3am. In Autonomous mode, the AI retrieves the MOP through RAG and runs the standard restart.</p>
-        <div class="usecase-card__result"><strong>Outcome:</strong> No page for routine incidents. MTTR drops from 30+ minutes to under 5.</div>
+        <p class="usecase-card__scenario">A router interface flaps at 3am. In Agentic mode, with automation approved for this pattern, the AI retrieves the MOP through RAG and runs the standard restart.</p>
+        <div class="usecase-card__result"><strong>Outcome:</strong> No page for routine incidents. In this example, MTTR drops from 30+ minutes to under 5.</div>
       </div>
 
       <div class="usecase-card">
         <p class="usecase-card__industry">Multi-Vendor Networks</p>
         <h4 class="usecase-card__title">Root Cause Across Vendors</h4>
-        <p class="usecase-card__scenario">An application slows down across Cisco routers, Nokia RAN, and an SD-WAN overlay. Network Intelligence correlates all three data streams and traces the cause to a BGP change on the Cisco side.</p>
+        <p class="usecase-card__scenario">An application slows down across routers from several vendors and an SD-WAN overlay. Network Intelligence correlates the metrics and alarms from each and traces the cause to a BGP change on one router.</p>
         <div class="usecase-card__result"><strong>Outcome:</strong> Root cause in minutes instead of hours, with no cross-team war room.</div>
       </div>
 
       <div class="usecase-card">
-        <p class="usecase-card__industry">Radio Access Network (RAN)</p>
+        <p class="usecase-card__industry">IP Network Operations</p>
         <h4 class="usecase-card__title">Early Warning Before User Impact</h4>
-        <p class="usecase-card__scenario">Signal quality in dense urban cells worsens slowly, staying below alarm thresholds. The AI detects the pattern about six hours early.</p>
-        <div class="usecase-card__result"><strong>Outcome:</strong> Field maintenance happens before customers see dropped calls.</div>
+        <p class="usecase-card__scenario">Error and utilization counters on a core router link worsen slowly, staying below alarm thresholds. In this example, the AI detects the pattern hours early.</p>
+        <div class="usecase-card__result"><strong>Outcome:</strong> Maintenance happens before customers see degraded service.</div>
       </div>
 
       <div class="usecase-card">
