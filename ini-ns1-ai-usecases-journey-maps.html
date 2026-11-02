@@ -129,7 +129,7 @@
     .takeaway ul { padding-left: 18px; font-size: 17px; color: var(--text-muted); }
     .takeaway li { margin-bottom: 4px; }
     .takeaway p:not(.brief__label) { font-size: 17px; color: var(--text-muted); }
-    .takeaway--impact { border-left: 2px solid var(--text); padding-left: 14px; }
+    .takeaway + .takeaway { border-left: 1px solid var(--divider); padding-left: 20px; }
 
     .scale { display: flex; gap: 18px; flex-wrap: wrap; font-size: 15.5px; color: var(--text-muted); margin-top: 6px; }
     .scale span::before { content: ''; display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; vertical-align: middle; }
@@ -213,19 +213,17 @@
       <p class="uc-scenario">When a critical service experiences localized resolution failures, operators struggle to determine whether the fault lies in NS1 health-check flapping, CDN edge degradation, authoritative nameserver rate-limiting, or an upstream ISP BGP transit route flap.</p>
       <div class="brief">
         <div class="brief__cell"><p class="brief__label">Persona</p><p class="brief__body"><strong>NetOps / SRE</strong><br>Secondary: Network Engineer. On call for a critical service</p></div>
-        <div class="brief__cell"><p class="brief__label">Trigger</p><p class="brief__body">Localized resolution failures appear for a critical service; the fault could be health-check flapping, CDN edge, rate limiting or an upstream BGP flap.</p></div>
         <div class="brief__cell"><p class="brief__label">Goal</p><p class="brief__body">Find the real root cause of resolution failures in seconds and avoid chasing the wrong layer.</p></div>
-        <div class="brief__cell"><p class="brief__label">Control mode</p><p class="brief__body">Interactive chat assistant</p></div>
       </div>
       <p class="contrib-row-title">How INI &amp; NS1 contribute</p>
       <div class="contrib-row">
-        <div class="contrib-cell contrib-cell--ini">
-          <p class="contrib-cell__label">IBM Network Intelligence</p>
-          <p class="contrib-cell__body">Ingests continuous NS1 query telemetry (QPS, response code distributions, Pulsar RUM latency) alongside underlay router interface counters, applying time-series foundation models to pinpoint the root cause immediately. Applies Quantile and Prophet foundation models to detect anomalous baseline shifts; correlates DNS anomalies with BGP routing flaps and interface congestion; auto-generates root-cause hypotheses.</p>
-        </div>
         <div class="contrib-cell contrib-cell--ns1">
           <p class="contrib-cell__label">IBM NS1 Connect</p>
           <p class="contrib-cell__body">Streams real-time query metrics, Pulsar active/passive latency feeds, Filter Chain execution logs, and health monitor state transitions via MCP telemetry connectors.</p>
+        </div>
+        <div class="contrib-cell contrib-cell--ini">
+          <p class="contrib-cell__label">IBM Network Intelligence</p>
+          <p class="contrib-cell__body">Applies Quantile and Prophet time-series foundation models to detect anomalous baseline shifts; correlates DNS anomalies with BGP routing flaps and interface congestion; auto-generates root-cause hypotheses to pinpoint the root cause immediately.</p>
         </div>
       </div>
       <div class="mechanism-row">
@@ -311,19 +309,17 @@
       <p class="uc-scenario">An enterprise needs to execute a complex emergency traffic migration — shedding 40% of traffic from an overloaded EU data center to US East and APAC while maintaining regional data compliance. Manually editing records across multiple zones risks misconfiguration.</p>
       <div class="brief">
         <div class="brief__cell"><p class="brief__label">Persona</p><p class="brief__body"><strong>Infrastructure Architect</strong><br>Secondary: SecOps / NOC. Approves and audits production edits</p></div>
-        <div class="brief__cell"><p class="brief__label">Trigger</p><p class="brief__body">An overloaded EU data centre needs traffic moved to US East and APAC while regional data-compliance rules still hold.</p></div>
         <div class="brief__cell"><p class="brief__label">Goal</p><p class="brief__body">Execute a multi-zone emergency migration, for example shedding 40% of EU traffic, without manual record edits.</p></div>
-        <div class="brief__cell"><p class="brief__label">Control mode</p><p class="brief__body">Human-in-the-loop approval</p></div>
       </div>
       <p class="contrib-row-title">How INI &amp; NS1 contribute</p>
       <div class="contrib-row">
-        <div class="contrib-cell contrib-cell--ini">
-          <p class="contrib-cell__label">IBM Network Intelligence</p>
-          <p class="contrib-cell__body">The engineer describes the intent in INI's Chat Assistant. INI's multi-agent system drafts the change, validates it against runbooks, generates exact NS1 API calls, and awaits approval. Reasoning Agent devises step-by-step traffic shifting plan; RAG Agent checks enterprise change policies; Function-Calling Agent constructs atomic NS1 API mutation payloads and rollback scripts.</p>
-        </div>
         <div class="contrib-cell contrib-cell--ns1">
           <p class="contrib-cell__label">IBM NS1 Connect</p>
           <p class="contrib-cell__body">Executes dynamic Filter Chain weight updates, record modifications, and Pulsar steering overrides; provides instant sub-second propagation across all global PoPs.</p>
+        </div>
+        <div class="contrib-cell contrib-cell--ini">
+          <p class="contrib-cell__label">IBM Network Intelligence</p>
+          <p class="contrib-cell__body">Takes the engineer's intent from INI's Chat Assistant and drafts the change with a multi-agent system: Reasoning Agent devises a step-by-step traffic shifting plan; RAG Agent checks enterprise change policies and runbooks; Function-Calling Agent constructs atomic NS1 mutation payloads and rollback scripts.</p>
         </div>
       </div>
       <div class="mechanism-row">
@@ -409,19 +405,17 @@
       <p class="uc-scenario">Architects configuring multi-CDN and hybrid-cloud steering must balance latency performance, committed transit billing commitments, data sovereignty laws (GDPR), and origin capacity limits.</p>
       <div class="brief">
         <div class="brief__cell"><p class="brief__label">Persona</p><p class="brief__body"><strong>Infrastructure Architect</strong><br>Secondary: DevOps Engineer. Designs multi-CDN and hybrid-cloud steering</p></div>
-        <div class="brief__cell"><p class="brief__label">Trigger</p><p class="brief__body">A new multi-CDN or multi-region rollout needs a steering policy that satisfies performance, cost and GDPR constraints.</p></div>
         <div class="brief__cell"><p class="brief__label">Goal</p><p class="brief__body">Turn a business routing goal into a Filter Chain that balances latency, transit cost, data sovereignty and origin capacity.</p></div>
-        <div class="brief__cell"><p class="brief__label">Control mode</p><p class="brief__body">Interactive chat assistant</p></div>
       </div>
       <p class="contrib-row-title">How INI &amp; NS1 contribute</p>
       <div class="contrib-row">
-        <div class="contrib-cell contrib-cell--ini">
-          <p class="contrib-cell__label">IBM Network Intelligence</p>
-          <p class="contrib-cell__body">Analyzes historical network telemetry and cloud egress rates to recommend the optimal Filter Chain ordering (e.g., UP/DOWN → SHED_LOAD → GEODNS → PULSAR → SELECT_FIRST_N). Evaluates multi-cloud egress costs, transit latency curves, and application capacity models; recommends optimal Filter Chain algorithms and saves patterns as reusable INI Skills that encode standard policies.</p>
-        </div>
         <div class="contrib-cell contrib-cell--ns1">
           <p class="contrib-cell__label">IBM NS1 Connect</p>
           <p class="contrib-cell__body">Provides patented modular Filter Chain engine, Pulsar real-user monitoring (RUM) telemetry feeds, and real-time DNS decisioning at global edge points.</p>
+        </div>
+        <div class="contrib-cell contrib-cell--ini">
+          <p class="contrib-cell__label">IBM Network Intelligence</p>
+          <p class="contrib-cell__body">Analyzes historical network telemetry, multi-cloud egress costs, transit latency curves, and application capacity models to recommend the optimal Filter Chain ordering (e.g., UP/DOWN → SHED_LOAD → GEODNS → PULSAR → SELECT_FIRST_N); saves patterns as reusable INI Skills that encode standard policies.</p>
         </div>
       </div>
       <div class="mechanism-row">
@@ -506,19 +500,17 @@
       <p class="uc-scenario">A DevOps squad modifies DNS routing for a flagship service, shifting weights on legacy origins. Without validation, an unintended TTL caching issue or Filter Chain logic bug could overwhelm a smaller secondary datacenter.</p>
       <div class="brief">
         <div class="brief__cell"><p class="brief__label">Persona</p><p class="brief__body"><strong>Network Engineer</strong><br>Secondary: SecOps. Owns a flagship service and its change approvals</p></div>
-        <div class="brief__cell"><p class="brief__label">Trigger</p><p class="brief__body">A weight shift on legacy origins could overload a smaller secondary data centre if a TTL or chain logic bug slips through.</p></div>
         <div class="brief__cell"><p class="brief__label">Goal</p><p class="brief__body">Prove a routing change is safe before it reaches production, with evidence a change board will accept.</p></div>
-        <div class="brief__cell"><p class="brief__label">Control mode</p><p class="brief__body">Pre-flight simulation (proposed)</p></div>
       </div>
       <p class="contrib-row-title">How INI &amp; NS1 contribute</p>
       <div class="contrib-row">
-        <div class="contrib-cell contrib-cell--ini">
-          <p class="contrib-cell__label">IBM Network Intelligence</p>
-          <p class="contrib-cell__body">Runs a simulation replaying the previous 24 hours of real query telemetry against the proposed NS1 Filter Chain configuration, generating a predictive traffic heatmap and blast-radius score. Replays historical telemetry through predictive foundation models; analyzes downstream network capacity; generates explainable risk reports via <em>View reasoning</em>.</p>
-        </div>
         <div class="contrib-cell contrib-cell--ns1">
           <p class="contrib-cell__label">IBM NS1 Connect</p>
           <p class="contrib-cell__body">Provides dry-run evaluation endpoints, virtual Filter Chain execution sandboxes, and zone validation schemas to verify syntax and semantics.</p>
+        </div>
+        <div class="contrib-cell contrib-cell--ini">
+          <p class="contrib-cell__label">IBM Network Intelligence</p>
+          <p class="contrib-cell__body">Runs a digital twin simulation replaying query telemetry through predictive foundation models against the proposed configuration; analyzes downstream network capacity, generating a predictive traffic heatmap, blast-radius score, and explainable risk reports via <em>View reasoning</em>.</p>
         </div>
       </div>
       <div class="mechanism-row">
