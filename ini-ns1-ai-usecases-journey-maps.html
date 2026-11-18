@@ -199,10 +199,10 @@
   <p class="nav__product">NS1 + INI<br>AI usecases</p>
 
   <p class="nav__label">Journeys</p>
+    <a class="nav__link" href="#uc1"><span class="nav__num">04</span>Telemetry &amp; Troubleshooting</a>
     <a class="nav__link" href="#uc2"><span class="nav__num">01</span>Plan &amp; Execute Changes</a>
     <a class="nav__link" href="#uc3"><span class="nav__num">02</span>Advanced Traffic Steering</a>
     <a class="nav__link" href="#uc4"><span class="nav__num">03</span>Filter Chain Go-Live Check</a>
-    <a class="nav__link" href="#uc1"><span class="nav__num">04</span>Telemetry &amp; Troubleshooting</a>
       <div class="nav__footer">
    <a class="nav__link" href="./index.html" style="color:#78a9ff;"><span class="nav__num">←</span>Knowledge Hub</a>
   </div>
@@ -218,6 +218,131 @@
 </header>
 
 
+
+<section class="journey" id="uc1">
+  <div class="journey__head">
+    <div class="journey__num">04</div>
+    <div>
+      
+      <h2 class="journey__title">Interpret DNS Telemetry &amp; Troubleshoot Issues</h2>
+      <p class="journey__sub">Cross-layer DNS &amp; underlay telemetry correlation</p>
+    </div>
+  </div>
+
+  <div class="tabs" data-tabs>
+    <div class="tabs__bar">
+      <button class="tabs__btn active" data-tab="summary">Summary</button>
+      <button class="tabs__btn" data-tab="asis">As is workflow</button>
+      <button class="tabs__btn" data-tab="workflow">Proposed workflow</button>
+      <button class="tabs__btn" data-tab="journey">Proposed user journey map</button>
+      <button class="tabs__btn" data-tab="landscape">Competitive landscape</button>
+
+    </div>
+
+    <!-- Summary tab -->
+    <div class="tabs__panel active" data-panel="summary">
+      <p class="uc-scenario-title">Scenario</p>
+      <p class="uc-scenario">When a critical service experiences localized resolution failures, operators struggle to determine whether the fault lies in NS1 health-check flapping, CDN edge degradation, authoritative nameserver rate-limiting, or an upstream ISP BGP transit route flap. The goal is to find the real root cause in seconds and avoid chasing the wrong layer.</p>
+      <p class="contrib-row-title">How INI &amp; NS1 contribute</p>
+      <div class="contrib-row">
+        <div class="contrib-cell contrib-cell--ns1">
+          <p class="contrib-cell__label">IBM NS1 Connect</p>
+          <p class="contrib-cell__body">Streams real-time query metrics, Pulsar active/passive latency feeds, Filter Chain execution logs, and health monitor state transitions via MCP telemetry connectors.</p>
+        </div>
+        <div class="contrib-cell contrib-cell--ini">
+          <p class="contrib-cell__label">IBM Network Intelligence</p>
+          <p class="contrib-cell__body">Applies Quantile and Prophet time-series foundation models to detect anomalous baseline shifts; correlates DNS anomalies with BGP routing flaps and interface congestion; auto-generates root-cause hypotheses to pinpoint the root cause immediately.</p>
+        </div>
+      </div>
+      <div class="mechanism-row">
+        <span class="mechanism-label">Mechanisms</span>
+        <span class="mech-tag">Time-Series AI</span>
+        <span class="mech-tag">MCP Telemetry Ingest</span>
+        <span class="mech-tag">Semantic Correlation</span>
+        <span class="mech-tag">Pulsar RUM</span>
+        <span class="mech-tag">watsonx Foundation Models</span>
+      </div>
+      <div class="takeaways">
+        <div class="takeaway">
+          <p class="brief__label">Moments of truth</p>
+          <ul><li>One grouped incident replaces an alert storm.</li><li>A cross-layer root cause answers the "DNS or network?" question immediately.</li></ul>
+        </div>
+        <div class="takeaway">
+          <p class="brief__label">Success measures</p>
+          <ul><li>MTTD / MTTI</li><li>Alerts grouped per incident</li><li>Escalations with correct owner first time</li></ul>
+        </div>
+        <div class="takeaway takeaway--impact">
+          <p class="brief__label">Expected impact</p>
+          <p>Expected: faster detection and root-cause identification with fewer duplicate alerts (targets to be validated).</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- As-is workflow tab -->
+    <div class="tabs__panel" data-panel="asis">
+      <p class="asis__intro">How this use case is done in NS1 Connect today, before INI. Checked against the IBM NS1 Connect documentation.</p>
+      <h3 class="asis__title">Troubleshooting resolution failures in NS1 Connect</h3>
+      <p class="asis__desc">NS1 Connect shows its own side: monitor status, query reports, DNS Insights if on the plan, the activity log and live record responses. The engineer moves between these views by hand.</p>
+      <p class="asis__legend">Manual step done by the NetOps / SRE engineer</p>
+      <p class="asis__label">Investigation flow</p>
+      <div class="asis-flow"><div class="asis-step"><div class="asis-box asis-box--red"><span class="asis-box__num">1</span>Alert arrives<span class="asis-box__sub">Notifier list: email, Slack, PagerDuty, webhook</span></div><span class="asis-arrow">→</span></div><div class="asis-step"><div class="asis-box"><span class="asis-box__num">2</span>Check the monitor<span class="asis-box__sub">Uptime and event history</span></div><span class="asis-arrow">→</span></div><div class="asis-step"><div class="asis-box"><span class="asis-box__num">3</span>Check traffic reports<span class="asis-box__sub">QPS and traffic distribution</span></div><span class="asis-arrow">→</span></div><div class="asis-step"><div class="asis-box"><span class="asis-box__num">4</span>Open DNS Insights<span class="asis-box__sub">NXDOMAIN, geography, resolvers, anomalies (if on plan)</span></div><span class="asis-arrow">→</span></div><div class="asis-step"><div class="asis-box"><span class="asis-box__num">5</span>Review the activity log<span class="asis-box__sub">Recent changes by user or API key</span></div><span class="asis-arrow">→</span></div><div class="asis-step"><div class="asis-box asis-box--manual"><span class="asis-box__num">6</span>Query the record<span class="asis-box__sub">dig, with +subnet to test the Filter Chain</span></div><span class="asis-arrow">→</span></div><div class="asis-step"><div class="asis-box asis-box--manual"><span class="asis-box__num">7</span>Look outside NS1<span class="asis-box__sub">BGP, ISP and interface data in other tools</span></div><span class="asis-arrow">→</span></div><div class="asis-step"><div class="asis-box asis-box--green"><span class="asis-box__num">8</span>Fix or escalate</div></div></div>
+      <p class="asis__note"><strong>Note:</strong> Correlating DNS symptoms with BGP or interface data is not described in the NS1 documentation reviewed. DNS Insights can feed Prometheus and OpenTelemetry tools, so teams can build that view themselves.</p>
+      <p class="asis__src">Sources: <a href="https://www.ibm.com/docs/en/ns1-connect?topic=jobs-configuring-automatic-updates-monitoring-alerts" target="_blank" rel="noopener">Monitoring alerts</a> · <a href="https://www.ibm.com/docs/en/ns1-connect?topic=observability-reports" target="_blank" rel="noopener">Observability and reports</a> · <a href="https://www.ibm.com/docs/en/ns1-connect?topic=reports-activity-log" target="_blank" rel="noopener">Activity log</a> · <a href="https://www.ibm.com/docs/en/ns1-connect?topic=fc-testing-filter-chain-processing-by-using-dig-command" target="_blank" rel="noopener">Testing with dig</a>.</p>
+    </div>
+
+    <!-- User Journey tab -->
+    <div class="tabs__panel" data-panel="journey">
+      <div class="jm-scroll"><div class="jm-grid" style="grid-template-columns:150px repeat(6, minmax(190px, 1fr));">
+          <div class="jm-corner"></div><div class="jm-stage"><span class="jm-stage__num">1</span>Detect</div><div class="jm-stage"><span class="jm-stage__num">2</span>Triage</div><div class="jm-stage"><span class="jm-stage__num">3</span>Correlate layers</div><div class="jm-stage"><span class="jm-stage__num">4</span>Inspect reasoning</div><div class="jm-stage"><span class="jm-stage__num">5</span>Remediate / hand off</div><div class="jm-stage"><span class="jm-stage__num">6</span>Close &amp; learn</div>
+          <div class="jm-label">Does</div><div class="jm-cell">Receives one grouped incident rather than thousands of raw error alerts.</div><div class="jm-cell">Opens the incident and reads the impact summary and affected zones.</div><div class="jm-cell">Reviews DNS anomalies alongside BGP flaps and interface counters.</div><div class="jm-cell">Opens the reasoning trace to see the evidence and how the conclusion was reached.</div><div class="jm-cell">Applies a fix or escalates to the owning team with evidence attached.</div><div class="jm-cell">Confirms recovery and records the root cause.</div>
+          <div class="jm-label">Touchpoints</div><div class="jm-cell">INI incident view, paging</div><div class="jm-cell">INI chat, NS1 query metrics</div><div class="jm-cell">Network topology, NS1 telemetry feed</div><div class="jm-cell">Reasoning trace</div><div class="jm-cell">Assistant chat, ticketing</div><div class="jm-cell">INI incident record</div>
+          <div class="jm-label">Thinks</div><div class="jm-cell">"Is this real, and how bad is it?"</div><div class="jm-cell">"Which customers and regions are affected?"</div><div class="jm-cell">"Is it DNS or is it the network under it?"</div><div class="jm-cell">"Do I trust this hypothesis?"</div><div class="jm-cell">"I can hand over a clear diagnosis."</div><div class="jm-cell">"It was found in seconds, not hours."</div>
+          <div class="jm-label">Feels</div><div class="jm-emo" style="grid-column: 2 / span 6;"><div class="emo-chart">
+            <svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+              <line x1="0" y1="50" x2="100" y2="50" class="emo-mid" vector-effect="non-scaling-stroke"/>
+              <polyline points="8.33,70.00 25.00,70.00 41.67,50.00 58.33,30.00 75.00,30.00 91.67,10.00" class="emo-line" vector-effect="non-scaling-stroke"/>
+            </svg>
+            <span class="emo-dot emo-2" style="left:8.33%;top:70.00%" title="Anxious"></span><span class="emo-word" style="left:8.33%;top:70.00%">Anxious</span><span class="emo-dot emo-2" style="left:25.00%;top:70.00%" title="Anxious"></span><span class="emo-word" style="left:25.00%;top:70.00%">Anxious</span><span class="emo-dot emo-3" style="left:41.67%;top:50.00%" title="Neutral"></span><span class="emo-word" style="left:41.67%;top:50.00%">Neutral</span><span class="emo-dot emo-4" style="left:58.33%;top:30.00%" title="Confident"></span><span class="emo-word" style="left:58.33%;top:30.00%">Confident</span><span class="emo-dot emo-4" style="left:75.00%;top:30.00%" title="Confident"></span><span class="emo-word" style="left:75.00%;top:30.00%">Confident</span><span class="emo-dot emo-5" style="left:91.67%;top:10.00%" title="Delighted"></span><span class="emo-word" style="left:91.67%;top:10.00%">Delighted</span>
+          </div></div>
+          <div class="jm-label jm-label--pain">Pain points</div><div class="jm-cell jm-cell--pain">Alert fatigue; NXDOMAIN and SERVFAIL spikes arrive as noise.</div><div class="jm-cell jm-cell--pain">Several tools and dashboards needed to size the problem.</div><div class="jm-cell jm-cell--pain">DNS and underlay are separate silos owned by different teams.</div><div class="jm-cell jm-cell--pain">Unexplained AI conclusions would not be acted on.</div><div class="jm-cell jm-cell--pain">Handoffs lose context between teams.</div><div class="jm-cell jm-cell--pain">Post-incident write-ups are manual.</div>
+          <div class="jm-label jm-label--help">INI × NS1 support</div><div class="jm-cell jm-cell--help">TSPulse detects observations in metric and alarm data; the Symptoms agent turns them into structured symptom records.</div><div class="jm-cell jm-cell--help">Impact summary from NS1 QPS, response-code distribution and Pulsar latency.</div><div class="jm-cell jm-cell--help">Cross-layer correlation with topology context across NS1 and underlay.</div><div class="jm-cell jm-cell--help">Transparent hypothesis backed by reasoning traces, event timeline and RCA reasoning.</div><div class="jm-cell jm-cell--help">Evidence pack is attached to the ticket; a fix can flow into use case 01 for approval.</div><div class="jm-cell jm-cell--help">Investigation summaries are generated automatically.</div>
+        </div></div>
+      <div class="scale scale--map"><span class="s1">Frustrated</span><span class="s2">Anxious</span><span class="s3">Neutral</span><span class="s4">Confident</span><span class="s5">Delighted</span></div>
+    </div>
+
+    <!-- Workflow tab -->
+    <div class="tabs__panel" data-panel="workflow">
+      <div class="wf">
+        <h3 class="wf__title">End-to-end flow by actor</h3>
+        <div class="jm-scroll"><div class="wf-grid" style="grid-template-columns:160px repeat(8, minmax(170px, 1fr));">
+          <div class="wf-corner"></div><div class="wf-head">Step 1</div><div class="wf-head">Step 2</div><div class="wf-head">Step 3</div><div class="wf-head">Step 4</div><div class="wf-head">Step 5</div><div class="wf-head">Step 6</div><div class="wf-head">Step 7</div><div class="wf-head">Step 8</div>
+          <div class="wf-lane wf-lane--u">NetOps / SRE</div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell"><div class="wf-card wf-card--u"><span class="wf-card__num">4</span><p class="wf-card__text">Open the incident and review impact</p></div></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell"><div class="wf-card wf-card--u wf-card--gate"><span class="wf-card__num">6</span><p class="wf-card__text">Inspect the reasoning trace and evidence</p><p class="wf-card__gate"><strong>Decision gate: confident in cause?</strong><br>No: ask follow-up, return to step 5</p></div></div><div class="wf-cell"><div class="wf-card wf-card--u"><span class="wf-card__num">7</span><p class="wf-card__text">Remediate (via use case 01) or escalate with evidence pack</p></div></div><div class="wf-cell wf-cell--empty"></div>
+          <div class="wf-lane wf-lane--i">IBM Network Intelligence</div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell"><div class="wf-card wf-card--i"><span class="wf-card__num">2</span><p class="wf-card__text">Detect observations in metric and alarm data with the TSPulse time-series foundation model</p></div></div><div class="wf-cell"><div class="wf-card wf-card--i"><span class="wf-card__num">3</span><p class="wf-card__text">Symptoms agent records structured symptoms; correlation groups them into one incident</p></div></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell"><div class="wf-card wf-card--i"><span class="wf-card__num">5</span><p class="wf-card__text">Correlate symptoms across devices using topology; investigate root cause</p></div></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell"><div class="wf-card wf-card--i"><span class="wf-card__num">8</span><p class="wf-card__text">Confirm recovery and record root cause and investigation summary</p></div></div>
+          <div class="wf-lane wf-lane--n">NS1 Connect</div><div class="wf-cell"><div class="wf-card wf-card--n"><span class="wf-card__num">1</span><p class="wf-card__text">Provide query metrics, response codes, Pulsar latency and monitor state as telemetry (proposed integration)</p></div></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div>
+        </div></div>
+        <p class="wf__note"><strong>Note:</strong> Runs in Assistant mode: INI explains and recommends; the operator decides.</p>
+      </div>
+    </div>
+
+    <!-- Competitive landscape tab -->
+    <div class="tabs__panel" data-panel="landscape">
+      <p class="asis__intro">Existing products that cover part of this use case. Based on vendor pages and search snippets, not hands-on testing. The coverage rating is a judgement.</p>
+      <p class="cl-cov"><strong>Coverage today: Partial to strong.</strong> Strongest on the network and BGP side.</p>
+      <div class="jm-scroll"><table class="ov ov--cl">
+        <thead><tr><th>Product</th><th>What it offers</th><th>Gap against this use case</th><th>Source</th></tr></thead>
+        <tbody>
+          <tr><td>Cisco ThousandEyes</td><td>AI assistant, correlated incidents, AI root-cause analysis, BGP and DNS monitoring, MCP server.</td><td>Not tied to NS1 Filter Chain logs or Pulsar feeds.</td><td>Vendor pages</td></tr>
+          <tr><td>Kentik AI Advisor</td><td>Autonomous agent for BGP and interface troubleshooting, driven by natural-language runbooks. Kentik is now part of Infoblox (completed 6 August 2026, per a GlobeNewswire release).</td><td>Network-side focus. No NS1 Filter Chain or Pulsar view found.</td><td>Vendor pages, press release</td></tr>
+          <tr><td>Selector AI</td><td>Correlation, anomaly detection, root-cause analysis and a copilot.</td><td>No native NS1 telemetry found.</td><td>Vendor pages</td></tr>
+          <tr><td>Infoblox IQ for DDI</td><td>Conversational assistant and anomaly-to-root-cause triage on DNS, DHCP and IPAM data.</td><td>Examples cover DDI exhaustion, traffic anomalies and lease assignment, not NS1 steering.</td><td><a href="https://www.infoblox.com/products/iq-for-ddi" target="_blank" rel="noopener">infoblox.com</a></td></tr>
+          <tr><td>NS1 DNS Insights</td><td>NXDOMAIN, geography, resolver and anomaly views. Can stream to Prometheus and OpenTelemetry tools.</td><td>NS1 side only. Teams build the BGP and interface correlation themselves.</td><td><a href="https://www.ibm.com/docs/en/ns1-connect?topic=observability-reports" target="_blank" rel="noopener">IBM docs</a></td></tr>
+        </tbody>
+      </table></div>
+      <p class="asis__note"><strong>Gap found:</strong> I did not find a product that ties DNS symptoms to NS1 Filter Chain logs and Pulsar latency feeds, then correlates them with BGP and interface data in one evidence pack.</p>
+    </div>
+
+  </div>
+</section>
 
 <section class="journey" id="uc2">
   <div class="journey__head">
@@ -594,131 +719,6 @@
       </table></div>
       <p class="asis__note"><strong>Gap found:</strong> I did not find a DNS-steering digital twin that models TTL caching and per-origin capacity. A search for TTL caching simulation returned only DNS caching theory and a 2001 SIGCOMM paper. Failing to find one is not proof that none exists.</p>
     </div>
-  </div>
-</section>
-
-<section class="journey" id="uc1">
-  <div class="journey__head">
-    <div class="journey__num">04</div>
-    <div>
-      
-      <h2 class="journey__title">Interpret DNS Telemetry &amp; Troubleshoot Issues</h2>
-      <p class="journey__sub">Cross-layer DNS &amp; underlay telemetry correlation</p>
-    </div>
-  </div>
-
-  <div class="tabs" data-tabs>
-    <div class="tabs__bar">
-      <button class="tabs__btn active" data-tab="summary">Summary</button>
-      <button class="tabs__btn" data-tab="asis">As is workflow</button>
-      <button class="tabs__btn" data-tab="workflow">Proposed workflow</button>
-      <button class="tabs__btn" data-tab="journey">Proposed user journey map</button>
-      <button class="tabs__btn" data-tab="landscape">Competitive landscape</button>
-
-    </div>
-
-    <!-- Summary tab -->
-    <div class="tabs__panel active" data-panel="summary">
-      <p class="uc-scenario-title">Scenario</p>
-      <p class="uc-scenario">When a critical service experiences localized resolution failures, operators struggle to determine whether the fault lies in NS1 health-check flapping, CDN edge degradation, authoritative nameserver rate-limiting, or an upstream ISP BGP transit route flap. The goal is to find the real root cause in seconds and avoid chasing the wrong layer.</p>
-      <p class="contrib-row-title">How INI &amp; NS1 contribute</p>
-      <div class="contrib-row">
-        <div class="contrib-cell contrib-cell--ns1">
-          <p class="contrib-cell__label">IBM NS1 Connect</p>
-          <p class="contrib-cell__body">Streams real-time query metrics, Pulsar active/passive latency feeds, Filter Chain execution logs, and health monitor state transitions via MCP telemetry connectors.</p>
-        </div>
-        <div class="contrib-cell contrib-cell--ini">
-          <p class="contrib-cell__label">IBM Network Intelligence</p>
-          <p class="contrib-cell__body">Applies Quantile and Prophet time-series foundation models to detect anomalous baseline shifts; correlates DNS anomalies with BGP routing flaps and interface congestion; auto-generates root-cause hypotheses to pinpoint the root cause immediately.</p>
-        </div>
-      </div>
-      <div class="mechanism-row">
-        <span class="mechanism-label">Mechanisms</span>
-        <span class="mech-tag">Time-Series AI</span>
-        <span class="mech-tag">MCP Telemetry Ingest</span>
-        <span class="mech-tag">Semantic Correlation</span>
-        <span class="mech-tag">Pulsar RUM</span>
-        <span class="mech-tag">watsonx Foundation Models</span>
-      </div>
-      <div class="takeaways">
-        <div class="takeaway">
-          <p class="brief__label">Moments of truth</p>
-          <ul><li>One grouped incident replaces an alert storm.</li><li>A cross-layer root cause answers the "DNS or network?" question immediately.</li></ul>
-        </div>
-        <div class="takeaway">
-          <p class="brief__label">Success measures</p>
-          <ul><li>MTTD / MTTI</li><li>Alerts grouped per incident</li><li>Escalations with correct owner first time</li></ul>
-        </div>
-        <div class="takeaway takeaway--impact">
-          <p class="brief__label">Expected impact</p>
-          <p>Expected: faster detection and root-cause identification with fewer duplicate alerts (targets to be validated).</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- As-is workflow tab -->
-    <div class="tabs__panel" data-panel="asis">
-      <p class="asis__intro">How this use case is done in NS1 Connect today, before INI. Checked against the IBM NS1 Connect documentation.</p>
-      <h3 class="asis__title">Troubleshooting resolution failures in NS1 Connect</h3>
-      <p class="asis__desc">NS1 Connect shows its own side: monitor status, query reports, DNS Insights if on the plan, the activity log and live record responses. The engineer moves between these views by hand.</p>
-      <p class="asis__legend">Manual step done by the NetOps / SRE engineer</p>
-      <p class="asis__label">Investigation flow</p>
-      <div class="asis-flow"><div class="asis-step"><div class="asis-box asis-box--red"><span class="asis-box__num">1</span>Alert arrives<span class="asis-box__sub">Notifier list: email, Slack, PagerDuty, webhook</span></div><span class="asis-arrow">→</span></div><div class="asis-step"><div class="asis-box"><span class="asis-box__num">2</span>Check the monitor<span class="asis-box__sub">Uptime and event history</span></div><span class="asis-arrow">→</span></div><div class="asis-step"><div class="asis-box"><span class="asis-box__num">3</span>Check traffic reports<span class="asis-box__sub">QPS and traffic distribution</span></div><span class="asis-arrow">→</span></div><div class="asis-step"><div class="asis-box"><span class="asis-box__num">4</span>Open DNS Insights<span class="asis-box__sub">NXDOMAIN, geography, resolvers, anomalies (if on plan)</span></div><span class="asis-arrow">→</span></div><div class="asis-step"><div class="asis-box"><span class="asis-box__num">5</span>Review the activity log<span class="asis-box__sub">Recent changes by user or API key</span></div><span class="asis-arrow">→</span></div><div class="asis-step"><div class="asis-box asis-box--manual"><span class="asis-box__num">6</span>Query the record<span class="asis-box__sub">dig, with +subnet to test the Filter Chain</span></div><span class="asis-arrow">→</span></div><div class="asis-step"><div class="asis-box asis-box--manual"><span class="asis-box__num">7</span>Look outside NS1<span class="asis-box__sub">BGP, ISP and interface data in other tools</span></div><span class="asis-arrow">→</span></div><div class="asis-step"><div class="asis-box asis-box--green"><span class="asis-box__num">8</span>Fix or escalate</div></div></div>
-      <p class="asis__note"><strong>Note:</strong> Correlating DNS symptoms with BGP or interface data is not described in the NS1 documentation reviewed. DNS Insights can feed Prometheus and OpenTelemetry tools, so teams can build that view themselves.</p>
-      <p class="asis__src">Sources: <a href="https://www.ibm.com/docs/en/ns1-connect?topic=jobs-configuring-automatic-updates-monitoring-alerts" target="_blank" rel="noopener">Monitoring alerts</a> · <a href="https://www.ibm.com/docs/en/ns1-connect?topic=observability-reports" target="_blank" rel="noopener">Observability and reports</a> · <a href="https://www.ibm.com/docs/en/ns1-connect?topic=reports-activity-log" target="_blank" rel="noopener">Activity log</a> · <a href="https://www.ibm.com/docs/en/ns1-connect?topic=fc-testing-filter-chain-processing-by-using-dig-command" target="_blank" rel="noopener">Testing with dig</a>.</p>
-    </div>
-
-    <!-- User Journey tab -->
-    <div class="tabs__panel" data-panel="journey">
-      <div class="jm-scroll"><div class="jm-grid" style="grid-template-columns:150px repeat(6, minmax(190px, 1fr));">
-          <div class="jm-corner"></div><div class="jm-stage"><span class="jm-stage__num">1</span>Detect</div><div class="jm-stage"><span class="jm-stage__num">2</span>Triage</div><div class="jm-stage"><span class="jm-stage__num">3</span>Correlate layers</div><div class="jm-stage"><span class="jm-stage__num">4</span>Inspect reasoning</div><div class="jm-stage"><span class="jm-stage__num">5</span>Remediate / hand off</div><div class="jm-stage"><span class="jm-stage__num">6</span>Close &amp; learn</div>
-          <div class="jm-label">Does</div><div class="jm-cell">Receives one grouped incident rather than thousands of raw error alerts.</div><div class="jm-cell">Opens the incident and reads the impact summary and affected zones.</div><div class="jm-cell">Reviews DNS anomalies alongside BGP flaps and interface counters.</div><div class="jm-cell">Opens the reasoning trace to see the evidence and how the conclusion was reached.</div><div class="jm-cell">Applies a fix or escalates to the owning team with evidence attached.</div><div class="jm-cell">Confirms recovery and records the root cause.</div>
-          <div class="jm-label">Touchpoints</div><div class="jm-cell">INI incident view, paging</div><div class="jm-cell">INI chat, NS1 query metrics</div><div class="jm-cell">Network topology, NS1 telemetry feed</div><div class="jm-cell">Reasoning trace</div><div class="jm-cell">Assistant chat, ticketing</div><div class="jm-cell">INI incident record</div>
-          <div class="jm-label">Thinks</div><div class="jm-cell">"Is this real, and how bad is it?"</div><div class="jm-cell">"Which customers and regions are affected?"</div><div class="jm-cell">"Is it DNS or is it the network under it?"</div><div class="jm-cell">"Do I trust this hypothesis?"</div><div class="jm-cell">"I can hand over a clear diagnosis."</div><div class="jm-cell">"It was found in seconds, not hours."</div>
-          <div class="jm-label">Feels</div><div class="jm-emo" style="grid-column: 2 / span 6;"><div class="emo-chart">
-            <svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-              <line x1="0" y1="50" x2="100" y2="50" class="emo-mid" vector-effect="non-scaling-stroke"/>
-              <polyline points="8.33,70.00 25.00,70.00 41.67,50.00 58.33,30.00 75.00,30.00 91.67,10.00" class="emo-line" vector-effect="non-scaling-stroke"/>
-            </svg>
-            <span class="emo-dot emo-2" style="left:8.33%;top:70.00%" title="Anxious"></span><span class="emo-word" style="left:8.33%;top:70.00%">Anxious</span><span class="emo-dot emo-2" style="left:25.00%;top:70.00%" title="Anxious"></span><span class="emo-word" style="left:25.00%;top:70.00%">Anxious</span><span class="emo-dot emo-3" style="left:41.67%;top:50.00%" title="Neutral"></span><span class="emo-word" style="left:41.67%;top:50.00%">Neutral</span><span class="emo-dot emo-4" style="left:58.33%;top:30.00%" title="Confident"></span><span class="emo-word" style="left:58.33%;top:30.00%">Confident</span><span class="emo-dot emo-4" style="left:75.00%;top:30.00%" title="Confident"></span><span class="emo-word" style="left:75.00%;top:30.00%">Confident</span><span class="emo-dot emo-5" style="left:91.67%;top:10.00%" title="Delighted"></span><span class="emo-word" style="left:91.67%;top:10.00%">Delighted</span>
-          </div></div>
-          <div class="jm-label jm-label--pain">Pain points</div><div class="jm-cell jm-cell--pain">Alert fatigue; NXDOMAIN and SERVFAIL spikes arrive as noise.</div><div class="jm-cell jm-cell--pain">Several tools and dashboards needed to size the problem.</div><div class="jm-cell jm-cell--pain">DNS and underlay are separate silos owned by different teams.</div><div class="jm-cell jm-cell--pain">Unexplained AI conclusions would not be acted on.</div><div class="jm-cell jm-cell--pain">Handoffs lose context between teams.</div><div class="jm-cell jm-cell--pain">Post-incident write-ups are manual.</div>
-          <div class="jm-label jm-label--help">INI × NS1 support</div><div class="jm-cell jm-cell--help">TSPulse detects observations in metric and alarm data; the Symptoms agent turns them into structured symptom records.</div><div class="jm-cell jm-cell--help">Impact summary from NS1 QPS, response-code distribution and Pulsar latency.</div><div class="jm-cell jm-cell--help">Cross-layer correlation with topology context across NS1 and underlay.</div><div class="jm-cell jm-cell--help">Transparent hypothesis backed by reasoning traces, event timeline and RCA reasoning.</div><div class="jm-cell jm-cell--help">Evidence pack is attached to the ticket; a fix can flow into use case 01 for approval.</div><div class="jm-cell jm-cell--help">Investigation summaries are generated automatically.</div>
-        </div></div>
-      <div class="scale scale--map"><span class="s1">Frustrated</span><span class="s2">Anxious</span><span class="s3">Neutral</span><span class="s4">Confident</span><span class="s5">Delighted</span></div>
-    </div>
-
-    <!-- Workflow tab -->
-    <div class="tabs__panel" data-panel="workflow">
-      <div class="wf">
-        <h3 class="wf__title">End-to-end flow by actor</h3>
-        <div class="jm-scroll"><div class="wf-grid" style="grid-template-columns:160px repeat(8, minmax(170px, 1fr));">
-          <div class="wf-corner"></div><div class="wf-head">Step 1</div><div class="wf-head">Step 2</div><div class="wf-head">Step 3</div><div class="wf-head">Step 4</div><div class="wf-head">Step 5</div><div class="wf-head">Step 6</div><div class="wf-head">Step 7</div><div class="wf-head">Step 8</div>
-          <div class="wf-lane wf-lane--u">NetOps / SRE</div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell"><div class="wf-card wf-card--u"><span class="wf-card__num">4</span><p class="wf-card__text">Open the incident and review impact</p></div></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell"><div class="wf-card wf-card--u wf-card--gate"><span class="wf-card__num">6</span><p class="wf-card__text">Inspect the reasoning trace and evidence</p><p class="wf-card__gate"><strong>Decision gate: confident in cause?</strong><br>No: ask follow-up, return to step 5</p></div></div><div class="wf-cell"><div class="wf-card wf-card--u"><span class="wf-card__num">7</span><p class="wf-card__text">Remediate (via use case 01) or escalate with evidence pack</p></div></div><div class="wf-cell wf-cell--empty"></div>
-          <div class="wf-lane wf-lane--i">IBM Network Intelligence</div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell"><div class="wf-card wf-card--i"><span class="wf-card__num">2</span><p class="wf-card__text">Detect observations in metric and alarm data with the TSPulse time-series foundation model</p></div></div><div class="wf-cell"><div class="wf-card wf-card--i"><span class="wf-card__num">3</span><p class="wf-card__text">Symptoms agent records structured symptoms; correlation groups them into one incident</p></div></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell"><div class="wf-card wf-card--i"><span class="wf-card__num">5</span><p class="wf-card__text">Correlate symptoms across devices using topology; investigate root cause</p></div></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell"><div class="wf-card wf-card--i"><span class="wf-card__num">8</span><p class="wf-card__text">Confirm recovery and record root cause and investigation summary</p></div></div>
-          <div class="wf-lane wf-lane--n">NS1 Connect</div><div class="wf-cell"><div class="wf-card wf-card--n"><span class="wf-card__num">1</span><p class="wf-card__text">Provide query metrics, response codes, Pulsar latency and monitor state as telemetry (proposed integration)</p></div></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div><div class="wf-cell wf-cell--empty"></div>
-        </div></div>
-        <p class="wf__note"><strong>Note:</strong> Runs in Assistant mode: INI explains and recommends; the operator decides.</p>
-      </div>
-    </div>
-
-    <!-- Competitive landscape tab -->
-    <div class="tabs__panel" data-panel="landscape">
-      <p class="asis__intro">Existing products that cover part of this use case. Based on vendor pages and search snippets, not hands-on testing. The coverage rating is a judgement.</p>
-      <p class="cl-cov"><strong>Coverage today: Partial to strong.</strong> Strongest on the network and BGP side.</p>
-      <div class="jm-scroll"><table class="ov ov--cl">
-        <thead><tr><th>Product</th><th>What it offers</th><th>Gap against this use case</th><th>Source</th></tr></thead>
-        <tbody>
-          <tr><td>Cisco ThousandEyes</td><td>AI assistant, correlated incidents, AI root-cause analysis, BGP and DNS monitoring, MCP server.</td><td>Not tied to NS1 Filter Chain logs or Pulsar feeds.</td><td>Vendor pages</td></tr>
-          <tr><td>Kentik AI Advisor</td><td>Autonomous agent for BGP and interface troubleshooting, driven by natural-language runbooks. Kentik is now part of Infoblox (completed 6 August 2026, per a GlobeNewswire release).</td><td>Network-side focus. No NS1 Filter Chain or Pulsar view found.</td><td>Vendor pages, press release</td></tr>
-          <tr><td>Selector AI</td><td>Correlation, anomaly detection, root-cause analysis and a copilot.</td><td>No native NS1 telemetry found.</td><td>Vendor pages</td></tr>
-          <tr><td>Infoblox IQ for DDI</td><td>Conversational assistant and anomaly-to-root-cause triage on DNS, DHCP and IPAM data.</td><td>Examples cover DDI exhaustion, traffic anomalies and lease assignment, not NS1 steering.</td><td><a href="https://www.infoblox.com/products/iq-for-ddi" target="_blank" rel="noopener">infoblox.com</a></td></tr>
-          <tr><td>NS1 DNS Insights</td><td>NXDOMAIN, geography, resolver and anomaly views. Can stream to Prometheus and OpenTelemetry tools.</td><td>NS1 side only. Teams build the BGP and interface correlation themselves.</td><td><a href="https://www.ibm.com/docs/en/ns1-connect?topic=observability-reports" target="_blank" rel="noopener">IBM docs</a></td></tr>
-        </tbody>
-      </table></div>
-      <p class="asis__note"><strong>Gap found:</strong> I did not find a product that ties DNS symptoms to NS1 Filter Chain logs and Pulsar latency feeds, then correlates them with BGP and interface data in one evidence pack.</p>
-    </div>
-
   </div>
 </section>
 
